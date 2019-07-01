@@ -1,0 +1,13 @@
+﻿<Window x:Class="Wazera.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wazera"
+        mc:Ignorable="d"
+        Title="Wazera MainWindow" Height="200" Width="300">
+    <Grid>
+        <Button Content="Open Kanban Board" Click="OpenKanbanBoard" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20" Padding="5" Background="LightBlue"/>
+
+    </Grid>
+</Window>

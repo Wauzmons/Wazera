@@ -1,0 +1,17 @@
+C:\Users\keller\source\repos\Wazera\Wazera\bin\Debug\Wazera.exe.config
+C:\Users\keller\source\repos\Wazera\Wazera\bin\Debug\Wazera.exe
+C:\Users\keller\source\repos\Wazera\Wazera\bin\Debug\Wazera.pdb
+C:\Users\keller\source\repos\Wazera\Wazera\obj\Debug\Wazera.csprojResolveAssemblyReference.cache
+C:\Users\keller\source\repos\Wazera\Wazera\obj\Debug\MainWindow.g.cs
+C:\Users\keller\source\repos\Wazera\Wazera\obj\Debug\App.g.cs
+C:\Users\keller\source\repos\Wazera\Wazera\obj\Debug\Wazera_MarkupCompile.cache
+C:\Users\keller\source\repos\Wazera\Wazera\obj\Debug\Wazera_MarkupCompile.lref
+C:\Users\keller\source\repos\Wazera\Wazera\obj\Debug\MainWindow.baml
+C:\Users\keller\source\repos\Wazera\Wazera\obj\Debug\Wazera.g.resources
+C:\Users\keller\source\repos\Wazera\Wazera\obj\Debug\Wazera.Properties.Resources.resources
+C:\Users\keller\source\repos\Wazera\Wazera\obj\Debug\Wazera.csproj.GenerateResource.cache
+C:\Users\keller\source\repos\Wazera\Wazera\obj\Debug\Wazera.csproj.CoreCompileInputs.cache
+C:\Users\keller\source\repos\Wazera\Wazera\obj\Debug\Wazera.exe
+C:\Users\keller\source\repos\Wazera\Wazera\obj\Debug\Wazera.pdb
+C:\Users\keller\source\repos\Wazera\Wazera\obj\Debug\Kanban.g.cs
+C:\Users\keller\source\repos\Wazera\Wazera\obj\Debug\Kanban.baml
