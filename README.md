@@ -1,2 +1,0 @@
-# Wazera
-Workflow Administration Software
