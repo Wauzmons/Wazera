@@ -11,7 +11,10 @@ namespace Wazera
 
         public void OpenKanbanBoard(object sender, RoutedEventArgs e)
         {
-            Kanban kanban = new Kanban();
+            Kanban kanban = new Kanban
+            {
+                //WindowState = WindowState.Maximized
+            };
             kanban.Show();
         }
     }

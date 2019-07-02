@@ -69,6 +69,8 @@
     <Compile Include="Kanban.xaml.cs">
       <DependentUpon>Kanban.xaml</DependentUpon>
     </Compile>
+    <Compile Include="KanbanColumn.cs" />
+    <Compile Include="KanbanTaskCard.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
