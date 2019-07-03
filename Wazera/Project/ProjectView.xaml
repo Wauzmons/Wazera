@@ -1,0 +1,36 @@
+﻿<Window x:Class="Wazera.Project.ProjectView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wazera.Project"
+        mc:Ignorable="d"
+        Title="ProjectView" Height="600" Width="1200">
+    <Grid>
+        <DockPanel>
+            <Border
+                DockPanel.Dock="Top"
+                HorizontalAlignment="Stretch"
+                Height="120"
+                BorderBrush="LightSkyBlue"
+                BorderThickness="5">
+                <Grid Name="tgrid">
+                    <Button Content="Projects" Background="IndianRed"/>
+                    <Button Content="User" Background="DodgerBlue"/>
+                </Grid>
+            </Border>
+            
+            <Border
+                DockPanel.Dock="Left"
+                Width="300"
+                VerticalAlignment="Stretch"
+                Background="Azure"
+                BorderBrush="LightSkyBlue"
+                BorderThickness="5">
+                <TreeView Name="projectTree"/>
+            </Border>
+
+            <Grid Name="cgrid"/>
+        </DockPanel>
+    </Grid>
+</Window>

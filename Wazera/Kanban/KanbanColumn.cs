@@ -3,20 +3,22 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Wazera.Data;
 
-namespace Wazera
+namespace Wazera.Kanban
 {
     class KanbanColumn : ListBox
     {
-        private Kanban kanban;
+        private StatusData data;
 
-        private string title;
+        private KanbanBoard kanbanBoard;
+        private Border border;
         private Label header;
 
-        public KanbanColumn(Kanban kanban, string title)
+        public KanbanColumn(KanbanBoard kanbanBoard, StatusData data)
         {
-            this.kanban = kanban;
-            this.title = title;
+            this.data = data;
+            this.kanbanBoard = kanbanBoard;
 
             HorizontalAlignment = HorizontalAlignment.Stretch;
             HorizontalContentAlignment = HorizontalAlignment.Stretch;
@@ -25,15 +27,34 @@ namespace Wazera
             Background = Brushes.LightGray;
             BorderThickness = new Thickness(0);
 
-            AddHeader(title);
+            AddHeader();
             AddButton();
+
+            border = new Border
+            {
+                Margin = new Thickness(5),
+                Background = Brushes.LightGray,
+                BorderBrush = Brushes.White,
+                BorderThickness = new Thickness(3),
+                CornerRadius = new CornerRadius(10)
+            };
+            border.Child = this;
         }
 
-        private void AddHeader(string title)
+        public Border AsBorderedColumn()
+        {
+            return border;
+        }
+
+        public int GetCardCount()
+        {
+            return Items.Count - 2;
+        }
+
+        private void AddHeader()
         {
             header = new Label
             {
-                //HorizontalContentAlignment = HorizontalAlignment.Center,
                 Margin = new Thickness(5),
                 Padding = new Thickness(5),
                 MinWidth = 250,
@@ -47,7 +68,20 @@ namespace Wazera
 
         public void UpdateHeader()
         {
-            header.Content = title.ToUpper() + " (" + (Items.Count - 2) + ")";
+            int cardCount = GetCardCount();
+            header.Content = data.Title.ToUpper() + " (" + cardCount + ")";
+            if(data.HasCardMinimum() && cardCount < data.MinCards)
+            {
+                border.BorderBrush = Brushes.Blue;
+            }
+            else if(data.HasCardMaximum() && cardCount > data.MaxCards)
+            {
+                border.BorderBrush = Brushes.Red;
+            }
+            else
+            {
+                border.BorderBrush = Brushes.White;
+            }
         }
 
         private void AddButton()
@@ -75,7 +109,7 @@ namespace Wazera
 
         public void AddRow(string textContent)
         {
-            KanbanTaskCard item = new KanbanTaskCard(kanban, textContent);
+            KanbanTaskCard item = new KanbanTaskCard(kanbanBoard, textContent);
             Items.Insert(Items.Count - 1, item);
             UpdateHeader();
         }

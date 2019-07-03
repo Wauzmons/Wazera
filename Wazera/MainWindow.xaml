@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wazera"
         mc:Ignorable="d"
-        Title="Wazera MainWindow" Height="200" Width="300">
+        Title="Wazera Alpha" Height="200" Width="180">
     <Grid>
-        <Button Content="Open Kanban Board" Click="OpenKanbanBoard" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20" Padding="5" Background="LightBlue"/>
-
+        <ListBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Button Content="Open Kanban Board" Click="OpenKanbanBoard" Padding="5" Background="SkyBlue"/>
+            <Button Content="Open Project View" Click="OpenProjectView" Padding="5" Background="SkyBlue"/>
+        </ListBox>
     </Grid>
 </Window>
