@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Wazera.Data;
 
 namespace Wazera.Kanban
 {
-    class KanbanColumn : ListBox
+    public class KanbanColumn : ListBox
     {
         private StatusData data;
 
@@ -55,7 +53,7 @@ namespace Wazera.Kanban
         {
             header = new Label
             {
-                Margin = new Thickness(5),
+                Margin = new Thickness(3),
                 Padding = new Thickness(5),
                 MinWidth = 250,
                 FontWeight = FontWeights.Bold,
@@ -93,24 +91,15 @@ namespace Wazera.Kanban
             Items.Add(button);
         }
 
-        public void AddTestRows()
+        public void AddRow(TaskData task)
         {
-            Random random = new Random();
-            string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-            for (int index = 0; index < 20; index++)
-            {
-                string randomText = new string(Enumerable.Repeat(chars, random.Next(16) + 3)
-                    .Select(s => s[random.Next(s.Length)]).ToArray());
-
-                AddRow(randomText);
-            }
+            AddRow(task, Items.Count - 1);
         }
 
-        public void AddRow(string textContent)
+        public void AddRow(TaskData task, int index)
         {
-            KanbanTaskCard item = new KanbanTaskCard(kanbanBoard, textContent);
-            Items.Insert(Items.Count - 1, item);
+            KanbanTaskCard item = new KanbanTaskCard(kanbanBoard, task);
+            Items.Insert(index, item);
             UpdateHeader();
         }
     }

@@ -10,17 +10,13 @@ namespace Wazera.Kanban
         public KanbanBoard()
         {
             InitializeComponent();
-
-            AddColumn(new StatusData("Planned"));
-            AddColumn(new StatusData("In Progress", 10, 25));
-            AddColumn(new StatusData("Done"));
         }
 
-        public void AddColumn(StatusData statusData)
+        public KanbanColumn AddColumn(StatusData statusData)
         {
             KanbanColumn column = new KanbanColumn(this, statusData);
-            column.AddTestRows();
             columns.Items.Add(column.AsBorderedColumn());
+            return column;
         }
 
         #region Drag and Drop
@@ -29,29 +25,23 @@ namespace Wazera.Kanban
 
         public void ItemDrop(object sender, DragEventArgs e)
         {
-            KanbanTaskCard item = e.Data.GetData(typeof(KanbanTaskCard)) as KanbanTaskCard;
-            FrameworkElement target = sender as FrameworkElement;
-            if (item == null || target == null)
+            if (itemPreviewShadow == null)
             {
                 return;
             }
-            if (item.Equals(target))
+            KanbanColumn newColumn = itemPreviewShadow.Parent as KanbanColumn;
+            int index = newColumn.Items.IndexOf(itemPreviewShadow);
+
+            if (e.Data.GetData(typeof(string)) is string stringItem)
             {
-                return;
+                ItemPreviewRemove();
+                newColumn.AddRow(new TaskData(stringItem), index);
             }
-
-            Point dropPosition = e.GetPosition(sender as IInputElement);
-            bool showBelow = target.ActualHeight / 2 < dropPosition.Y;
-
-            KanbanColumn oldColumn = item.Parent as KanbanColumn;
-            KanbanColumn newColumn = target.Parent as KanbanColumn;
-            int targetIndex = newColumn.Items.IndexOf(target);
-
-            ItemPreviewRemove();
-            oldColumn.Items.Remove(item);
-            newColumn.Items.Insert(showBelow ? targetIndex + 1 : targetIndex, item);
-            oldColumn.UpdateHeader();
-            newColumn.UpdateHeader();
+            else if (e.Data.GetData(typeof(KanbanTaskCard)) is KanbanTaskCard cardItem && !cardItem.Equals(itemPreviewShadow))
+            {
+                ItemPreviewRemove();
+                MoveTaskCard(newColumn, cardItem, index);
+            }
         }
 
         public void ItemPreviewShow(object sender, DragEventArgs e)
@@ -64,7 +54,7 @@ namespace Wazera.Kanban
             Label itemPreviewShadow = new Label
             {
                 Content = "",
-                Margin = new Thickness(5, 0, 5, 0),
+                Margin = new Thickness(3),
                 Padding = new Thickness(5),
                 MinHeight = 50,
                 MinWidth = 250,
@@ -81,12 +71,12 @@ namespace Wazera.Kanban
 
         public void ItemPreviewRemove()
         {
-            if(itemPreviewShadow == null)
+            if (itemPreviewShadow == null)
             {
                 return;
             }
             KanbanColumn column = itemPreviewShadow.Parent as KanbanColumn;
-            if(column == null)
+            if (column == null)
             {
                 return;
             }
@@ -95,5 +85,18 @@ namespace Wazera.Kanban
         }
 
         #endregion
+
+        public void MoveTaskCard(KanbanColumn column, KanbanTaskCard item, int index)
+        {
+            KanbanColumn oldColumn = item.Parent as KanbanColumn;
+            if (column.Equals(oldColumn) && column.Items.IndexOf(item) < index)
+            {
+                index--;
+            }
+            oldColumn.Items.Remove(item);
+            column.Items.Insert(index, item);
+            oldColumn.UpdateHeader();
+            column.UpdateHeader();
+        }
     }
 }

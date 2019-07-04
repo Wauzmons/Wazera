@@ -69,12 +69,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\PriorityData.cs" />
     <Compile Include="Data\StatusData.cs" />
+    <Compile Include="Data\TaskData.cs" />
     <Compile Include="Kanban\KanbanBoard.xaml.cs">
       <DependentUpon>KanbanBoard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Kanban\KanbanColumn.cs" />
     <Compile Include="Kanban\KanbanTaskCard.cs" />
+    <Compile Include="Kanban\KanbanTester.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -115,6 +118,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="wazera.ico" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\prio_1.png" />
+    <Resource Include="Resources\prio_2.png" />
+    <Resource Include="Resources\prio_3.png" />
+    <Resource Include="Resources\prio_4.png" />
+    <Resource Include="Resources\prio_5.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

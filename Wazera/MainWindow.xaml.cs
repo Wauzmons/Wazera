@@ -13,9 +13,7 @@ namespace Wazera
 
         public void OpenKanbanBoard(object sender, RoutedEventArgs e)
         {
-            KanbanBoard kanbanBoard = new KanbanBoard();
-            kanbanBoard.Owner = this;
-            kanbanBoard.ShowDialog();
+            KanbanTester.GetMockBoard().Show();
         }
 
         public void OpenProjectView(object sender, RoutedEventArgs e)
