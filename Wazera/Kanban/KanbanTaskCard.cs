@@ -29,7 +29,7 @@ namespace Wazera.Kanban
                 Orientation = Orientation.Vertical,
                 Margin = new Thickness(3),
                 MinHeight = 50,
-                MinWidth = 250,
+                MinWidth = 180,
                 Background = Brushes.White
             };
 
@@ -46,7 +46,7 @@ namespace Wazera.Kanban
             };
 
             panel.MouseDown += (sender, e) => ItemMouseDown(sender, e);
-            DragOver += (sender, e) => kanbanBoard.ItemPreviewShow(sender, e);
+            PreviewDragOver += (sender, e) => kanbanBoard.ItemPreviewShow(sender, e);
             Drop += (sender, e) => kanbanBoard.ItemDrop(sender, e);
             AllowDrop = true;
 

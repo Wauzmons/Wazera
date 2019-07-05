@@ -8,13 +8,15 @@ namespace Wazera.Project
         public ProjectView()
         {
             InitializeComponent();
-            OpenKanbanBoard(new KanbanBoard());
+            SetCenterGridContent(KanbanTester.GetMockBoard());
         }
 
-        public void OpenKanbanBoard(KanbanBoard kanbanBoard)
+        public void SetCenterGridContent(Window window)
         {
-            UIElement content = kanbanBoard.Content as UIElement;
-            kanbanBoard.Content = null;
+            UIElement content = window.Content as UIElement;
+            window.Content = null;
+            window.Close();
+            cgrid.Children.Clear();
             cgrid.Children.Add(content);
         }
     }

@@ -11,7 +11,7 @@
             <ItemsControl Name="columns" ScrollViewer.HorizontalScrollBarVisibility="Visible">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel IsItemsHost="True"/>
+                        <UniformGrid Name="uniformGrid" Columns="{Binding ColumnCount}" IsItemsHost="True"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>

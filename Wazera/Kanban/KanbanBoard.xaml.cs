@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using Wazera.Data;
 
@@ -7,13 +8,17 @@ namespace Wazera.Kanban
 {
     public partial class KanbanBoard : Window
     {
+        public int ColumnCount { get; set; } = 0;
+
         public KanbanBoard()
         {
             InitializeComponent();
+            columns.DataContext = this;
         }
 
         public KanbanColumn AddColumn(StatusData statusData)
         {
+            ColumnCount++;
             KanbanColumn column = new KanbanColumn(this, statusData);
             columns.Items.Add(column.AsBorderedColumn());
             return column;
@@ -50,22 +55,21 @@ namespace Wazera.Kanban
             Point dropPosition = e.GetPosition(sender as IInputElement);
             bool showBelow = target.ActualHeight / 2 < dropPosition.Y;
 
-            ItemPreviewRemove();
-            Label itemPreviewShadow = new Label
-            {
-                Content = "",
-                Margin = new Thickness(3),
-                Padding = new Thickness(5),
-                MinHeight = 50,
-                MinWidth = 250,
-                Background = Brushes.DarkGray,
-                AllowDrop = true
-            };
-            itemPreviewShadow.Drop += (sender2, e2) => ItemDrop(sender2, e2);
-
+            Label itemPreviewShadow = GetItemPreviewShadow();
             KanbanColumn newColumn = target.Parent as KanbanColumn;
             int targetIndex = newColumn.Items.IndexOf(target);
             newColumn.Items.Insert(showBelow ? targetIndex + 1 : targetIndex, itemPreviewShadow);
+            this.itemPreviewShadow = itemPreviewShadow;
+        }
+
+        public void ItemPreviewShow(KanbanColumn column)
+        {
+            if (this.itemPreviewShadow != null && this.itemPreviewShadow.Parent.Equals(column))
+            {
+                return;
+            }
+            Label itemPreviewShadow = GetItemPreviewShadow();
+            column.Items.Insert(column.Items.Count, itemPreviewShadow);
             this.itemPreviewShadow = itemPreviewShadow;
         }
 
@@ -82,6 +86,23 @@ namespace Wazera.Kanban
             }
             column.Items.Remove(itemPreviewShadow);
             itemPreviewShadow = null;
+        }
+
+        private Label GetItemPreviewShadow()
+        {
+            ItemPreviewRemove();
+            Label itemPreviewShadow = new Label
+            {
+                Content = "",
+                Margin = new Thickness(3),
+                Padding = new Thickness(5),
+                MinHeight = 50,
+                MinWidth = 180,
+                Background = Brushes.DarkGray,
+                AllowDrop = true
+            };
+            itemPreviewShadow.Drop += (sender2, e2) => ItemDrop(sender2, e2);
+            return itemPreviewShadow;
         }
 
         #endregion

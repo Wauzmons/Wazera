@@ -18,9 +18,7 @@ namespace Wazera
 
         public void OpenProjectView(object sender, RoutedEventArgs e)
         {
-            ProjectView projectView = new ProjectView();
-            projectView.Owner = this;
-            projectView.ShowDialog();
+            new ProjectView().Show();
         }
     }
 }

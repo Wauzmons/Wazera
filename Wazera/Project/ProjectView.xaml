@@ -8,29 +8,54 @@
         Title="ProjectView" Height="600" Width="1200">
     <Grid>
         <DockPanel>
-            <Border
+
+            <Grid
+                Name="tgrid"
                 DockPanel.Dock="Top"
                 HorizontalAlignment="Stretch"
-                Height="120"
-                BorderBrush="LightSkyBlue"
-                BorderThickness="5">
-                <Grid Name="tgrid">
-                    <Button Content="Projects" Background="IndianRed"/>
-                    <Button Content="User" Background="DodgerBlue"/>
-                </Grid>
-            </Border>
-            
-            <Border
-                DockPanel.Dock="Left"
-                Width="300"
-                VerticalAlignment="Stretch"
-                Background="Azure"
-                BorderBrush="LightSkyBlue"
-                BorderThickness="5">
-                <TreeView Name="projectTree"/>
-            </Border>
+                Height="60">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button
+                        Content="Projects"
+                        Width="100"
+                        VerticalAlignment="Stretch"
+                        Margin="5"
+                        Padding="8"
+                        FontSize="18"
+                        Foreground="White"
+                        Background="IndianRed"/>
+                    <Button
+                        Content="Users"
+                        Width="100"
+                        VerticalAlignment="Stretch"
+                        Margin="5"
+                        Padding="8"
+                        FontSize="18"
+                        Foreground="White"
+                        Background="DodgerBlue"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Ellipse
+                        HorizontalAlignment="Right"
+                        Width="50"
+                        Margin="5"
+                        Fill="LightGray"/>
+                </StackPanel>
+            </Grid>
 
-            <Grid Name="cgrid"/>
+            <Grid
+                Name="lgrid"
+                DockPanel.Dock="Left"
+                Width="240"
+                VerticalAlignment="Stretch">
+                <TreeView
+                    Name="projectTree"
+                    Background="LightSlateGray"/>
+            </Grid>
+
+            <Border BorderThickness="0, 5, 5, 5" BorderBrush="LightSlateGray">
+                <Grid Name="cgrid"/>
+            </Border>
         </DockPanel>
     </Grid>
 </Window>

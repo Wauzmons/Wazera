@@ -24,9 +24,7 @@ namespace Wazera.Kanban
             Margin = new Thickness(5);
             Background = Brushes.LightGray;
             BorderThickness = new Thickness(0);
-
-            AddHeader();
-            AddButton();
+            AllowDrop = true;
 
             border = new Border
             {
@@ -37,6 +35,11 @@ namespace Wazera.Kanban
                 CornerRadius = new CornerRadius(10)
             };
             border.Child = this;
+
+            AddHeader();
+
+            PreviewDragOver += (sender, e) => kanbanBoard.ItemPreviewShow(this);
+            Drop += (sender, e) => kanbanBoard.ItemDrop(sender, e);
         }
 
         public Border AsBorderedColumn()
@@ -46,7 +49,7 @@ namespace Wazera.Kanban
 
         public int GetCardCount()
         {
-            return Items.Count - 2;
+            return Items.Count - 1;
         }
 
         private void AddHeader()
@@ -55,7 +58,7 @@ namespace Wazera.Kanban
             {
                 Margin = new Thickness(3),
                 Padding = new Thickness(5),
-                MinWidth = 250,
+                MinWidth = 180,
                 FontWeight = FontWeights.Bold,
                 Foreground = Brushes.DarkSlateGray,
                 Background = Brushes.LightGray,
@@ -70,11 +73,11 @@ namespace Wazera.Kanban
             header.Content = data.Title.ToUpper() + " (" + cardCount + ")";
             if(data.HasCardMinimum() && cardCount < data.MinCards)
             {
-                border.BorderBrush = Brushes.Blue;
+                border.BorderBrush = Brushes.LightSkyBlue;
             }
             else if(data.HasCardMaximum() && cardCount > data.MaxCards)
             {
-                border.BorderBrush = Brushes.Red;
+                border.BorderBrush = Brushes.LightSalmon;
             }
             else
             {
@@ -82,18 +85,9 @@ namespace Wazera.Kanban
             }
         }
 
-        private void AddButton()
-        {
-            Button button = new Button
-            {
-                Content = "New Task"
-            };
-            Items.Add(button);
-        }
-
         public void AddRow(TaskData task)
         {
-            AddRow(task, Items.Count - 1);
+            AddRow(task, Items.Count);
         }
 
         public void AddRow(TaskData task, int index)

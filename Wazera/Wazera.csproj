@@ -119,7 +119,9 @@
   <ItemGroup>
     <Resource Include="wazera.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\deafault_avatar.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\prio_1.png" />
     <Resource Include="Resources\prio_2.png" />
