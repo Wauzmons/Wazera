@@ -17,21 +17,17 @@ namespace Wazera.Data
 
         public static PriorityData Insignificant { get; } = new PriorityData(5, "Insignificant", "prio_5.png");
 
-        public int ID { get; }
+        public long ID { get; }
 
         public string DisplayName { get; }
 
         private BitmapImage bitmapImage;
 
-        private PriorityData(int id, string displayName, string iconPath)
+        private PriorityData(long id, string displayName, string iconName)
         {
             ID = id;
             DisplayName = displayName;
-
-            bitmapImage = new BitmapImage();
-            bitmapImage.BeginInit();
-            bitmapImage.UriSource = new Uri("pack://application:,,,/Resources/" + iconPath);
-            bitmapImage.EndInit();
+            bitmapImage = UtilTool.GetResource(iconName);
         }
 
         public Image GetImage()

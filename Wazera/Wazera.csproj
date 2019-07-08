@@ -57,6 +57,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Data\ProjectData.cs" />
+    <Compile Include="System\LoggedIn.cs" />
+    <Compile Include="System\UtilTool.cs" />
     <Page Include="Kanban\KanbanBoard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -72,6 +75,7 @@
     <Compile Include="Data\PriorityData.cs" />
     <Compile Include="Data\StatusData.cs" />
     <Compile Include="Data\TaskData.cs" />
+    <Compile Include="Data\UserData.cs" />
     <Compile Include="Kanban\KanbanBoard.xaml.cs">
       <DependentUpon>KanbanBoard.xaml</DependentUpon>
     </Compile>
@@ -120,7 +124,7 @@
     <Resource Include="wazera.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\deafault_avatar.png" />
+    <Resource Include="Resources\default_avatar.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\prio_1.png" />
@@ -128,6 +132,11 @@
     <Resource Include="Resources\prio_3.png" />
     <Resource Include="Resources\prio_4.png" />
     <Resource Include="Resources\prio_5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\proj_backlog.png" />
+    <Resource Include="Resources\proj_board.png" />
+    <Resource Include="Resources\proj_releases.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

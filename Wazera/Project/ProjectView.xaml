@@ -23,7 +23,20 @@
                         Padding="8"
                         FontSize="18"
                         Foreground="White"
-                        Background="IndianRed"/>
+                        Background="DarkRed"
+                        BorderBrush="LightSlateGray"
+                        BorderThickness="5"/>
+                    <Button
+                        Content="My Tasks"
+                        Width="100"
+                        VerticalAlignment="Stretch"
+                        Margin="5"
+                        Padding="8"
+                        FontSize="18"
+                        Foreground="White"
+                        Background="DarkGreen"
+                        BorderBrush="LightSlateGray"
+                        BorderThickness="5"/>
                     <Button
                         Content="Users"
                         Width="100"
@@ -32,14 +45,36 @@
                         Padding="8"
                         FontSize="18"
                         Foreground="White"
-                        Background="DodgerBlue"/>
+                        Background="DarkBlue"
+                        BorderBrush="LightSlateGray"
+                        BorderThickness="5"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Ellipse
-                        HorizontalAlignment="Right"
-                        Width="50"
+                    <Button
                         Margin="5"
-                        Fill="LightGray"/>
+                        Background="DarkCyan"
+                        BorderBrush="LightSlateGray"
+                        BorderThickness="5">
+                        <StackPanel
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                            <Label
+                                Name="userLabel"
+                                Content="Michael Müller"
+                                VerticalAlignment="Center"
+                                Margin="0"
+                                FontSize="18"
+                                Foreground="White"/>
+                            <Ellipse
+                                Name="userAvatar"
+                                HorizontalAlignment="Right"
+                                Width="35"
+                                Margin="0"
+                                Fill="LightGray"
+                                Stroke="LightSlateGray"
+                                StrokeThickness="1"/>
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
             </Grid>
 
@@ -48,9 +83,18 @@
                 DockPanel.Dock="Left"
                 Width="240"
                 VerticalAlignment="Stretch">
-                <TreeView
-                    Name="projectTree"
-                    Background="LightSlateGray"/>
+                <DockPanel
+                    LastChildFill="True"
+                    Background="LightSlateGray">
+                    <StackPanel
+                        Name="projectPanel"
+                        DockPanel.Dock="Top"
+                        Orientation="Vertical"/>
+                    <TreeView
+                        Name="projectTreeView"
+                        Margin="5"
+                        Background="LightGray"/>
+                </DockPanel>
             </Grid>
 
             <Border BorderThickness="0, 5, 5, 5" BorderBrush="LightSlateGray">
