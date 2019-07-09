@@ -8,21 +8,42 @@ namespace Wazera.Project
 {
     public partial class ProjectView : Window
     {
+        public ProjectData Data { get; set; }
+
+        private UIElement dialogContent;
+
         private Button buttonBacklog;
         private Button buttonKanbanBoard;
         private Button buttonReleases;
 
-        public ProjectView()
+        public ProjectView(ProjectData data)
         {
+            Data = data;
+
             InitializeComponent();
-            if(LoggedIn.User == null)
-            {
-                LoggedIn.User = UserData.GetMockUser();
-            }
+            projectLabel.Content = data.Name;
             userLabel.Content = LoggedIn.User.GetFullName();
             userAvatar.Fill = new ImageBrush(LoggedIn.User.Avatar);
-            SetCenterGridContent(KanbanTester.GetMockBoard());
+            plusButton.Click += (sender, e) => OpenCreateDialog();
+            SetCenterGridContent(new KanbanBoard(data));
             LoadLeftGridContent();
+        }
+
+        private void OpenCreateDialog()
+        {
+            CreateTaskDialog createDialog = new CreateTaskDialog(Data);
+            createDialog.saveButton.Click += (sender, e) => CloseCreateDialog();
+            createDialog.closeButton.Click += (sender, e) => CloseCreateDialog();
+            dialogContent = createDialog.Content as UIElement;
+            createDialog.Content = null;
+            createDialog.Close();
+            grid.Children.Add(dialogContent);
+        }
+
+        private void CloseCreateDialog()
+        {
+            grid.Children.Remove(dialogContent);
+            dialogContent = null;
         }
 
         public void SetCenterGridContent(Window window)
@@ -38,15 +59,15 @@ namespace Wazera.Project
         {
             buttonBacklog = AddMenuButton("Backlog", "proj_backlog.png");
             buttonBacklog.Click += (sender, e) => HighlightButton(buttonBacklog);
-            buttonBacklog.Click += (sender, e) => SetCenterGridContent(KanbanTester.GetMockBoard());
+            buttonBacklog.Click += (sender, e) => SetCenterGridContent(new KanbanBoard(Data));
 
             buttonKanbanBoard = AddMenuButton("Kanban Board", "proj_board.png");
             buttonKanbanBoard.Click += (sender, e) => HighlightButton(buttonKanbanBoard);
-            buttonKanbanBoard.Click += (sender, e) => SetCenterGridContent(KanbanTester.GetMockBoard());
+            buttonKanbanBoard.Click += (sender, e) => SetCenterGridContent(new KanbanBoard(Data));
 
             buttonReleases = AddMenuButton("Releases", "proj_releases.png");
             buttonReleases.Click += (sender, e) => HighlightButton(buttonReleases);
-            buttonReleases.Click += (sender, e) => SetCenterGridContent(KanbanTester.GetMockBoard());
+            buttonReleases.Click += (sender, e) => SetCenterGridContent(new KanbanBoard(Data));
 
             HighlightButton(buttonKanbanBoard);
         }
@@ -60,7 +81,7 @@ namespace Wazera.Project
             };
             panel.Children.Add(new Image
             {
-                Source = UtilTool.GetResource(iconName),
+                Source = WazeraUtils.GetResource(iconName),
                 Margin = new Thickness(5),
                 Width = 24,
                 Height = 24

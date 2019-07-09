@@ -1,14 +1,13 @@
-﻿using System.Windows.Media.Imaging;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace Wazera.Data
 {
-    class UserData
+    public class UserData
     {
-        public static UserData GetMockUser()
-        {
-            return new UserData(0, "Test", "Peter", "Penguin", UtilTool.GetResource("default_avatar.png"));
-        }
-
         public long ID { get; set; }
 
         public string LoginName { get; set; }
@@ -31,6 +30,50 @@ namespace Wazera.Data
         public string GetFullName()
         {
             return FirstName + " " + LastName;
+        }
+
+        public string GetShortName()
+        {
+            return (FirstName.Substring(0, 1) + LastName.Substring(0, 1)).ToUpper();
+        }
+
+        public Ellipse GetAvatarEllipse(int diameter)
+        {
+            return new Ellipse
+            {
+                HorizontalAlignment = HorizontalAlignment.Right,
+                Width = diameter,
+                Height = diameter,
+                Fill = new ImageBrush(Avatar),
+                Stroke = Brushes.LightSlateGray,
+                StrokeThickness = 1
+            };
+        }
+
+        public StackPanel GetPanel()
+        {
+            return GetPanel(false);
+        }
+
+        public StackPanel GetPanel(bool showFullName)
+        {
+            StackPanel panel = new StackPanel
+            {
+                HorizontalAlignment = HorizontalAlignment.Right,
+                Orientation = Orientation.Horizontal,
+                Margin = new Thickness(5),
+                ToolTip = new Label
+                {
+                    Content = "Assigned User [" + GetFullName() + "]"
+                }
+            };
+            panel.Children.Add(GetAvatarEllipse(18));
+            panel.Children.Add(new Label
+            {
+                HorizontalAlignment = HorizontalAlignment.Right,
+                Content = showFullName ? GetFullName() : GetShortName()
+            });
+            return panel;
         }
     }
 }

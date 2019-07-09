@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wazera.Project"
         mc:Ignorable="d"
-        Title="ProjectView" Height="600" Width="1200">
-    <Grid>
+        Title="ProjectView" Height="600" MinHeight="450" Width="1200" MinWidth="900">
+    <Grid Name="grid">
         <DockPanel>
 
             <Grid
@@ -14,7 +14,20 @@
                 DockPanel.Dock="Top"
                 HorizontalAlignment="Stretch"
                 Height="60">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <StackPanel
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Left">
+                    <Button
+                        Name="plusButton"
+                        Content="+"
+                        Width="50"
+                        VerticalAlignment="Stretch"
+                        Margin="5"
+                        FontSize="18"
+                        Foreground="White"
+                        Background="Black"
+                        BorderBrush="LightSlateGray"
+                        BorderThickness="5"/>
                     <Button
                         Content="Projects"
                         Width="100"
@@ -49,7 +62,19 @@
                         BorderBrush="LightSlateGray"
                         BorderThickness="5"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <StackPanel
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+                    <Label
+                        Name="projectLabel"
+                        Content="Name of the selected Project"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Center"
+                        Margin="5"
+                        FontSize="24"
+                        FontWeight="Bold"
+                        Foreground="LightSlateGray"/>
                     <Button
                         Margin="5"
                         Background="DarkCyan"
@@ -60,7 +85,7 @@
                             HorizontalAlignment="Right">
                             <Label
                                 Name="userLabel"
-                                Content="Michael Müller"
+                                Content="Firstname Lastname"
                                 VerticalAlignment="Center"
                                 Margin="0"
                                 FontSize="18"

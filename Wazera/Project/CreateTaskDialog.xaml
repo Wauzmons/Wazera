@@ -1,0 +1,111 @@
+﻿<Window x:Class="Wazera.Project.CreateTaskDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wazera.Project"
+        mc:Ignorable="d"
+        Title="CreateTaskDialog" Height="450" Width="800">
+    <Grid>
+        <Rectangle
+            Fill="Black"
+            Opacity="0.4"/>
+        <Border
+            Width="650"
+            Height="360"
+            Margin="20"
+            Background="White"
+            BorderBrush="LightSlateGray"
+            BorderThickness="5"
+            CornerRadius="20">
+            <DockPanel>
+                <Grid DockPanel.Dock="Top">
+                    <Label
+                        HorizontalAlignment="Left"
+                        VerticalContentAlignment="Top"
+                        Content="Create Task"
+                        Margin="10, 10, 0, 0"
+                        FontSize="18"
+                        FontWeight="Bold"/>
+                    <Button
+                        Name="saveButton"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Width="64"
+                        Height="32"
+                        Margin="0, 10, 52, 0"
+                        Content="Save"
+                        FontSize="18"
+                        Foreground="Black"
+                        Background="LightSkyBlue"/>
+                    <Button
+                        Name="closeButton"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Width="32"
+                        Height="32"
+                        Margin="0, 10, 10, 0"
+                        Content="X"
+                        FontSize="18"
+                        Foreground="White"
+                        Background="LightSlateGray"/>
+                    <Rectangle
+                        Height="3"
+                        Margin="0, 50, 0, 0"
+                        Fill="Gold"/>
+                </Grid>
+                <ScrollViewer
+                    Margin="5"
+                    HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Visible">
+                    <StackPanel>
+                        <Label
+                            Content="Subject"
+                            Margin="10, 0, 10, 0"/>
+                        <TextBox
+                            Name="nameInput"
+                            MaxLength="50"
+                            FontSize="14"
+                            Margin="10, 0, 10, 10"
+                            Padding="3"/>
+                        <UniformGrid Columns="3">
+                            <Label
+                                Content="Priority"
+                                Margin="10, 0, 10, 0"/>
+                            <Label
+                                Content="Assigned User"
+                                Margin="10, 0, 10, 0"/>
+                            <Label
+                                Content="Status Column"
+                                Margin="10, 0, 10, 0"/>
+                        </UniformGrid>
+                        <UniformGrid Columns="3">
+                            <ComboBox
+                                Name="priorityInput"
+                                Margin="10, 0, 10, 10"/>
+                            <ComboBox
+                                Name="userInput"
+                                Margin="10, 0, 10, 10"/>
+                            <ComboBox
+                                Name="statusInput"
+                                Margin="10, 0, 10, 10"/>
+                        </UniformGrid>
+                        <Label
+                            Content="Descritpion"
+                            Margin="10, 0, 10, 0"/>
+                        <TextBox
+                            Name="descriptionInput"
+                            MaxLength="7500"
+                            TextWrapping="Wrap"
+                            AcceptsReturn="True"
+                            MinLines="5"
+                            FontSize="14"
+                            Margin="10, 0, 10, 10"
+                            Padding="3"
+                            Background="LightGray"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

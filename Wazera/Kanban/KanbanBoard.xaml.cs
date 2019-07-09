@@ -8,18 +8,30 @@ namespace Wazera.Kanban
 {
     public partial class KanbanBoard : Window
     {
+        public ProjectData Data { get; set; }
+
         public int ColumnCount { get; set; } = 0;
 
-        public KanbanBoard()
+        public KanbanBoard(ProjectData data)
         {
+            Data = data;
+
             InitializeComponent();
             columns.DataContext = this;
+            foreach(StatusData status in data.Statuses)
+            {
+                AddColumn(status);
+            }
         }
 
-        public KanbanColumn AddColumn(StatusData statusData)
+        public KanbanColumn AddColumn(StatusData status)
         {
             ColumnCount++;
-            KanbanColumn column = new KanbanColumn(this, statusData);
+            KanbanColumn column = new KanbanColumn(this, status);
+            foreach(TaskData task in status.Tasks)
+            {
+                column.AddRow(task);
+            }
             columns.Items.Add(column.AsBorderedColumn());
             return column;
         }
@@ -39,8 +51,8 @@ namespace Wazera.Kanban
 
             if (e.Data.GetData(typeof(string)) is string stringItem)
             {
-                ItemPreviewRemove();
-                newColumn.AddRow(new TaskData(stringItem), index);
+                //ItemPreviewRemove();
+                //newColumn.AddRow(new TaskData(stringItem), index);
             }
             else if (e.Data.GetData(typeof(KanbanTaskCard)) is KanbanTaskCard cardItem && !cardItem.Equals(itemPreviewShadow))
             {
@@ -114,10 +126,15 @@ namespace Wazera.Kanban
             {
                 index--;
             }
+
             oldColumn.Items.Remove(item);
             column.Items.Insert(index, item);
+
             oldColumn.UpdateHeader();
             column.UpdateHeader();
+
+            oldColumn.SaveData();
+            column.SaveData();
         }
     }
 }

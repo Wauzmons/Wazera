@@ -3,7 +3,7 @@ using System.Windows.Media.Imaging;
 
 namespace Wazera
 {
-    class UtilTool
+    class WazeraUtils
     {
         public static BitmapImage GetResource(string path)
         {

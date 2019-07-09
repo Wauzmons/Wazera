@@ -58,8 +58,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\ProjectData.cs" />
+    <Compile Include="Project\CreateTaskDialog.xaml.cs">
+      <DependentUpon>CreateTaskDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="System\LoggedIn.cs" />
-    <Compile Include="System\UtilTool.cs" />
+    <Compile Include="System\WazeraUtils.cs" />
+    <Compile Include="System\WazeraTester.cs" />
     <Page Include="Kanban\KanbanBoard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -81,11 +85,14 @@
     </Compile>
     <Compile Include="Kanban\KanbanColumn.cs" />
     <Compile Include="Kanban\KanbanTaskCard.cs" />
-    <Compile Include="Kanban\KanbanTester.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Project\CreateTaskDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Project\ProjectView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

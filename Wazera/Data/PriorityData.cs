@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -17,6 +17,8 @@ namespace Wazera.Data
 
         public static PriorityData Insignificant { get; } = new PriorityData(5, "Insignificant", "prio_5.png");
 
+        public static List<PriorityData> Priorities { get; } = new List<PriorityData> { Critical, High, Normal, Low, Insignificant };
+
         public long ID { get; }
 
         public string DisplayName { get; }
@@ -27,7 +29,7 @@ namespace Wazera.Data
         {
             ID = id;
             DisplayName = displayName;
-            bitmapImage = UtilTool.GetResource(iconName);
+            bitmapImage = WazeraUtils.GetResource(iconName);
         }
 
         public Image GetImage()
@@ -46,7 +48,11 @@ namespace Wazera.Data
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Orientation = Orientation.Horizontal,
-                Margin = new Thickness(5)
+                Margin = new Thickness(5),
+                ToolTip = new Label
+                {
+                    Content = "Priority " + ID + " [" + DisplayName + "]"
+                }
             };
             panel.Children.Add(GetImage());
             panel.Children.Add(new Label

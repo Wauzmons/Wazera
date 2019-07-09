@@ -7,7 +7,7 @@ namespace Wazera.Kanban
 {
     public class KanbanColumn : ListBox
     {
-        private StatusData data;
+        public StatusData Data { get; set; }
 
         private KanbanBoard kanbanBoard;
         private Border border;
@@ -15,7 +15,7 @@ namespace Wazera.Kanban
 
         public KanbanColumn(KanbanBoard kanbanBoard, StatusData data)
         {
-            this.data = data;
+            Data = data;
             this.kanbanBoard = kanbanBoard;
 
             HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -70,18 +70,29 @@ namespace Wazera.Kanban
         public void UpdateHeader()
         {
             int cardCount = GetCardCount();
-            header.Content = data.Title.ToUpper() + " (" + cardCount + ")";
-            if(data.HasCardMinimum() && cardCount < data.MinCards)
+            header.Content = Data.Title.ToUpper() + " (" + cardCount + ")";
+            if(Data.HasCardMinimum() && cardCount < Data.MinCards)
             {
                 border.BorderBrush = Brushes.LightSkyBlue;
             }
-            else if(data.HasCardMaximum() && cardCount > data.MaxCards)
+            else if(Data.HasCardMaximum() && cardCount > Data.MaxCards)
             {
                 border.BorderBrush = Brushes.LightSalmon;
             }
             else
             {
                 border.BorderBrush = Brushes.White;
+            }
+        }
+
+        public void SaveData()
+        {
+            Data.Tasks.Clear();
+            for(int index = 1; index <= GetCardCount(); index++)
+            {
+                KanbanTaskCard item = (KanbanTaskCard) Items.GetItemAt(index);
+                item.Data.Status = Data;
+                Data.Tasks.Add(item.Data);
             }
         }
 

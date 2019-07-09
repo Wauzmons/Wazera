@@ -1,4 +1,6 @@
-﻿namespace Wazera.Data
+﻿using System.Collections.Generic;
+
+namespace Wazera.Data
 {
     public class StatusData
     {
@@ -8,16 +10,22 @@
 
         public int MaxCards { get; set; }
 
-        public StatusData(string title)
+        public List<TaskData> Tasks { get; set; } = new List<TaskData>();
+
+        public ProjectData Project { get; set; }
+
+        public StatusData(string title, ProjectData project)
         {
             Title = title;
+            Project = project;
             MinCards = 0;
             MaxCards = 0;
         }
 
-        public StatusData(string title, int minCards, int maxCards)
+        public StatusData(string title, ProjectData project, int minCards, int maxCards)
         {
             Title = title;
+            Project = project;
             MinCards = minCards;
             MaxCards = maxCards;
         }

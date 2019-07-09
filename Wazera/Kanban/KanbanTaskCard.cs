@@ -9,40 +9,26 @@ namespace Wazera.Kanban
 {
     public class KanbanTaskCard : ListViewItem
     {
-        private TaskData data;
+        public TaskData Data { get; set; }
 
         private KanbanBoard kanbanBoard;
-        private StackPanel panel;
-        private Label label;
 
         public KanbanTaskCard(KanbanBoard kanbanBoard, TaskData data)
         {
-            this.data = data;
+            Data = data;
             this.kanbanBoard = kanbanBoard;
 
             Padding = new Thickness(0);
             BorderThickness = new Thickness(0);
             BorderBrush = Brushes.SkyBlue;
 
-            panel = new StackPanel
+            StackPanel panel = new StackPanel
             {
                 Orientation = Orientation.Vertical,
                 Margin = new Thickness(3),
                 MinHeight = 50,
-                MinWidth = 180,
+                MinWidth = 240,
                 Background = Brushes.White
-            };
-
-            label = new Label
-            {
-                Content = data.Name,
-                Padding = new Thickness(5),
-            };
-
-            Rectangle rect = new Rectangle
-            {
-                Height = 3,
-                Fill = Brushes.Gold
             };
 
             panel.MouseDown += (sender, e) => ItemMouseDown(sender, e);
@@ -50,9 +36,13 @@ namespace Wazera.Kanban
             Drop += (sender, e) => kanbanBoard.ItemDrop(sender, e);
             AllowDrop = true;
 
-            panel.Children.Add(label);
-            panel.Children.Add(data.Priority.GetPanel());
-            panel.Children.Add(rect);
+            panel.Children.Add(data.GetNameGrid());
+            panel.Children.Add(data.GetInfoGrid());
+            panel.Children.Add(new Rectangle
+            {
+                Height = 3,
+                Fill = Brushes.Gold
+            });
             Content = panel;
         }
 

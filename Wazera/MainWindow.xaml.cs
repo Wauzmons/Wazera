@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Wazera.Kanban;
 using Wazera.Project;
 
 namespace Wazera
@@ -8,17 +7,8 @@ namespace Wazera
     {
         public MainWindow()
         {
-            InitializeComponent();
-        }
-
-        public void OpenKanbanBoard(object sender, RoutedEventArgs e)
-        {
-            KanbanTester.GetMockBoard().Show();
-        }
-
-        public void OpenProjectView(object sender, RoutedEventArgs e)
-        {
-            new ProjectView().Show();
+            new ProjectView(WazeraTester.GetMockProject()).Show();
+            Close();
         }
     }
 }
