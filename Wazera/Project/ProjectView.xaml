@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wazera.Project"
         mc:Ignorable="d"
-        Title="ProjectView" Height="600" MinHeight="450" Width="1200" MinWidth="900">
+        Title="Wazera" Height="600" MinHeight="450" Width="1200" MinWidth="900">
     <Grid Name="grid">
         <DockPanel>
 
@@ -116,9 +116,11 @@
                         DockPanel.Dock="Top"
                         Orientation="Vertical"/>
                     <TreeView
-                        Name="projectTreeView"
+                        Name="treeView"
                         Margin="5"
-                        Background="LightGray"/>
+                        Padding="5"
+                        Background="LightGray">
+                    </TreeView>
                 </DockPanel>
             </Grid>
 

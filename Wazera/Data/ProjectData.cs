@@ -23,5 +23,15 @@ namespace Wazera.Data
             Name = name;
             Owner = owner;
         }
+
+        public List<StatusData> GetAllStatuses()
+        {
+            List<StatusData> statuses = new List<StatusData>
+            {
+                Backlog
+            };
+            statuses.AddRange(Statuses);
+            return statuses;
+        }
     }
 }

@@ -21,10 +21,9 @@ namespace Wazera.Kanban
             HorizontalAlignment = HorizontalAlignment.Stretch;
             HorizontalContentAlignment = HorizontalAlignment.Stretch;
             VerticalAlignment = VerticalAlignment.Stretch;
-            Margin = new Thickness(5);
+            Margin = new Thickness(Data.IsBacklog ? 0 : 5);
             Background = Brushes.LightGray;
             BorderThickness = new Thickness(0);
-            AllowDrop = true;
 
             border = new Border
             {
@@ -34,12 +33,15 @@ namespace Wazera.Kanban
                 BorderThickness = new Thickness(3),
                 CornerRadius = new CornerRadius(10)
             };
-            border.Child = this;
+            if(!Data.IsBacklog)
+            {
+                border.Child = this;
+                PreviewDragOver += (sender, e) => kanbanBoard.ItemPreviewShow(this);
+                Drop += (sender, e) => kanbanBoard.ItemDrop(sender, e);
+                AllowDrop = true;
+            }
 
             AddHeader();
-
-            PreviewDragOver += (sender, e) => kanbanBoard.ItemPreviewShow(this);
-            Drop += (sender, e) => kanbanBoard.ItemDrop(sender, e);
         }
 
         public Border AsBorderedColumn()
@@ -83,6 +85,19 @@ namespace Wazera.Kanban
             {
                 border.BorderBrush = Brushes.White;
             }
+
+            if(Data.IsBacklog)
+            {
+                foreach(object item in Items)
+                {
+                    if(item is KanbanTaskCard)
+                    {
+                        KanbanTaskCard taskCard = item as KanbanTaskCard;
+                        bool alternating = Items.IndexOf(item) % 2 == 1;
+                        taskCard.SetDefaultBrush(alternating ? Brushes.White : new SolidColorBrush(Color.FromArgb(255, 245, 245, 245)));
+                    }
+                }
+            }
         }
 
         public void SaveData()
@@ -103,6 +118,7 @@ namespace Wazera.Kanban
 
         public void AddRow(TaskData task, int index)
         {
+            task.Status = Data;
             KanbanTaskCard item = new KanbanTaskCard(kanbanBoard, task);
             Items.Insert(index, item);
             UpdateHeader();

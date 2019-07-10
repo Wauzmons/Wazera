@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Wazera.Data
 {
@@ -29,21 +30,8 @@ namespace Wazera.Data
         public Grid GetNameGrid()
         {
             Grid grid = new Grid();
-            Label nameLabel = new Label
-            {
-                Content = Name,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Padding = new Thickness(5)
-            };
-            Label keyLabel = new Label
-            {
-                Content = Status.Project.Key + "-" + ID,
-                HorizontalAlignment = HorizontalAlignment.Right,
-                Margin = new Thickness(10, 0, 0, 0),
-                Padding = new Thickness(5)
-            };
-            grid.Children.Add(nameLabel);
-            grid.Children.Add(keyLabel);
+            grid.Children.Add(GetNameLabel());
+            grid.Children.Add(GetKeyLabel(true));
             return grid;
         }
 
@@ -53,6 +41,72 @@ namespace Wazera.Data
             grid.Children.Add(Priority.GetPanel());
             grid.Children.Add(User.GetPanel());
             return grid;
+        }
+
+        public Grid GetBacklogGrid(Button button)
+        {
+            Grid grid = new Grid();
+            StackPanel leftPanel = new StackPanel()
+            {
+                Orientation = Orientation.Horizontal,
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+            leftPanel.Children.Add(GetKeyLabel(false));
+            leftPanel.Children.Add(GetNameLabel());
+            grid.Children.Add(leftPanel);
+
+            StackPanel rightPanel = new StackPanel()
+            {
+                Orientation = Orientation.Horizontal,
+                HorizontalAlignment = HorizontalAlignment.Right
+            };
+            rightPanel.Children.Add(Priority.GetPanel());
+            rightPanel.Children.Add(User.GetPanel());
+            rightPanel.Children.Add(button);
+
+            grid.Children.Add(rightPanel);
+
+            return grid;
+        }
+
+        public Label GetNameLabel()
+        {
+            return new Label
+            {
+                Content = Name,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Padding = new Thickness(5),
+                ToolTip = new Label
+                {
+                    Content = "Right Click to Edit"
+                }
+            };
+        }
+
+        public Label GetKeyLabel(bool addMargin)
+        {
+            return new Label
+            {
+                Content = new TextBlock
+                {
+                    Text = GetKey(),
+                    TextDecorations = Status.IsRelease
+                        ? new TextDecorationCollection(TextDecorations.Strikethrough)
+                        : new TextDecorationCollection(),
+                    ToolTip = new Label
+                    {
+                        Content = "Right Click to Edit"
+                    }
+                },
+                HorizontalAlignment = HorizontalAlignment.Right,
+                Margin = new Thickness(addMargin ? 10 : 0, 0, 0, 0),
+                Padding = new Thickness(5)
+            };
+        }
+
+        public string GetKey()
+        {
+            return Status.Project.Key + "-" + ID;
         }
     }
 }

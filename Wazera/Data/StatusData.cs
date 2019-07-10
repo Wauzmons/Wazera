@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace Wazera.Data
 {
@@ -9,6 +10,10 @@ namespace Wazera.Data
         public int MinCards { get; set; }
 
         public int MaxCards { get; set; }
+
+        public bool IsBacklog { get; set; } = false;
+
+        public bool IsRelease { get; set; } = false;
 
         public List<TaskData> Tasks { get; set; } = new List<TaskData>();
 
@@ -30,6 +35,16 @@ namespace Wazera.Data
             MaxCards = maxCards;
         }
 
+        public StatusData(string title, ProjectData project, bool isBacklog, bool isRelease, int minCards, int maxCards)
+        {
+            Title = title;
+            Project = project;
+            MinCards = minCards;
+            MaxCards = maxCards;
+            IsBacklog = isBacklog;
+            IsRelease = isRelease;
+        }
+
         public bool HasCardMinimum()
         {
             return MinCards != 0;
@@ -38,6 +53,14 @@ namespace Wazera.Data
         public bool HasCardMaximum()
         {
             return MaxCards != 0;
+        }
+
+        public Label GetLabel()
+        {
+            return new Label
+            {
+                Content = Title + " (" + Tasks.Count + ")"
+            };
         }
     }
 }

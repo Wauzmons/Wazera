@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wazera"
         mc:Ignorable="d"
-        Title="Wazera Alpha" Height="60" Width="180">
+        Title="Wazera" Height="30" Width="140">
     <Grid>
         
     </Grid>

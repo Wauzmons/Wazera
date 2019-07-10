@@ -57,10 +57,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Data\ComboData.cs" />
     <Compile Include="Data\ProjectData.cs" />
     <Compile Include="Project\CreateTaskDialog.xaml.cs">
       <DependentUpon>CreateTaskDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Project\ProjectTreeView.cs" />
     <Compile Include="System\LoggedIn.cs" />
     <Compile Include="System\WazeraUtils.cs" />
     <Compile Include="System\WazeraTester.cs" />
@@ -144,6 +146,9 @@
     <Resource Include="Resources\proj_backlog.png" />
     <Resource Include="Resources\proj_board.png" />
     <Resource Include="Resources\proj_releases.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon_database.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

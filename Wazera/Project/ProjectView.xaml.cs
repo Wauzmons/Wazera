@@ -24,14 +24,13 @@ namespace Wazera.Project
             projectLabel.Content = data.Name;
             userLabel.Content = LoggedIn.User.GetFullName();
             userAvatar.Fill = new ImageBrush(LoggedIn.User.Avatar);
-            plusButton.Click += (sender, e) => OpenCreateDialog();
-            SetCenterGridContent(new KanbanBoard(data));
+            plusButton.Click += (sender, e) => OpenCreateDialog(null);
             LoadLeftGridContent();
         }
 
-        private void OpenCreateDialog()
+        public void OpenCreateDialog(TaskData task)
         {
-            CreateTaskDialog createDialog = new CreateTaskDialog(Data);
+            CreateTaskDialog createDialog = new CreateTaskDialog(this, task);
             createDialog.saveButton.Click += (sender, e) => CloseCreateDialog();
             createDialog.closeButton.Click += (sender, e) => CloseCreateDialog();
             dialogContent = createDialog.Content as UIElement;
@@ -40,7 +39,7 @@ namespace Wazera.Project
             grid.Children.Add(dialogContent);
         }
 
-        private void CloseCreateDialog()
+        public void CloseCreateDialog()
         {
             grid.Children.Remove(dialogContent);
             dialogContent = null;
@@ -58,18 +57,17 @@ namespace Wazera.Project
         private void LoadLeftGridContent()
         {
             buttonBacklog = AddMenuButton("Backlog", "proj_backlog.png");
-            buttonBacklog.Click += (sender, e) => HighlightButton(buttonBacklog);
-            buttonBacklog.Click += (sender, e) => SetCenterGridContent(new KanbanBoard(Data));
+            buttonBacklog.Click += (sender, e) => BacklogButtonClick();
 
             buttonKanbanBoard = AddMenuButton("Kanban Board", "proj_board.png");
-            buttonKanbanBoard.Click += (sender, e) => HighlightButton(buttonKanbanBoard);
-            buttonKanbanBoard.Click += (sender, e) => SetCenterGridContent(new KanbanBoard(Data));
+            buttonKanbanBoard.Click += (sender, e) => KanbanBoardButtonClick();
 
             buttonReleases = AddMenuButton("Releases", "proj_releases.png");
-            buttonReleases.Click += (sender, e) => HighlightButton(buttonReleases);
-            buttonReleases.Click += (sender, e) => SetCenterGridContent(new KanbanBoard(Data));
+            buttonReleases.Click += (sender, e) => ReleasesButtonClick();
 
-            HighlightButton(buttonKanbanBoard);
+            new ProjectTreeView(Data, treeView);
+
+            KanbanBoardButtonClick();
         }
 
         private Button AddMenuButton(string displayName, string iconName)
@@ -92,6 +90,7 @@ namespace Wazera.Project
                 Margin = new Thickness(5),
                 Content = displayName,
                 FontSize = 18,
+                FontWeight = FontWeights.Bold,
                 Foreground = Brushes.DarkSlateGray
             });
             Button button = new Button
@@ -106,6 +105,24 @@ namespace Wazera.Project
             };
             projectPanel.Children.Add(button);
             return button;
+        }
+
+        public void BacklogButtonClick()
+        {
+            HighlightButton(buttonBacklog);
+            SetCenterGridContent(new KanbanBoard(Data, this, true));
+        }
+
+        public void KanbanBoardButtonClick()
+        {
+            HighlightButton(buttonKanbanBoard);
+            SetCenterGridContent(new KanbanBoard(Data, this, false));
+        }
+
+        public void ReleasesButtonClick()
+        {
+            HighlightButton(buttonReleases);
+            SetCenterGridContent(new KanbanBoard(Data, this, false));
         }
 
         public void HighlightButton(Button button)

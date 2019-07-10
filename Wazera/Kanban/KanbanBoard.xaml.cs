@@ -1,23 +1,38 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using Wazera.Data;
+using Wazera.Project;
 
 namespace Wazera.Kanban
 {
     public partial class KanbanBoard : Window
     {
         public ProjectData Data { get; set; }
+        public ProjectView View { get; set; }
 
+        public bool IsBacklog { get; set; }
         public int ColumnCount { get; set; } = 0;
 
-        public KanbanBoard(ProjectData data)
+        public KanbanBoard(ProjectData data, ProjectView view, bool isBacklog)
         {
             Data = data;
+            View = view;
+            IsBacklog = isBacklog;
 
             InitializeComponent();
             columns.DataContext = this;
+
+            if(IsBacklog)
+            {
+                Data.Backlog.Tasks = Data.Backlog.Tasks
+                    .OrderBy(task => task.Priority.ID)
+                    .ThenBy(task => task.ID)
+                    .ToList();
+                AddColumn(Data.Backlog);
+                return;
+            }
             foreach(StatusData status in data.Statuses)
             {
                 AddColumn(status);
@@ -32,7 +47,7 @@ namespace Wazera.Kanban
             {
                 column.AddRow(task);
             }
-            columns.Items.Add(column.AsBorderedColumn());
+            columns.Items.Add(IsBacklog ? (object) column : column.AsBorderedColumn());
             return column;
         }
 
@@ -128,7 +143,8 @@ namespace Wazera.Kanban
             }
 
             oldColumn.Items.Remove(item);
-            column.Items.Insert(index, item);
+            column.AddRow(item.Data, index);
+            item = null;
 
             oldColumn.UpdateHeader();
             column.UpdateHeader();
