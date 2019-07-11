@@ -54,7 +54,7 @@ namespace Wazera.Project
             userInput.SelectedIndex = 0;
             for (int index = 0; index < 1; index++) // #ToDo Placeholder
             {
-                StackPanel panel = LoggedIn.User.GetPanel(true);
+                StackPanel panel = LoggedIn.User.PanelFullName;
                 panel.Margin = new Thickness(0);
                 ComboData<UserData> item = new ComboData<UserData>(LoggedIn.User)
                 {

@@ -4,6 +4,8 @@ namespace Wazera.Data
 {
     public class ProjectData
     {
+        public static Dictionary<long, ProjectData> Projects { get; } = new Dictionary<long, ProjectData>();
+
         public long ID { get; set; }
 
         public string Key { get; set; }
@@ -22,6 +24,8 @@ namespace Wazera.Data
             Key = key;
             Name = name;
             Owner = owner;
+
+            Projects.Add(ID, this);
         }
 
         public List<StatusData> GetAllStatuses()

@@ -66,7 +66,12 @@ namespace Wazera.Kanban
                 Background = Brushes.LightGray,
                 Focusable = false
             };
-            Items.Add(header);
+            ListBoxItem item = new ListBoxItem
+            {
+                Content = header
+            };
+            item.Selected += (sender, e) => item.IsSelected = false;
+            Items.Add(item);
         }
 
         public void UpdateHeader()

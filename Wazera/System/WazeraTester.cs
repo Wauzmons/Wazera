@@ -12,7 +12,7 @@ namespace Wazera
 
         public static ProjectData GetMockProject()
         {
-            ProjectData projectData = new ProjectData(0, "TEST", "Simple Example Project", GetMockUser());
+            ProjectData projectData = new ProjectData(0, "TEST", "Simple Example Project", LoggedIn.User);
             projectData.Backlog = FillWithMockTasks(new StatusData("Backlog", projectData, true, false, 0, 0), 155);
             projectData.Statuses.Add(FillWithMockTasks(new StatusData("Planned", projectData, 5, 25), 20));
             projectData.Statuses.Add(FillWithMockTasks(new StatusData("In Progress", projectData, 1, 5), 3));
@@ -22,9 +22,7 @@ namespace Wazera
 
         public static UserData GetMockUser()
         {
-            UserData user = new UserData(0, "Test", "Peter", "Penguin", WazeraUtils.GetResource("default_avatar.png"));
-            LoggedIn.User = user;
-            return user;
+            return new UserData(0, "Test", "Peter", "Penguin", WazeraUtils.GetResource("default_avatar.png"));
         }
 
         public static StatusData FillWithMockTasks(StatusData status, int amount)

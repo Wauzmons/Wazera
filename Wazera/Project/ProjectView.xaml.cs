@@ -21,10 +21,6 @@ namespace Wazera.Project
             Data = data;
 
             InitializeComponent();
-            projectLabel.Content = data.Name;
-            userLabel.Content = LoggedIn.User.GetFullName();
-            userAvatar.Fill = new ImageBrush(LoggedIn.User.Avatar);
-            plusButton.Click += (sender, e) => OpenCreateDialog(null);
             LoadLeftGridContent();
         }
 

@@ -62,6 +62,9 @@
     <Compile Include="Project\CreateTaskDialog.xaml.cs">
       <DependentUpon>CreateTaskDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Project\ProjectList.xaml.cs">
+      <DependentUpon>ProjectList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Project\ProjectTreeView.cs" />
     <Compile Include="System\LoggedIn.cs" />
     <Compile Include="System\WazeraUtils.cs" />
@@ -92,6 +95,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Project\CreateTaskDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Project\ProjectList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

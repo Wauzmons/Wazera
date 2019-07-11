@@ -50,12 +50,11 @@ namespace Wazera.Data
             };
         }
 
-        public StackPanel GetPanel()
-        {
-            return GetPanel(false);
-        }
+        public StackPanel PanelShortName { get { return GetPanel(false); } }
 
-        public StackPanel GetPanel(bool showFullName)
+        public StackPanel PanelFullName { get { return GetPanel(true); } }
+
+        private StackPanel GetPanel(bool showFullName)
         {
             StackPanel panel = new StackPanel
             {

@@ -1,0 +1,22 @@
+﻿<Window x:Class="Wazera.Project.ProjectList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wazera.Project"
+        mc:Ignorable="d"
+        Title="Wazera" Height="600" MinHeight="450" Width="1200" MinWidth="900">
+    <Grid>
+        <Border BorderThickness="5" BorderBrush="LightSlateGray">
+            <ListView Name="listView">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Project Key" DisplayMemberBinding="{Binding Path=Key}"/>
+                        <GridViewColumn Header="Project Name" DisplayMemberBinding="{Binding Path=Name}"/>
+                        <GridViewColumn Header="Project Lead" DisplayMemberBinding="{Binding Path=Owner.FirstName}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+    </Grid>
+</Window>

@@ -39,7 +39,7 @@ namespace Wazera.Data
         {
             Grid grid = new Grid();
             grid.Children.Add(Priority.GetPanel());
-            grid.Children.Add(User.GetPanel());
+            grid.Children.Add(User.PanelShortName);
             return grid;
         }
 
@@ -61,7 +61,7 @@ namespace Wazera.Data
                 HorizontalAlignment = HorizontalAlignment.Right
             };
             rightPanel.Children.Add(Priority.GetPanel());
-            rightPanel.Children.Add(User.GetPanel());
+            rightPanel.Children.Add(User.PanelShortName);
             rightPanel.Children.Add(button);
 
             grid.Children.Add(rightPanel);

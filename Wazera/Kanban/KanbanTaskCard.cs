@@ -23,6 +23,7 @@ namespace Wazera.Kanban
             Padding = new Thickness(0);
             BorderThickness = new Thickness(0);
             BorderBrush = Brushes.SkyBlue;
+            Selected += (sender, e) => IsSelected = false;
 
             panel = new StackPanel
             {
