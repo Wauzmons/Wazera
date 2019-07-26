@@ -59,6 +59,9 @@
     </ApplicationDefinition>
     <Compile Include="Data\ComboData.cs" />
     <Compile Include="Data\ProjectData.cs" />
+    <Compile Include="Project\CreateProjectDialog.xaml.cs">
+      <DependentUpon>CreateProjectDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Project\CreateTaskDialog.xaml.cs">
       <DependentUpon>CreateTaskDialog.xaml</DependentUpon>
     </Compile>
@@ -94,6 +97,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Project\CreateProjectDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Project\CreateTaskDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

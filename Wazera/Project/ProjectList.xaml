@@ -6,14 +6,33 @@
         xmlns:local="clr-namespace:Wazera.Project"
         mc:Ignorable="d"
         Title="Wazera" Height="600" MinHeight="450" Width="1200" MinWidth="900">
-    <Grid>
+    <Grid Name="grid" Background="LightGray">
         <Border BorderThickness="5" BorderBrush="LightSlateGray">
-            <ListView Name="listView">
+            <ListView
+                Name="listView"
+                HorizontalAlignment="Center"
+                ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                PreviewMouseUp="OpenProject">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Project Key" DisplayMemberBinding="{Binding Path=Key}"/>
-                        <GridViewColumn Header="Project Name" DisplayMemberBinding="{Binding Path=Name}"/>
-                        <GridViewColumn Header="Project Lead" DisplayMemberBinding="{Binding Path=Owner.FirstName}"/>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                <Setter Property="IsEnabled" Value="False"/>
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Padding" Value="5, 0, 200, 0"/>
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
+                        <GridViewColumn Header="Key" DisplayMemberBinding="{Binding Path=Key}"/>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}"/>
+                        <GridViewColumn Header="Lead">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ContentPresenter Content="{Binding Path=Owner.PanelFullName}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>

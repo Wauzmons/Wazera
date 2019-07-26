@@ -79,7 +79,7 @@ namespace Wazera.Kanban
             Brush colorBrush;
             if(Data.Status.IsBacklog)
             {
-                colorBrush = Brushes.CornflowerBlue;
+                colorBrush = Brushes.IndianRed;
             }
             else if(Data.Status.IsRelease)
             {

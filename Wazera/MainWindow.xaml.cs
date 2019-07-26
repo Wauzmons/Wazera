@@ -37,7 +37,7 @@ namespace Wazera
         {
             ProjectList projectList = new ProjectList();
             headerLabel.Content = "Project List";
-            ReplacePlusButtonEventHandler((sender, e) => { });
+            ReplacePlusButtonEventHandler((sender, e) => projectList.OpenCreateDialog());
             SetCenterGridContent(projectList);
         }
 
