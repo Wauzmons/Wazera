@@ -24,6 +24,7 @@ namespace Wazera.Kanban
             Margin = new Thickness(Data.IsBacklog ? 0 : 5);
             Background = Brushes.LightGray;
             BorderThickness = new Thickness(0);
+            Focusable = false;
 
             border = new Border
             {
@@ -41,6 +42,7 @@ namespace Wazera.Kanban
                 AllowDrop = true;
             }
 
+            SetStyles();
             AddHeader();
         }
 
@@ -52,6 +54,13 @@ namespace Wazera.Kanban
         public int GetCardCount()
         {
             return Items.Count - 1;
+        }
+
+        private void SetStyles()
+        {
+            //Style style = new Style(typeof(ListViewItem));
+            //style.Setters.Add(new Setter(ListViewItem.FocusableProperty, false));
+            //ItemContainerStyle = style;
         }
 
         private void AddHeader()
@@ -68,7 +77,8 @@ namespace Wazera.Kanban
             };
             ListBoxItem item = new ListBoxItem
             {
-                Content = header
+                Content = header,
+                IsEnabled = false
             };
             item.Selected += (sender, e) => item.IsSelected = false;
             Items.Add(item);

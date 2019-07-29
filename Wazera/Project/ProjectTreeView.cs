@@ -1,4 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
 using Wazera.Data;
 
 namespace Wazera.Project
@@ -21,11 +24,10 @@ namespace Wazera.Project
         public void AddDocuments()
         {
             TreeViewItem documents = AddChild(View.Items, "Documents", "icon_database.png");
-            for(int index = 1; index <= 128; index++)
+            for (int index = 1; index <= 128; index++)
             {
                 AddChild(documents.Items, "Test Text-File " + index, "icon_database.png");
             }
-            documents.ExpandSubtree();
         }
 
         public void AddResourceLinks()
@@ -35,21 +37,40 @@ namespace Wazera.Project
 
         public TreeViewItem AddChild(ItemCollection parent, string title, string icon)
         {
-            StackPanel panel = new StackPanel
+            StackPanel verticalPanel = new StackPanel
+            {
+                Orientation = Orientation.Vertical,
+                Background = Brushes.LightGray
+            };
+            verticalPanel.MouseEnter += (sender, e) => verticalPanel.Background = new SolidColorBrush(Color.FromArgb(255, 190, 230, 253));
+            verticalPanel.MouseLeave += (sender, e) => verticalPanel.Background = Brushes.LightGray;
+
+            StackPanel horizontalPanel = new StackPanel
             {
                 Orientation = Orientation.Horizontal
             };
+            verticalPanel.Children.Add(horizontalPanel);
+            verticalPanel.Children.Add(new Rectangle
+            {
+                Height = 3,
+                Fill = Brushes.LightSkyBlue
+            });
+
             Label label = new Label
             {
                 Content = title,
-                FontSize = 12
+                Padding = new Thickness(5),
+                FontWeight = FontWeights.DemiBold
             };
-            panel.Children.Add(WazeraUtils.GetImage(icon, 16));
-            panel.Children.Add(label);
+            horizontalPanel.Children.Add(WazeraUtils.GetImage(icon, 16));
+            horizontalPanel.Children.Add(label);
 
             TreeViewItem item = new TreeViewItem
             {
-                Header = panel
+                Header = verticalPanel,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                HorizontalContentAlignment = HorizontalAlignment.Stretch,
+                Padding = new Thickness(3)
             };
             item.Selected += (sender, e) => item.IsSelected = false;
             parent.Add(item);

@@ -22,6 +22,8 @@
                         Orientation="Vertical"/>
                     <TreeView
                         Name="treeView"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                        ScrollViewer.VerticalScrollBarVisibility="Visible"
                         Margin="5"
                         Padding="5"
                         Background="LightGray">

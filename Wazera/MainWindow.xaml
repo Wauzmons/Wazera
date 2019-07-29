@@ -19,51 +19,96 @@
                     HorizontalAlignment="Left">
                     <Button
                         Name="plusButton"
-                        Content="+"
-                        Width="50"
-                        VerticalAlignment="Stretch"
                         Margin="5"
-                        FontSize="18"
-                        Foreground="White"
-                        Background="Black"
+                        Background="White"
                         BorderBrush="LightSlateGray"
-                        BorderThickness="5"/>
+                        BorderThickness="5">
+                        <Rectangle
+                            Name="plusIcon"
+                            HorizontalAlignment="Left"
+                            Width="35"
+                            Height="35"
+                            Margin="0"
+                            Fill="LightGray"/>
+                    </Button>
                     <Button
                         Name="projectsButton"
-                        Content="Projects"
-                        Width="100"
-                        VerticalAlignment="Stretch"
                         Margin="5"
-                        Padding="8"
-                        FontSize="18"
-                        Foreground="White"
-                        Background="DarkRed"
+                        Background="#fdd"
                         BorderBrush="LightSlateGray"
-                        BorderThickness="5"/>
+                        BorderThickness="5">
+                        <StackPanel
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Left">
+                            <Rectangle
+                                Name="projectsIcon"
+                                HorizontalAlignment="Left"
+                                Width="35"
+                                Height="35"
+                                Margin="0"
+                                Fill="LightGray"/>
+                            <Label
+                                Content="Projects"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Margin="0"
+                                FontSize="18"
+                                FontWeight="Bold"
+                                Foreground="DarkSlateGray"/>
+                        </StackPanel>
+                    </Button>
                     <Button
                         Name="tasksButton"
-                        Content="My Tasks"
-                        Width="100"
-                        VerticalAlignment="Stretch"
                         Margin="5"
-                        Padding="8"
-                        FontSize="18"
-                        Foreground="White"
-                        Background="DarkGreen"
+                        Background="#dfd"
                         BorderBrush="LightSlateGray"
-                        BorderThickness="5"/>
+                        BorderThickness="5">
+                        <StackPanel
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Left">
+                            <Rectangle
+                                Name="tasksIcon"
+                                HorizontalAlignment="Left"
+                                Width="35"
+                                Height="35"
+                                Margin="0"
+                                Fill="LightGray"/>
+                            <Label
+                                Content="My Tasks"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Margin="0"
+                                FontSize="18"
+                                FontWeight="Bold"
+                                Foreground="DarkSlateGray"/>
+                        </StackPanel>
+                    </Button>
                     <Button
                         Name="usersButton"
-                        Content="Users"
-                        Width="100"
-                        VerticalAlignment="Stretch"
                         Margin="5"
-                        Padding="8"
-                        FontSize="18"
-                        Foreground="White"
-                        Background="DarkBlue"
+                        Background="#ddf"
                         BorderBrush="LightSlateGray"
-                        BorderThickness="5"/>
+                        BorderThickness="5">
+                        <StackPanel
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Left">
+                            <Rectangle
+                                Name="usersIcon"
+                                HorizontalAlignment="Left"
+                                Width="35"
+                                Height="35"
+                                Margin="0"
+                                Fill="LightGray"/>
+                            <Label
+                                Content="Users"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Margin="0"
+                                FontSize="18"
+                                FontWeight="Bold"
+                                Foreground="DarkSlateGray"/>
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
                 <StackPanel
                     Orientation="Horizontal"
@@ -81,7 +126,7 @@
                     <Button
                         Name="profileButton"
                         Margin="5"
-                        Background="DarkCyan"
+                        Background="#dff"
                         BorderBrush="LightSlateGray"
                         BorderThickness="5">
                         <StackPanel
@@ -93,7 +138,8 @@
                                 VerticalAlignment="Center"
                                 Margin="0"
                                 FontSize="18"
-                                Foreground="White"/>
+                                FontWeight="Bold"
+                                Foreground="DarkSlateGray"/>
                             <Ellipse
                                 Name="userAvatar"
                                 HorizontalAlignment="Right"

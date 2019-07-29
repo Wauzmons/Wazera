@@ -1,10 +1,7 @@
-﻿using System;
-using System.ComponentModel;
-using System.Reflection;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using System.Windows.Media;
 using Wazera.Data;
+using Wazera.Data.Database;
 using Wazera.Project;
 
 namespace Wazera
@@ -20,10 +17,20 @@ namespace Wazera
             Instance = this;
             InitializeComponent();
 
+            plusIcon.Fill = new ImageBrush(WazeraUtils.GetResource("menu_plus.png"));
+
+            projectsIcon.Fill = new ImageBrush(WazeraUtils.GetResource("menu_projects.png"));
             projectsButton.Click += (sender, e) => OpenProjectList();
 
+            tasksIcon.Fill = new ImageBrush(WazeraUtils.GetResource("menu_tasks.png"));
+
+            usersIcon.Fill = new ImageBrush(WazeraUtils.GetResource("menu_users.png"));
+
+            DatabaseTester.Start();
+
             LoginUser(WazeraTester.GetMockUser());
-            OpenProjectView(WazeraTester.GetMockProject());
+            WazeraTester.CreateMockProjects(3);
+            OpenProjectList();
         }
 
         public void LoginUser(UserData userData)

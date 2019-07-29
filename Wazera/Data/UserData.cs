@@ -37,19 +37,6 @@ namespace Wazera.Data
             return (FirstName.Substring(0, 1) + LastName.Substring(0, 1)).ToUpper();
         }
 
-        public Ellipse GetAvatarEllipse(int diameter)
-        {
-            return new Ellipse
-            {
-                HorizontalAlignment = HorizontalAlignment.Right,
-                Width = diameter,
-                Height = diameter,
-                Fill = new ImageBrush(Avatar),
-                Stroke = Brushes.LightSlateGray,
-                StrokeThickness = 1
-            };
-        }
-
         public StackPanel PanelShortName { get { return GetPanel(false); } }
 
         public StackPanel PanelFullName { get { return GetPanel(true); } }
@@ -73,6 +60,19 @@ namespace Wazera.Data
                 Content = showFullName ? GetFullName() : GetShortName()
             });
             return panel;
+        }
+
+        public Ellipse GetAvatarEllipse(int diameter)
+        {
+            return new Ellipse
+            {
+                HorizontalAlignment = HorizontalAlignment.Right,
+                Width = diameter,
+                Height = diameter,
+                Fill = new ImageBrush(Avatar),
+                Stroke = Brushes.LightSlateGray,
+                StrokeThickness = 1
+            };
         }
     }
 }

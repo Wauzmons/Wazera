@@ -10,14 +10,16 @@ namespace Wazera
 
         private static string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        public static ProjectData GetMockProject()
+        public static void CreateMockProjects(int amount)
         {
-            ProjectData projectData = new ProjectData(0, "TEST", "Simple Example Project", LoggedIn.User);
-            projectData.Backlog = FillWithMockTasks(new StatusData("Backlog", projectData, true, false, 0, 0), 155);
-            projectData.Statuses.Add(FillWithMockTasks(new StatusData("Planned", projectData, 5, 25), 20));
-            projectData.Statuses.Add(FillWithMockTasks(new StatusData("In Progress", projectData, 1, 5), 3));
-            projectData.Statuses.Add(FillWithMockTasks(new StatusData("Done", projectData, false, true, 0, 20), 12));
-            return projectData;
+            for(int index = 0 - amount; index != 0; index++)
+            {
+                ProjectData projectData = new ProjectData(index, "TEST" + index, "Simple Example Project", LoggedIn.User);
+                projectData.Backlog = FillWithMockTasks(new StatusData("Backlog", projectData, true, false, 0, 0), 155);
+                projectData.Statuses.Add(FillWithMockTasks(new StatusData("Planned", projectData, 5, 25), 20));
+                projectData.Statuses.Add(FillWithMockTasks(new StatusData("In Progress", projectData, 1, 5), 3));
+                projectData.Statuses.Add(FillWithMockTasks(new StatusData("Done", projectData, false, true, 0, 20), 12));
+            }
         }
 
         public static UserData GetMockUser()

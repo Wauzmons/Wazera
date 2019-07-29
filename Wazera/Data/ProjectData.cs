@@ -1,4 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace Wazera.Data
 {
@@ -14,9 +19,13 @@ namespace Wazera.Data
 
         public UserData Owner { get; set; }
 
+        public string Category { get; set; } = "Unspecified";
+
         public StatusData Backlog { get; set; }
 
         public List<StatusData> Statuses { get; set; } = new List<StatusData>();
+
+        public BitmapImage Logo { get; set; }
 
         public ProjectData(long id, string key, string name, UserData owner)
         {
@@ -36,6 +45,44 @@ namespace Wazera.Data
             };
             statuses.AddRange(Statuses);
             return statuses;
+        }
+
+        public StackPanel PanelShortName { get { return GetPanel(false); } }
+
+        public StackPanel PanelFullName { get { return GetPanel(true); } }
+
+        private StackPanel GetPanel(bool showFullName)
+        {
+            StackPanel panel = new StackPanel
+            {
+                HorizontalAlignment = HorizontalAlignment.Right,
+                Orientation = Orientation.Horizontal,
+                Margin = new Thickness(5),
+                ToolTip = new Label
+                {
+                    Content = "Project [" + Name + "]"
+                }
+            };
+            panel.Children.Add(GetLogoEllipse(18));
+            panel.Children.Add(new Label
+            {
+                HorizontalAlignment = HorizontalAlignment.Right,
+                Content = showFullName ? Name : Key
+            });
+            return panel;
+        }
+
+        public Ellipse GetLogoEllipse(int diameter)
+        {
+            return new Ellipse
+            {
+                HorizontalAlignment = HorizontalAlignment.Right,
+                Width = diameter,
+                Height = diameter,
+                Fill = new ImageBrush(Logo ?? WazeraUtils.GetResource("default_project.png")),
+                Stroke = Brushes.LightSlateGray,
+                StrokeThickness = 1
+            };
         }
     }
 }

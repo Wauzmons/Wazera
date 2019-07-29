@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using Wazera.Data;
 
 namespace Wazera.Project
@@ -43,6 +45,16 @@ namespace Wazera.Project
             {
                 MainWindow.Instance.OpenProjectView(listView.SelectedValue as ProjectData);
             }
+        }
+
+        private void Project_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (sender as Border).Background = new SolidColorBrush(Color.FromArgb(255, 190, 230, 253));
+        }
+
+        private void Project_MouseLeave(object sender, MouseEventArgs e)
+        {
+            (sender as Border).Background = Brushes.White;
         }
     }
 }

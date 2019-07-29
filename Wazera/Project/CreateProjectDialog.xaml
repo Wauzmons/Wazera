@@ -71,7 +71,7 @@
                             Padding="3"/>
                         <UniformGrid Columns="3">
                             <Label
-                                Content="Project Key"
+                                Content="Key"
                                 Margin="10, 0, 10, 0"/>
                             <Label
                                 Content="Project Lead"

@@ -77,11 +77,7 @@ namespace Wazera.Kanban
         public Rectangle GetColorRectangle()
         {
             Brush colorBrush;
-            if(Data.Status.IsBacklog)
-            {
-                colorBrush = Brushes.IndianRed;
-            }
-            else if(Data.Status.IsRelease)
+            if(Data.Status.IsRelease)
             {
                 colorBrush = Brushes.LimeGreen;
             }
