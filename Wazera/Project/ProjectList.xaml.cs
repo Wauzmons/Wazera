@@ -24,8 +24,7 @@ namespace Wazera.Project
 
         public void OpenCreateDialog()
         {
-            CreateProjectDialog createDialog = new CreateProjectDialog();
-            createDialog.saveButton.Click += (sender, e) => CloseCreateDialog();
+            CreateProjectDialog createDialog = new CreateProjectDialog(this);
             createDialog.closeButton.Click += (sender, e) => CloseCreateDialog();
             dialogContent = createDialog.Content as UIElement;
             createDialog.Content = null;

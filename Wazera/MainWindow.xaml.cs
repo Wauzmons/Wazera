@@ -26,8 +26,6 @@ namespace Wazera
 
             usersIcon.Fill = new ImageBrush(WazeraUtils.GetResource("menu_users.png"));
 
-            DatabaseTester.Start();
-
             LoginUser(WazeraTester.GetMockUser());
             WazeraTester.CreateMockProjects(3);
             OpenProjectList();

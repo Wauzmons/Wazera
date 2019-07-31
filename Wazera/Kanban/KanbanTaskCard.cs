@@ -20,7 +20,8 @@ namespace Wazera.Kanban
             Data = data;
             this.kanbanBoard = kanbanBoard;
 
-            Padding = new Thickness(0);
+            Margin = new Thickness(3);
+            Padding = new Thickness(3);
             BorderThickness = new Thickness(0);
             BorderBrush = Brushes.SkyBlue;
             Selected += (sender, e) => IsSelected = false;
@@ -28,7 +29,6 @@ namespace Wazera.Kanban
             panel = new StackPanel
             {
                 Orientation = Orientation.Vertical,
-                Margin = new Thickness(3),
                 MinHeight = 20,
                 MinWidth = 240,
                 Background = Brushes.White
@@ -108,7 +108,7 @@ namespace Wazera.Kanban
 
         private void DisableHighlight()
         {
-            Padding = new Thickness(0);
+            Padding = new Thickness(3);
             BorderThickness = new Thickness(0);
         }
 

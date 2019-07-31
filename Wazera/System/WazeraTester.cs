@@ -14,7 +14,7 @@ namespace Wazera
         {
             for(int index = 0 - amount; index != 0; index++)
             {
-                ProjectData projectData = new ProjectData(index, "TEST" + index, "Simple Example Project", LoggedIn.User);
+                ProjectData projectData = new ProjectData("TEST" + index, "Simple Example Project", LoggedIn.User, "Randomly Generated");
                 projectData.Backlog = FillWithMockTasks(new StatusData("Backlog", projectData, true, false, 0, 0), 155);
                 projectData.Statuses.Add(FillWithMockTasks(new StatusData("Planned", projectData, 5, 25), 20));
                 projectData.Statuses.Add(FillWithMockTasks(new StatusData("In Progress", projectData, 1, 5), 3));

@@ -42,7 +42,6 @@ namespace Wazera.Kanban
                 AllowDrop = true;
             }
 
-            SetStyles();
             AddHeader();
         }
 
@@ -54,13 +53,6 @@ namespace Wazera.Kanban
         public int GetCardCount()
         {
             return Items.Count - 1;
-        }
-
-        private void SetStyles()
-        {
-            //Style style = new Style(typeof(ListViewItem));
-            //style.Setters.Add(new Setter(ListViewItem.FocusableProperty, false));
-            //ItemContainerStyle = style;
         }
 
         private void AddHeader()
@@ -82,6 +74,7 @@ namespace Wazera.Kanban
             };
             item.Selected += (sender, e) => item.IsSelected = false;
             Items.Add(item);
+            UpdateHeader();
         }
 
         public void UpdateHeader()

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Wazera" Height="450" Width="800">
     <Grid Name="grid">
-        <ScrollViewer Name="scrollViewer"  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+        <ScrollViewer Name="scrollViewer"  HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
             <ItemsControl Name="columns" ScrollViewer.HorizontalScrollBarVisibility="Visible">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>

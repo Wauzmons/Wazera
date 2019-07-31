@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Wazera.Data;
 
 namespace Wazera.Project
@@ -85,7 +86,7 @@ namespace Wazera.Project
 
         public void SaveButtonClick()
         {
-            string name = nameInput.Text;
+            string name = string.IsNullOrWhiteSpace(nameInput.Text) ? "Unnamed Task" : nameInput.Text;
             string description = descriptionInput.Text;
 
             ComboData<PriorityData> prioritySelection = priorityInput.SelectedItem as ComboData<PriorityData>;
@@ -131,6 +132,14 @@ namespace Wazera.Project
             {
                 Project.KanbanBoardButtonClick();
             }
+        }
+
+        private void ScrollViewerOnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var scv = sender as ScrollViewer;
+            if (scv == null) return;
+            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+            e.Handled = true;
         }
     }
 }

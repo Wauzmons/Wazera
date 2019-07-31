@@ -75,6 +75,7 @@
     <Compile Include="Data\ComboData.cs" />
     <Compile Include="Data\Database\DatabaseTester.cs" />
     <Compile Include="Data\ProjectData.cs" />
+    <Compile Include="Kanban\KanbanColumnOptions.cs" />
     <Compile Include="Project\CreateProjectDialog.xaml.cs">
       <DependentUpon>CreateProjectDialog.xaml</DependentUpon>
     </Compile>

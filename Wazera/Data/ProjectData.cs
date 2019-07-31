@@ -9,7 +9,7 @@ namespace Wazera.Data
 {
     public class ProjectData
     {
-        public static Dictionary<long, ProjectData> Projects { get; } = new Dictionary<long, ProjectData>();
+        public static Dictionary<string, ProjectData> Projects { get; } = new Dictionary<string, ProjectData>();
 
         public long ID { get; set; }
 
@@ -19,7 +19,7 @@ namespace Wazera.Data
 
         public UserData Owner { get; set; }
 
-        public string Category { get; set; } = "Unspecified";
+        public string Category { get; set; }
 
         public StatusData Backlog { get; set; }
 
@@ -27,14 +27,14 @@ namespace Wazera.Data
 
         public BitmapImage Logo { get; set; }
 
-        public ProjectData(long id, string key, string name, UserData owner)
+        public ProjectData(string key, string name, UserData owner, string category)
         {
-            ID = id;
             Key = key;
             Name = name;
             Owner = owner;
+            Category = category;
 
-            Projects.Add(ID, this);
+            Projects.Add(Key, this);
         }
 
         public List<StatusData> GetAllStatuses()
