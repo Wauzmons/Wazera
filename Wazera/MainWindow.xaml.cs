@@ -2,6 +2,7 @@
 using System.Windows.Media;
 using Wazera.Data;
 using Wazera.Data.Database;
+using Wazera.Data.Model;
 using Wazera.Project;
 
 namespace Wazera
@@ -25,6 +26,9 @@ namespace Wazera
             tasksIcon.Fill = new ImageBrush(WazeraUtils.GetResource("menu_tasks.png"));
 
             usersIcon.Fill = new ImageBrush(WazeraUtils.GetResource("menu_users.png"));
+
+            DataSource.Start();
+            ProjectModel.FindAll();
 
             LoginUser(WazeraTester.GetMockUser());
             WazeraTester.CreateMockProjects(3);

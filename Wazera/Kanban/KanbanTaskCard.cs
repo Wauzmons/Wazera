@@ -20,7 +20,7 @@ namespace Wazera.Kanban
             Data = data;
             this.kanbanBoard = kanbanBoard;
 
-            Margin = new Thickness(3);
+            Margin = new Thickness(0);
             Padding = new Thickness(3);
             BorderThickness = new Thickness(0);
             BorderBrush = Brushes.SkyBlue;

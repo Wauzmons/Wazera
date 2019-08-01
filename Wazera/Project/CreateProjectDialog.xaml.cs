@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Wazera.Data;
+using Wazera.Data.Model;
 using Wazera.Kanban;
 
 namespace Wazera.Project
@@ -87,6 +88,7 @@ namespace Wazera.Project
                 int maxCards = column.GetMaxCards();
                 project.Statuses.Add(new StatusData(title, project, false, isRelease, minCards, maxCards));
             }
+            new ProjectModel(project).Save();
             MainWindow.Instance.OpenProjectView(project);
             Projects.CloseCreateDialog();
         }
