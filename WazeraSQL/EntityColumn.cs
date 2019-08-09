@@ -1,6 +1,6 @@
-﻿namespace Wazera.Data.Database
+﻿namespace WazeraSQL
 {
-    class EntityColumn
+    public class EntityColumn
     {
         public string PropertyName { get; set; }
 

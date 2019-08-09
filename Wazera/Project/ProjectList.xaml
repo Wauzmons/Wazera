@@ -26,7 +26,8 @@
                                         BorderThickness="0, 0, 0, 3"
                                         Background="White"
                                         MouseEnter="Project_MouseEnter"
-                                        MouseLeave="Project_MouseLeave">
+                                        MouseLeave="Project_MouseLeave"
+                                        MouseRightButtonDown="Project_MouseRightButtonDown">
                                         <GridViewRowPresenter
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"

@@ -19,7 +19,7 @@ namespace Wazera.Project
             InitializeComponent();
             if(task != null)
             {
-                headerLabel.Content = "Edit Task   " + Task.GetKey();
+                headerLabel.Content = "Edit Task     " + Task.GetKey();
 
                 nameInput.Text = Task.Name;
                 descriptionInput.Text = Task.Description;

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using Wazera.Data.Database;
+using Wazera.Data;
+using WazeraSQL;
 
-namespace Wazera.Data.Model
+namespace Wazera.Model
 {
     class ProjectModel : Entity
     {
@@ -37,6 +38,7 @@ namespace Wazera.Data.Model
 
         public ProjectModel(ProjectData projectData)
         {
+            ID = projectData.ID;
             ProjectKey = projectData.Key;
             Name = projectData.Name;
             OwnerID = projectData.Owner.ID;
@@ -59,6 +61,11 @@ namespace Wazera.Data.Model
                 results.Add(projectModel.ToData());
             }
             return results;
+        }
+
+        public static void DeleteById(long id)
+        {
+            Delete(new string[] { "ID = " + id });
         }
     }
 }

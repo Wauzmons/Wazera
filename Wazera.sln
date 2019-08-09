@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27428.2011
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wazera", "Wazera\Wazera.csproj", "{55132405-9A68-4EFD-B061-B487647BE840}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WazeraSQL", "WazeraSQL\WazeraSQL.csproj", "{DD48DF5C-2BB1-41EC-A4F4-7EB54FE1488A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{55132405-9A68-4EFD-B061-B487647BE840}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55132405-9A68-4EFD-B061-B487647BE840}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55132405-9A68-4EFD-B061-B487647BE840}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD48DF5C-2BB1-41EC-A4F4-7EB54FE1488A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD48DF5C-2BB1-41EC-A4F4-7EB54FE1488A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD48DF5C-2BB1-41EC-A4F4-7EB54FE1488A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD48DF5C-2BB1-41EC-A4F4-7EB54FE1488A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

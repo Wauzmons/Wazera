@@ -2,12 +2,10 @@
 using System;
 using System.IO;
 using System.Text;
-using System.Windows;
-using Wazera.Data.Model;
 
-namespace Wazera.Data.Database
+namespace WazeraSQL
 {
-    class DataSource
+    public class DataSource
     {
         public static MySqlConnection Connection { get; set; }
 
@@ -37,13 +35,13 @@ namespace Wazera.Data.Database
                 switch(e.Number)
                 {
                     case 0:
-                        MessageBox.Show("Cannot connect to MySQL server, please contact your administrator!");
+                        Console.WriteLine("Cannot connect to MySQL server, please contact your administrator!");
                         break;
                     case 1045:
-                        MessageBox.Show("Invalid username/password, please try again!");
+                        Console.WriteLine("Invalid username/password, please try again!");
                         break;
                     default:
-                        MessageBox.Show("Unexpected Error: " + e.ToString());
+                        Console.WriteLine("Unexpected Error: " + e.ToString());
                         break;
                 }
             }

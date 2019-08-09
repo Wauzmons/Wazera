@@ -52,7 +52,6 @@
     <ApplicationIcon>wazera.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MySql.Data, Version=6.10.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -74,11 +73,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\ComboData.cs" />
-    <Compile Include="Data\Database\DataSource.cs" />
-    <Compile Include="Data\Database\Entity.cs" />
-    <Compile Include="Data\Database\EntityColumn.cs" />
-    <Compile Include="Data\Database\EntityColumnType.cs" />
-    <Compile Include="Data\Model\ProjectModel.cs" />
+    <Compile Include="Model\ProjectModel.cs" />
     <Compile Include="Data\ProjectData.cs" />
     <Compile Include="Kanban\KanbanColumnOptions.cs" />
     <Compile Include="Project\CreateProjectDialog.xaml.cs">
@@ -207,6 +202,11 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\WazeraSQL\WazeraSQL.csproj">
+      <Project>{dd48df5c-2bb1-41ec-a4f4-7eb54fe1488a}</Project>
+      <Name>WazeraSQL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

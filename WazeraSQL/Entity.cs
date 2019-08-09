@@ -1,12 +1,11 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Reflection;
 
-namespace Wazera.Data.Database
+namespace WazeraSQL
 {
-    class Entity
+    public class Entity
     {
         public static string TableName { get; set; }
 
@@ -47,31 +46,55 @@ namespace Wazera.Data.Database
 
         public int Save()
         {
-            string commandString = "INSERT INTO " + TableName + "(";
-            foreach (EntityColumn column in Columns)
+            string commandString;
+            if(IsTransient())
             {
-                if (column.AutoIncrement)
+                commandString = "INSERT INTO " + TableName + "(";
+                foreach (EntityColumn column in Columns)
                 {
-                    continue;
+                    if (column.AutoIncrement)
+                    {
+                        continue;
+                    }
+                    commandString += column.PropertyName;
+                    commandString += (Columns[Columns.Length - 1].Equals(column) ? "" : ", ");
                 }
-                commandString += column.PropertyName;
-                commandString += (Columns[Columns.Length - 1].Equals(column) ? "" : ", ");
-            }
 
-            commandString += ") VALUES (";
-            foreach (EntityColumn column in Columns)
-            {
-                if (column.AutoIncrement)
+                commandString += ") VALUES (";
+                foreach (EntityColumn column in Columns)
                 {
-                    continue;
+                    if (column.AutoIncrement)
+                    {
+                        continue;
+                    }
+                    commandString += AsSqlParameter(column);
+                    commandString += (Columns[Columns.Length - 1].Equals(column) ? "" : ", ");
                 }
-                commandString += AsSqlParameter(column);
-                commandString += (Columns[Columns.Length - 1].Equals(column) ? "" : ", ");
+                commandString += ")";
             }
-            commandString += ")";
+            else
+            {
+                commandString = "UPDATE " + TableName + " SET ";
+                foreach (EntityColumn column in Columns)
+                {
+                    if (column.AutoIncrement)
+                    {
+                        continue;
+                    }
+                    commandString += column.PropertyName + " = " + AsSqlParameter(column);
+                    commandString += (Columns[Columns.Length - 1].Equals(column) ? "" : ", ");
+                }
+                commandString += " WHERE " + Columns[0].PropertyName + " = " + AsSqlParameter(Columns[0]);
+            }
 
             MySqlCommand command = new MySqlCommand(commandString, DataSource.Connection);
             return command.ExecuteNonQuery();
+        }
+
+        public bool IsTransient()
+        {
+            object value = GetType().GetProperty(Columns[0].PropertyName).GetValue(this);
+            return value == null || value.ToString().Equals("0");
         }
 
         private string AsSqlParameter(EntityColumn column)
@@ -123,6 +146,19 @@ namespace Wazera.Data.Database
             }
 
             return results;
+        }
+
+        public static int Delete(string[] conditions)
+        {
+            string commandString = "DELETE FROM " + TableName;
+            foreach (string condition in conditions)
+            {
+                bool firstCondition = conditions[0].Equals(condition);
+                commandString += firstCondition ? " WHERE " + condition : " AND " + condition;
+            }
+
+            MySqlCommand command = new MySqlCommand(commandString, DataSource.Connection);
+            return command.ExecuteNonQuery();
         }
             
     }

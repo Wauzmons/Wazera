@@ -17,14 +17,16 @@ namespace Wazera.Project
         public ProjectList()
         {
             InitializeComponent();
+
+            ProjectData.LoadProjectDatas();
             listView.ItemsSource = new List<ProjectData>(ProjectData.Projects.Values)
                 .OrderBy(project => project.Name)
                 .ToList();
         }
 
-        public void OpenCreateDialog()
+        public void OpenCreateDialog(ProjectData project)
         {
-            CreateProjectDialog createDialog = new CreateProjectDialog(this);
+            CreateProjectDialog createDialog = new CreateProjectDialog(this, project);
             createDialog.closeButton.Click += (sender, e) => CloseCreateDialog();
             dialogContent = createDialog.Content as UIElement;
             createDialog.Content = null;
@@ -54,6 +56,12 @@ namespace Wazera.Project
         private void Project_MouseLeave(object sender, MouseEventArgs e)
         {
             (sender as Border).Background = Brushes.White;
+        }
+
+        private void Project_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ProjectData project = (sender as Border).DataContext as ProjectData;
+            OpenCreateDialog(project);
         }
     }
 }

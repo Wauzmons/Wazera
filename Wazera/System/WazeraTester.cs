@@ -19,6 +19,7 @@ namespace Wazera
                 projectData.Statuses.Add(FillWithMockTasks(new StatusData("Planned", projectData, 5, 25), 20));
                 projectData.Statuses.Add(FillWithMockTasks(new StatusData("In Progress", projectData, 1, 5), 3));
                 projectData.Statuses.Add(FillWithMockTasks(new StatusData("Done", projectData, false, true, 0, 20), 12));
+                ProjectData.Projects.Add(projectData.Key, projectData);
             }
         }
 

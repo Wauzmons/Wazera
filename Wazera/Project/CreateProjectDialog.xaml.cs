@@ -5,8 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Wazera.Data;
-using Wazera.Data.Model;
 using Wazera.Kanban;
+using Wazera.Model;
 
 namespace Wazera.Project
 {
@@ -14,11 +14,22 @@ namespace Wazera.Project
     {
         public ProjectList Projects;
 
-        public CreateProjectDialog(ProjectList projects)
+        public ProjectData Project;
+
+        public CreateProjectDialog(ProjectList projects, ProjectData project)
         {
             Projects = projects;
+            Project = project;
 
             InitializeComponent();
+            if(Project != null)
+            {
+                headerLabel.Content = "Edit Project     " + Project.Key;
+                deleteButton.IsEnabled = true;
+
+                nameInput.Text = Project.Name;
+                keyInput.Text = Project.Key;
+            }
 
             ImageBrush logoBrush = new ImageBrush(WazeraUtils.GetResource("default_project.png"));
             logoPreview.Fill = logoBrush;
@@ -74,23 +85,44 @@ namespace Wazera.Project
 
             UserData owner = LoggedIn.User;
 
-            ProjectData project = new ProjectData(key, name, owner, category);
-            project.Backlog = new StatusData("Backlog", project, true, false, 0, 0);
-            foreach(KanbanColumnOptions column in columnList.Children)
+            if(Project != null)
             {
-                if(!column.Editable)
-                {
-                    continue;
-                }
-                bool isRelease = columnList.Children[columnList.Children.Count - 1].Equals(column);
-                string title = column.GetTitle();
-                int minCards = column.GetMinCards();
-                int maxCards = column.GetMaxCards();
-                project.Statuses.Add(new StatusData(title, project, false, isRelease, minCards, maxCards));
+                Project.Key = key;
+                Project.Name = name;
+                Project.Owner = owner;
+                Project.Category = category;
+                new ProjectModel(Project).Save();
             }
-            new ProjectModel(project).Save();
-            MainWindow.Instance.OpenProjectView(project);
+            else
+            {
+                ProjectData project = new ProjectData(key, name, owner, category);
+                project.Backlog = new StatusData("Backlog", project, true, false, 0, 0);
+                foreach(KanbanColumnOptions column in columnList.Children)
+                {
+                    if(!column.Editable)
+                    {
+                        continue;
+                    }
+                    bool isRelease = columnList.Children[columnList.Children.Count - 1].Equals(column);
+                    string title = column.GetTitle();
+                    int minCards = column.GetMinCards();
+                    int maxCards = column.GetMaxCards();
+                    project.Statuses.Add(new StatusData(title, project, false, isRelease, minCards, maxCards));
+                }
+                new ProjectModel(project).Save();
+            }
             Projects.CloseCreateDialog();
+            MainWindow.Instance.OpenProjectList();
+        }
+
+        private void DeleteButtonClick(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Do you really want to delete " + Project.Name + "?", "Confirmation", MessageBoxButton.OKCancel);
+            if(result == MessageBoxResult.OK)
+            {
+                ProjectModel.DeleteById(Project.ID);
+            }
+            MainWindow.Instance.OpenProjectList();
         }
 
         private void ScrollViewerOnPreviewMouseWheel(object sender, MouseWheelEventArgs e)

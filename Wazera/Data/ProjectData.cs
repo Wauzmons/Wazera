@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Wazera.Model;
 
 namespace Wazera.Data
 {
@@ -33,8 +34,16 @@ namespace Wazera.Data
             Name = name;
             Owner = owner;
             Category = category;
+        }
 
-            Projects.Add(Key, this);
+        public static void LoadProjectDatas()
+        {
+            Projects.Clear();
+            foreach(ProjectData project in ProjectModel.FindAll())
+            {
+                Projects.Add(project.Key, project);
+            }
+            WazeraTester.CreateMockProjects(3);
         }
 
         public List<StatusData> GetAllStatuses()

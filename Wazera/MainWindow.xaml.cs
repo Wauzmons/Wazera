@@ -1,9 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using Wazera.Data;
-using Wazera.Data.Database;
-using Wazera.Data.Model;
 using Wazera.Project;
+using WazeraSQL;
 
 namespace Wazera
 {
@@ -28,10 +27,8 @@ namespace Wazera
             usersIcon.Fill = new ImageBrush(WazeraUtils.GetResource("menu_users.png"));
 
             DataSource.Start();
-            ProjectModel.FindAll();
 
             LoginUser(WazeraTester.GetMockUser());
-            WazeraTester.CreateMockProjects(3);
             OpenProjectList();
         }
 
@@ -46,7 +43,7 @@ namespace Wazera
         {
             ProjectList projectList = new ProjectList();
             headerLabel.Content = "Project List";
-            ReplacePlusButtonEventHandler((sender, e) => projectList.OpenCreateDialog());
+            ReplacePlusButtonEventHandler((sender, e) => projectList.OpenCreateDialog(null));
             SetCenterGridContent(projectList);
         }
 
