@@ -31,11 +31,15 @@ namespace Wazera.Project
             dialogContent = createDialog.Content as UIElement;
             createDialog.Content = null;
             createDialog.Close();
+            MainWindow.Instance.tgrid.IsEnabled = false;
+            listBorder.IsEnabled = false;
             grid.Children.Add(dialogContent);
         }
 
         public void CloseCreateDialog()
         {
+            MainWindow.Instance.tgrid.IsEnabled = true;
+            listBorder.IsEnabled = true;
             grid.Children.Remove(dialogContent);
             dialogContent = null;
         }

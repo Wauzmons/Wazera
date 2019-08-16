@@ -4,12 +4,17 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Wazera.Project;
 
 namespace Wazera.Kanban
 {
     public class KanbanColumnOptions : StackPanel
     {
         public bool Editable { get; set; }
+
+        public long ID { get; set; }
+
+        private string Description { get; set; }
 
         private TextBox titleInput;
         private TextBox minCardsInput;
@@ -18,6 +23,7 @@ namespace Wazera.Kanban
         public KanbanColumnOptions(bool editable, string title, string description)
         {
             Editable = editable;
+            Description = description;
 
             Orientation = Orientation.Vertical;
             Margin = new Thickness(6, editable ? 0 : 6, 6, 6);
@@ -138,7 +144,7 @@ namespace Wazera.Kanban
             Children.Add(new Rectangle
             {
                 Height = 3,
-                Fill = Brushes.Gold
+                Fill = CreateProjectDialog.ReleaseDescription.Equals(Description) ? Brushes.LimeGreen : Brushes.Gold
             });
         }
 
@@ -152,9 +158,19 @@ namespace Wazera.Kanban
             return string.IsNullOrWhiteSpace(minCardsInput.Text) ? 1 : int.Parse(minCardsInput.Text);
         }
 
+        public void SetMinCards(int minCards)
+        {
+            minCardsInput.Text = "" + minCards;
+        }
+
         public int GetMaxCards()
         {
             return string.IsNullOrWhiteSpace(maxCardsInput.Text) ? 1 : int.Parse(maxCardsInput.Text);
+        }
+
+        public void SetMaxCards(int maxCards)
+        {
+            maxCardsInput.Text = "" + maxCards;
         }
     }
 }

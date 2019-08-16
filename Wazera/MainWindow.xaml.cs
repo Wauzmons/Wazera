@@ -28,7 +28,7 @@ namespace Wazera
 
             DataSource.Start();
 
-            LoginUser(WazeraTester.GetMockUser());
+            LoginUser(new UserData(0, "Test", "Peter", "Penguin", WazeraUtils.GetResource("default_avatar.png")));
             OpenProjectList();
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,8 +14,11 @@ namespace Wazera.Project
     public partial class CreateProjectDialog : Window
     {
         public ProjectList Projects;
-
         public ProjectData Project;
+
+        public static string BacklogDescription { get; } = "Shows tasks, that have been put back for future sprints";
+        public static string PlannedDescription { get; } = "Shows tasks, that are selected for development";
+        public static string ReleaseDescription { get; } = "Shows finished tasks, ready for the next release";
 
         public CreateProjectDialog(ProjectList projects, ProjectData project)
         {
@@ -24,20 +28,61 @@ namespace Wazera.Project
             InitializeComponent();
             if(Project != null)
             {
+                StatusModel.FillProject(Project);
                 headerLabel.Content = "Edit Project     " + Project.Key;
                 deleteButton.IsEnabled = true;
 
                 nameInput.Text = Project.Name;
                 keyInput.Text = Project.Key;
+
+                KanbanColumnOptions releaseColumn = null;
+                List<StatusData> statuses = Project.GetAllStatuses();
+                foreach (StatusData status in statuses)
+                {
+                    bool editable = !status.IsBacklog;
+                    string title = status.Title;
+
+                    string description = null;
+                    if(status.IsBacklog)
+                    {
+                        description = BacklogDescription;
+                    }
+                    else if(statuses.IndexOf(status) == 1)
+                    {
+                        description = PlannedDescription;
+                    }
+                    else if(status.IsRelease)
+                    {
+                        description = ReleaseDescription;
+                    }
+
+                    KanbanColumnOptions columnOptions = new KanbanColumnOptions(editable, title, description)
+                    {
+                        ID = status.ID
+                    };
+                    columnOptions.SetMinCards(status.MinCards);
+                    columnOptions.SetMaxCards(status.MaxCards);
+                    if(status.IsRelease)
+                    {
+                        releaseColumn = columnOptions;
+                    }
+                    else
+                    {
+                        columnList.Children.Add(columnOptions);
+                    }
+                }
+                columnList.Children.Add(releaseColumn);
+            }
+            else
+            {
+                columnList.Children.Add(new KanbanColumnOptions(false, "Backlog", BacklogDescription));
+                columnList.Children.Add(new KanbanColumnOptions(true, "Planned", PlannedDescription));
+                columnList.Children.Add(new KanbanColumnOptions(true, "Done", ReleaseDescription));
             }
 
             ImageBrush logoBrush = new ImageBrush(WazeraUtils.GetResource("default_project.png"));
             logoPreview.Fill = logoBrush;
             logoPreviewSmall.Fill = logoBrush;
-
-            columnList.Children.Add(new KanbanColumnOptions(false, "Backlog", "Recorded tasks for future sprints land here"));
-            columnList.Children.Add(new KanbanColumnOptions(true, "Planned", "Shows tasks selected for development"));
-            columnList.Children.Add(new KanbanColumnOptions(true, "Done", "Finished tasks, ready for the next release"));
 
             nameInput.TextChanged += (sender, e) => GenerateKey();
             keyInput.TextChanged += (sender, e) => FormatKey();
@@ -71,7 +116,7 @@ namespace Wazera.Project
             scrollViewer.ScrollToBottom();
         }
 
-        public void SaveButtonClick()
+        private void SaveButtonClick()
         {
             string name = string.IsNullOrWhiteSpace(nameInput.Text) ? "Unnamed Project" : nameInput.Text;
             string category = string.IsNullOrWhiteSpace(categoryInput.Text) ? "Unspecified" : categoryInput.Text;
@@ -95,24 +140,29 @@ namespace Wazera.Project
             }
             else
             {
-                ProjectData project = new ProjectData(key, name, owner, category);
-                project.Backlog = new StatusData("Backlog", project, true, false, 0, 0);
-                foreach(KanbanColumnOptions column in columnList.Children)
+                Project = new ProjectData(key, name, owner, category)
                 {
-                    if(!column.Editable)
-                    {
-                        continue;
-                    }
-                    bool isRelease = columnList.Children[columnList.Children.Count - 1].Equals(column);
-                    string title = column.GetTitle();
-                    int minCards = column.GetMinCards();
-                    int maxCards = column.GetMaxCards();
-                    project.Statuses.Add(new StatusData(title, project, false, isRelease, minCards, maxCards));
-                }
-                new ProjectModel(project).Save();
+                    ID = new ProjectModel(Project).Save()
+                };
             }
+
+            foreach (KanbanColumnOptions column in columnList.Children)
+            {
+                bool isBacklog = !column.Editable;
+                bool isRelease = columnList.Children[columnList.Children.Count - 1].Equals(column);
+                string title = column.GetTitle();
+                int minCards = column.GetMinCards();
+                int maxCards = column.GetMaxCards();
+                StatusData status = new StatusData(title, Project, isBacklog, isRelease, minCards, maxCards)
+                {
+                    ID = column.ID
+                };
+                new StatusModel(status).Save();
+            }
+            StatusModel.FillProject(Project);
+
             Projects.CloseCreateDialog();
-            MainWindow.Instance.OpenProjectList();
+            MainWindow.Instance.OpenProjectView(Project);
         }
 
         private void DeleteButtonClick(object sender, RoutedEventArgs e)
@@ -121,6 +171,7 @@ namespace Wazera.Project
             if(result == MessageBoxResult.OK)
             {
                 ProjectModel.DeleteById(Project.ID);
+                Projects.CloseCreateDialog();
             }
             MainWindow.Instance.OpenProjectList();
         }

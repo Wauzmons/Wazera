@@ -84,7 +84,7 @@ namespace Wazera.Project
             }
         }
 
-        public void SaveButtonClick()
+        private void SaveButtonClick()
         {
             string name = string.IsNullOrWhiteSpace(nameInput.Text) ? "Unnamed Task" : nameInput.Text;
             string description = descriptionInput.Text;

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Wazera" Height="600" MinHeight="450" Width="1200" MinWidth="900">
     <Grid Name="grid">
-        <DockPanel>
+        <DockPanel Name="dockPanel">
             <Grid
                 Name="lgrid"
                 DockPanel.Dock="Left"

@@ -5,11 +5,13 @@ using System.Reflection;
 
 namespace WazeraSQL
 {
-    public class Entity
+    public class Entity<T>
     {
-        public static string TableName { get; set; }
+        private static Dictionary<Type, string> tableNames = new Dictionary<Type, string>();
+        protected static string TableName { get => tableNames[typeof(T)]; set => tableNames.Add(typeof(T), value); }
 
-        public static EntityColumn[] Columns;
+        private static Dictionary<Type, EntityColumn[]> tableColumns = new Dictionary<Type, EntityColumn[]>();
+        protected static EntityColumn[] Columns { get => tableColumns[typeof(T)]; set => tableColumns.Add(typeof(T), value); }
 
         public static void CreateTableIfNotExists()
         {
@@ -26,7 +28,8 @@ namespace WazeraSQL
                 Console.WriteLine("Creating Table: " + TableName);
                 Console.WriteLine("Created Table: " + TableName + " (" + CreateTable() + " rows affected)");
             }
-            else {
+            else
+            {
                 Console.WriteLine("Loaded Table: " + TableName);
             }
         }
@@ -44,10 +47,11 @@ namespace WazeraSQL
             return command.ExecuteNonQuery();
         }
 
-        public int Save()
+        public long Save()
         {
+            bool isTransient = IsTransient();
             string commandString;
-            if(IsTransient())
+            if(isTransient)
             {
                 commandString = "INSERT INTO " + TableName + "(";
                 foreach (EntityColumn column in Columns)
@@ -88,13 +92,25 @@ namespace WazeraSQL
             }
 
             MySqlCommand command = new MySqlCommand(commandString, DataSource.Connection);
-            return command.ExecuteNonQuery();
+            command.ExecuteNonQuery();
+
+            return isTransient ? GetLastInsertId() : (long) GetType().GetProperty(Columns[0].PropertyName).GetValue(this);
         }
 
         public bool IsTransient()
         {
             object value = GetType().GetProperty(Columns[0].PropertyName).GetValue(this);
             return value == null || value.ToString().Equals("0");
+        }
+
+        public static long GetLastInsertId()
+        {
+            MySqlCommand command = new MySqlCommand("SELECT LAST_INSERT_ID()", DataSource.Connection);
+            using (MySqlDataReader reader = command.ExecuteReader())
+            {
+                reader.Read();
+                return long.Parse(reader[0].ToString());
+            }
         }
 
         private string AsSqlParameter(EntityColumn column)
@@ -112,7 +128,7 @@ namespace WazeraSQL
             return result;
         }
 
-        public static List<T> Find<T>(string[] conditions)
+        public static List<T> Find(string[] conditions)
         {
             List<T> results = new List<T>();
 
@@ -139,7 +155,7 @@ namespace WazeraSQL
                         {
                             continue;
                         }
-                        property.SetValue(entity, value);
+                        property.SetValue(entity, Convert.ChangeType(value, type));
                     }
                     results.Add(entity);
                 }
@@ -160,6 +176,5 @@ namespace WazeraSQL
             MySqlCommand command = new MySqlCommand(commandString, DataSource.Connection);
             return command.ExecuteNonQuery();
         }
-            
     }
 }

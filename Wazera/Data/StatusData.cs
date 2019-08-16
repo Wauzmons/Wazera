@@ -5,6 +5,8 @@ namespace Wazera.Data
 {
     public class StatusData
     {
+        public long ID { get; set; }
+
         public string Title { get; set; }
 
         public int MinCards { get; set; }

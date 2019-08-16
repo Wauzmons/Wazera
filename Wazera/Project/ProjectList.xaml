@@ -7,13 +7,13 @@
         mc:Ignorable="d"
         Title="Wazera" Height="600" MinHeight="450" Width="1200" MinWidth="900">
     <Grid Name="grid">
-        <Border BorderThickness="5" BorderBrush="LightSlateGray">
+        <Border Name="listBorder" BorderThickness="5" BorderBrush="LightSlateGray">
             <ListView
                 Name="listView"
                 HorizontalAlignment="Stretch"
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                 ScrollViewer.VerticalScrollBarVisibility="Visible"
-                PreviewMouseUp="OpenProject"
+                MouseLeftButtonUp="OpenProject"
                 Background="LightGray">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="{x:Type ListViewItem}">

@@ -4,7 +4,7 @@ using WazeraSQL;
 
 namespace Wazera.Model
 {
-    class ProjectModel : Entity
+    class ProjectModel : Entity<ProjectModel>
     {
         static ProjectModel() {
             TableName = "Project";
@@ -56,7 +56,7 @@ namespace Wazera.Model
         public static List<ProjectData> FindAll()
         {
             List<ProjectData> results = new List<ProjectData>();
-            foreach(ProjectModel projectModel in Find<ProjectModel>(new string[]{ }))
+            foreach(ProjectModel projectModel in Find(new string[]{ }))
             {
                 results.Add(projectModel.ToData());
             }

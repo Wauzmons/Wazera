@@ -43,7 +43,6 @@ namespace Wazera.Data
             {
                 Projects.Add(project.Key, project);
             }
-            WazeraTester.CreateMockProjects(3);
         }
 
         public List<StatusData> GetAllStatuses()

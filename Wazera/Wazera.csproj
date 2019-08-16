@@ -76,6 +76,7 @@
     <Compile Include="Model\ProjectModel.cs" />
     <Compile Include="Data\ProjectData.cs" />
     <Compile Include="Kanban\KanbanColumnOptions.cs" />
+    <Compile Include="Model\StatusModel.cs" />
     <Compile Include="Project\CreateProjectDialog.xaml.cs">
       <DependentUpon>CreateProjectDialog.xaml</DependentUpon>
     </Compile>
@@ -88,7 +89,6 @@
     <Compile Include="Project\ProjectTreeView.cs" />
     <Compile Include="System\LoggedIn.cs" />
     <Compile Include="System\WazeraUtils.cs" />
-    <Compile Include="System\WazeraTester.cs" />
     <Page Include="Kanban\KanbanBoard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

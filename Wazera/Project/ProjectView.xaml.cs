@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Wazera.Data;
 using Wazera.Kanban;
+using Wazera.Model;
 
 namespace Wazera.Project
 {
@@ -19,6 +20,7 @@ namespace Wazera.Project
         public ProjectView(ProjectData data)
         {
             Data = data;
+            StatusModel.FillProject(Data);
 
             InitializeComponent();
             LoadLeftGridContent();
@@ -32,11 +34,15 @@ namespace Wazera.Project
             dialogContent = createDialog.Content as UIElement;
             createDialog.Content = null;
             createDialog.Close();
+            MainWindow.Instance.tgrid.IsEnabled = false;
+            dockPanel.IsEnabled = false;
             grid.Children.Add(dialogContent);
         }
 
         public void CloseCreateDialog()
         {
+            MainWindow.Instance.tgrid.IsEnabled = true;
+            dockPanel.IsEnabled = true;
             grid.Children.Remove(dialogContent);
             dialogContent = null;
         }
