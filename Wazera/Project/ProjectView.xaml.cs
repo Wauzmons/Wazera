@@ -59,12 +59,15 @@ namespace Wazera.Project
         private void LoadLeftGridContent()
         {
             buttonBacklog = AddMenuButton("Backlog", "proj_backlog.png");
+            buttonBacklog.Click += (sender, e) => MainWindow.Instance.BlendOverlay();
             buttonBacklog.Click += (sender, e) => BacklogButtonClick();
 
             buttonKanbanBoard = AddMenuButton("Kanban Board", "proj_board.png");
+            buttonKanbanBoard.Click += (sender, e) => MainWindow.Instance.BlendOverlay();
             buttonKanbanBoard.Click += (sender, e) => KanbanBoardButtonClick();
 
             buttonReleases = AddMenuButton("Releases", "proj_releases.png");
+            buttonReleases.Click += (sender, e) => MainWindow.Instance.BlendOverlay();
             buttonReleases.Click += (sender, e) => ReleasesButtonClick();
 
             new ProjectTreeView(Data, treeView);

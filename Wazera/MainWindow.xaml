@@ -5,10 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wazera"
         mc:Ignorable="d"
-        Title="Wazera" Height="800" MinHeight="800" Width="1200" MinWidth="1200">
+        Title="Wazera" Height="800" MinHeight="800" Width="1200" MinWidth="1200" Closed="CloseApplication">
     <Grid Name="grid">
+        <Rectangle
+            Name="overlay"
+            Panel.ZIndex="100"
+            IsHitTestVisible="False"/>
         <DockPanel>
-
             <Grid
                 Name="tgrid"
                 DockPanel.Dock="Top"
@@ -152,7 +155,6 @@
                     </Button>
                 </StackPanel>
             </Grid>
-
             <Grid Name="cgrid"/>
         </DockPanel>
     </Grid>

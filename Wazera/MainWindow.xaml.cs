@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Timers;
+using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using Wazera.Data;
 using Wazera.Project;
 using WazeraSQL;
@@ -9,6 +12,8 @@ namespace Wazera
     public partial class MainWindow : Window
     {
         public static MainWindow Instance { get; set; }
+
+        private UIElement centerGridContent;
 
         private RoutedEventHandler plusButtonEventHandler = (sender, e) => { };
 
@@ -57,11 +62,31 @@ namespace Wazera
 
         public void SetCenterGridContent(Window window)
         {
+            IsEnabled = false;
             UIElement content = window.Content as UIElement;
             window.Content = null;
             window.Close();
-            cgrid.Children.Clear();
-            cgrid.Children.Add(content);
+
+            BlendOverlay();
+
+            if (centerGridContent != null)
+            {
+                cgrid.Children.Remove(centerGridContent);
+            }
+            centerGridContent = content;
+            cgrid.Children.Add(centerGridContent);
+            IsEnabled = true;
+        }
+
+        public void BlendOverlay()
+        {
+            overlay.Fill = new SolidColorBrush(Color.FromArgb(100, 255, 255, 255));
+            overlay.Fill.BeginAnimation(SolidColorBrush.ColorProperty, new ColorAnimation()
+            {
+                From = Color.FromArgb(100, 255, 255, 255),
+                To = Colors.Transparent,
+                Duration = new Duration(TimeSpan.FromMilliseconds(500))
+            });
         }
 
         public void ReplacePlusButtonEventHandler(RoutedEventHandler eventHandler)
@@ -69,6 +94,11 @@ namespace Wazera
             plusButton.Click -= plusButtonEventHandler;
             plusButtonEventHandler = eventHandler;
             plusButton.Click += plusButtonEventHandler;
+        }
+
+        private void CloseApplication(object sender, System.EventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

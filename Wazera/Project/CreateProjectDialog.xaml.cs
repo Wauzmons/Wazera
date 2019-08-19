@@ -120,13 +120,7 @@ namespace Wazera.Project
         {
             string name = string.IsNullOrWhiteSpace(nameInput.Text) ? "Unnamed Project" : nameInput.Text;
             string category = string.IsNullOrWhiteSpace(categoryInput.Text) ? "Unspecified" : categoryInput.Text;
-
-            string key = keyInput.Text;
-            if(string.IsNullOrWhiteSpace(key) || ProjectData.Projects.ContainsKey(key))
-            {
-                MessageBox.Show("Key must be unique!");
-                return;
-            }
+            string key = string.IsNullOrWhiteSpace(keyInput.Text) ? "PROJ" : keyInput.Text;
 
             UserData owner = LoggedIn.User;
 
@@ -140,10 +134,8 @@ namespace Wazera.Project
             }
             else
             {
-                Project = new ProjectData(key, name, owner, category)
-                {
-                    ID = new ProjectModel(Project).Save()
-                };
+                Project = new ProjectData(key, name, owner, category);
+                Project.ID = new ProjectModel(Project).Save();
             }
 
             foreach (KanbanColumnOptions column in columnList.Children)

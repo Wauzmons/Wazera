@@ -21,7 +21,7 @@ namespace Wazera.Kanban
             HorizontalAlignment = HorizontalAlignment.Stretch;
             HorizontalContentAlignment = HorizontalAlignment.Stretch;
             VerticalAlignment = VerticalAlignment.Stretch;
-            Margin = new Thickness(Data.IsBacklog ? 0 : 5);
+            Margin = new Thickness(5);
             Background = Brushes.LightGray;
             BorderThickness = new Thickness(0);
             Focusable = false;
@@ -32,17 +32,25 @@ namespace Wazera.Kanban
                 Background = Brushes.LightGray,
                 BorderBrush = Brushes.White,
                 BorderThickness = new Thickness(3),
-                CornerRadius = new CornerRadius(10)
+                CornerRadius = new CornerRadius(10),
+                Child = this
             };
             if(!Data.IsBacklog)
             {
-                border.Child = this;
-                PreviewDragOver += (sender, e) => kanbanBoard.ItemPreviewShow(this);
+                PreviewDragEnter += (sender, e) => kanbanBoard.ItemPreviewShow(this);
+                PreviewDragLeave += (sender, e) => { if (!IsCursorInside(e)) kanbanBoard.ItemPreviewRemove(); };
                 Drop += (sender, e) => kanbanBoard.ItemDrop(sender, e);
                 AllowDrop = true;
             }
 
             AddHeader();
+        }
+
+        public bool IsCursorInside(DragEventArgs e)
+        {
+            Point point = e.GetPosition(this);
+            HitTestResult result = VisualTreeHelper.HitTest(this, point);
+            return result != null && !(result.VisualHit is ScrollViewer);
         }
 
         public Border AsBorderedColumn()

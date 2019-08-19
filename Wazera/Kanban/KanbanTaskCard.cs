@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Runtime.InteropServices;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -65,8 +67,9 @@ namespace Wazera.Kanban
             {
                 panel.Children.Add(data.GetNameGrid());
                 panel.Children.Add(data.GetInfoGrid());
-                panel.MouseDown += (sender, e) => ItemMouseDown(sender, e);
+                panel.PreviewMouseLeftButtonDown += (sender, e) => ItemMouseDown(sender, e);
                 PreviewDragOver += (sender, e) => kanbanBoard.ItemPreviewShow(sender, e);
+                GiveFeedback += (sender, e) => DragDropWindowUpdate();
                 Drop += (sender, e) => kanbanBoard.ItemDrop(sender, e);
                 AllowDrop = true;
             }
@@ -94,23 +97,67 @@ namespace Wazera.Kanban
 
         private void ItemMouseDown(object sender, MouseEventArgs e)
         {
-            EnableHighlight();
+            DragDropWindowShow();
+            Visibility = Visibility.Collapsed;
             DragDrop.DoDragDrop(this, this, DragDropEffects.All);
+            Visibility = Visibility.Visible;
+            kanbanBoard.DragDropWindowRemove();
             kanbanBoard.ItemPreviewRemove();
-            DisableHighlight();
         }
 
-        private void EnableHighlight()
+        private void DragDropWindowShow()
         {
-            Padding = new Thickness(0);
-            BorderThickness = new Thickness(3);
+            kanbanBoard.DragDropWindowRemove();
+            kanbanBoard.DragDropWindow = new Window
+            {
+                WindowStyle = WindowStyle.None,
+                AllowsTransparency = true,
+                AllowDrop = false,
+                Background = null,
+                IsHitTestVisible = false,
+                SizeToContent = SizeToContent.WidthAndHeight,
+                Topmost = true,
+                ShowInTaskbar = false
+            };
+
+            VisualBrush brush = new VisualBrush(new KanbanTaskCard(kanbanBoard, Data));
+            Rectangle rectangle = new Rectangle
+            {
+                Width = ActualWidth,
+                Height = ActualHeight,
+                Fill = brush,
+                LayoutTransform = new RotateTransform(10)
+            };
+            kanbanBoard.DragDropWindow.Content = rectangle;
+
+            DragDropWindowUpdate();
+            kanbanBoard.DragDropWindow.Show();
         }
 
-        private void DisableHighlight()
+        private void DragDropWindowUpdate()
         {
-            Padding = new Thickness(3);
-            BorderThickness = new Thickness(0);
+            if(kanbanBoard.DragDropWindow == null)
+            {
+                return;
+            }
+
+            Win32Point win32MousePoint = new Win32Point();
+            GetCursorPos(ref win32MousePoint);
+
+            kanbanBoard.DragDropWindow.Left = win32MousePoint.X;
+            kanbanBoard.DragDropWindow.Top = win32MousePoint.Y;
         }
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetCursorPos(ref Win32Point pt);
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct Win32Point
+        {
+            public Int32 X;
+            public Int32 Y;
+        };
 
         public void SetDefaultBrush(Brush defaultBrush)
         {
