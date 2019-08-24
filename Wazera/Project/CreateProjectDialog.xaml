@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wazera.Project"
         mc:Ignorable="d"
-        Title="CreateProjectDialog" Height="800" Width="1200">
+        Title="CreateProjectDialog" Height="600" Width="1200">
     <Grid>
         <Rectangle
             Fill="Black"
             Opacity="0.4"/>
         <Border
-            Width="800"
-            Height="600"
+            Width="650"
+            Height="400"
             Margin="20"
             Background="White"
             BorderBrush="LightSlateGray"

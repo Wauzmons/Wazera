@@ -9,17 +9,7 @@ namespace WazeraSQL
     {
         public static MySqlConnection Connection { get; set; }
 
-        private static string connectionPath = AppDomain.CurrentDomain.BaseDirectory + "\\mysql.txt";
-
-        //private static string ip = "";
-
-        //private static string port = "";
-
-        //private static string database = "";
-
-        //private static string username = "";
-
-        //private static string password = "";
+        private static readonly string connectionPath = AppDomain.CurrentDomain.BaseDirectory + "\\mysql.txt";
 
         public static void Start()
         {
