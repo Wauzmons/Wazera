@@ -11,19 +11,21 @@ namespace Wazera.Data
 
         public string Description { get; set; }
 
+        public int SortOrder { get; set; }
+
         public PriorityData Priority { get; set; }
 
         public UserData User { get; set; }
 
         public StatusData Status { get; set; }
 
-        public TaskData(long id, string name, StatusData status, PriorityData priority)
+        public TaskData(string name, string description, PriorityData priority, UserData user, StatusData status)
         {
-            ID = id;
             Name = name;
-            User = LoggedIn.User;
-            Status = status;
+            Description = description;
             Priority = priority;
+            User = user;
+            Status = status;
         }
 
         public Grid GetNameGrid()

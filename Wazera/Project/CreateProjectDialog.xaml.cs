@@ -151,7 +151,6 @@ namespace Wazera.Project
                 };
                 new StatusModel(status).Save();
             }
-            StatusModel.FillProject(Project);
 
             Projects.CloseCreateDialog();
             MainWindow.Instance.OpenProjectView(Project);

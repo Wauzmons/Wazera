@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Wazera.Data;
+using Wazera.Model;
 
 namespace Wazera.Kanban
 {
@@ -60,6 +61,8 @@ namespace Wazera.Kanban
                     Data.Status.Tasks.Remove(Data);
                     newStatus.Tasks.Add(Data);
                     Data.Status = newStatus;
+
+                    new TaskModel(Data).Save();
                 };
                 panel.Children.Add(data.GetBacklogGrid(button));
             }

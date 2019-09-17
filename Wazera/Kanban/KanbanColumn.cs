@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 using Wazera.Data;
+using Wazera.Model;
 
 namespace Wazera.Kanban
 {
@@ -16,6 +17,7 @@ namespace Wazera.Kanban
         public KanbanColumn(KanbanBoard kanbanBoard, StatusData data)
         {
             Data = data;
+            TaskModel.FillStatus(Data);
             this.kanbanBoard = kanbanBoard;
 
             HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -124,6 +126,11 @@ namespace Wazera.Kanban
                 KanbanTaskCard item = (KanbanTaskCard) Items.GetItemAt(index);
                 item.Data.Status = Data;
                 Data.Tasks.Add(item.Data);
+
+                new TaskModel(item.Data)
+                {
+                    SortOrder = Data.Tasks.IndexOf(item.Data)
+                }.Save();
             }
         }
 

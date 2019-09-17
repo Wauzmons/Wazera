@@ -7,17 +7,30 @@ namespace Wazera.Data
 {
     public class PriorityData
     {
-        public static PriorityData Critical { get; } = new PriorityData(1, "Critical", "prio_1.png");
+        static PriorityData() {
+            Priorities = new List<PriorityData>();
+            PriorityMap = new Dictionary<long, PriorityData>();
 
-        public static PriorityData High { get; } = new PriorityData(2, "High", "prio_2.png");
+            Critical = new PriorityData(1, "Critical", "prio_1.png");
+            High = new PriorityData(2, "High", "prio_2.png");
+            Normal = new PriorityData(3, "Normal", "prio_3.png");
+            Low = new PriorityData(4, "Low", "prio_4.png");
+            Insignificant = new PriorityData(5, "Insignificant", "prio_5.png");
+        }
 
-        public static PriorityData Normal { get; } = new PriorityData(3, "Normal", "prio_3.png");
+        public static PriorityData Critical { get; }
 
-        public static PriorityData Low { get; } = new PriorityData(4, "Low", "prio_4.png");
+        public static PriorityData High { get; }
 
-        public static PriorityData Insignificant { get; } = new PriorityData(5, "Insignificant", "prio_5.png");
+        public static PriorityData Normal { get; }
 
-        public static List<PriorityData> Priorities { get; } = new List<PriorityData> { Critical, High, Normal, Low, Insignificant };
+        public static PriorityData Low { get; }
+
+        public static PriorityData Insignificant { get; }
+
+        public static List<PriorityData> Priorities { get; }
+
+        public static Dictionary<long, PriorityData> PriorityMap { get; }
 
         public long ID { get; }
 
@@ -30,6 +43,8 @@ namespace Wazera.Data
             ID = id;
             DisplayName = displayName;
             bitmapImage = WazeraUtils.GetResource(iconName);
+            Priorities.Add(this);
+            PriorityMap.Add(ID, this);
         }
 
         public Image GetImage()

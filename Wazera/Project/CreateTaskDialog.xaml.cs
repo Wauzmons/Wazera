@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using Wazera.Data;
+using Wazera.Model;
 
 namespace Wazera.Project
 {
@@ -104,24 +105,13 @@ namespace Wazera.Project
                 Task.Description = description;
                 Task.Priority = priority;
                 Task.User = user;
-
-                StatusData oldStatus = Task.Status;
-                StatusData newStatus = status;
-                if(!oldStatus.Title.Equals(newStatus.Title))
-                {
-                    oldStatus.Tasks.Remove(Task);
-                    newStatus.Tasks.Add(Task);
-                    Task.Status = status;
-                }
+                Task.Status = status;
+                new TaskModel(Task).Save();
             }
             else
             {
-                TaskData task = new TaskData(666, name, status, priority)
-                {
-                    Description = description,
-                    User = user
-                };
-                status.Tasks.Insert(0, task);
+                Task = new TaskData(name, description, priority, user, status);
+                Task.ID = new TaskModel(Task).Save();
             }
 
             if (status.IsBacklog)
