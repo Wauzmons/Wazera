@@ -11,9 +11,8 @@
             Fill="Black"
             Opacity="0.4"/>
         <Border
-            Width="650"
-            Height="400"
-            Margin="20"
+            Width="800"
+            Margin="32"
             Background="White"
             BorderBrush="LightSlateGray"
             BorderThickness="5"
@@ -49,7 +48,8 @@
                         Content="Delete"
                         FontSize="18"
                         IsEnabled="False"
-                        Click="DeleteButtonClick"/>
+                        Click="DeleteButtonClick"
+                        Background="White"/>
                     <Button
                         Name="closeButton"
                         HorizontalAlignment="Right"
@@ -58,7 +58,8 @@
                         Height="32"
                         Margin="0, 10, 10, 0"
                         Content="X"
-                        FontSize="18"/>
+                        FontSize="18"
+                        Background="White"/>
                     <Rectangle
                         Height="3"
                         Margin="0, 50, 0, 0"
@@ -77,8 +78,8 @@
                             Name="nameInput"
                             MaxLength="50"
                             FontSize="14"
-                            Margin="10, 0, 10, 10"
-                            Padding="3"/>
+                            Margin="10, 0, 10, 20"
+                            Padding="5"/>
                         <UniformGrid Columns="3">
                             <Label
                                 Content="Priority"
@@ -93,13 +94,13 @@
                         <UniformGrid Columns="3">
                             <ComboBox
                                 Name="priorityInput"
-                                Margin="10, 0, 10, 10"/>
+                                Margin="10, 0, 10, 20"/>
                             <ComboBox
                                 Name="userInput"
-                                Margin="10, 0, 10, 10"/>
+                                Margin="10, 0, 10, 20"/>
                             <ComboBox
                                 Name="statusInput"
-                                Margin="10, 0, 10, 10"/>
+                                Margin="10, 0, 10, 20"/>
                         </UniformGrid>
                         <Label
                             Content="Descritpion"
@@ -109,11 +110,10 @@
                             MaxLength="7500"
                             TextWrapping="Wrap"
                             AcceptsReturn="True"
-                            MinLines="16"
+                            MinLines="8"
                             FontSize="14"
-                            Margin="10, 0, 10, 10"
-                            Padding="3"
-                            Background="LightGray"/>
+                            Margin="10, 0, 10, 20"
+                            Padding="5"/>
                     </StackPanel>
                 </ScrollViewer>
             </DockPanel>

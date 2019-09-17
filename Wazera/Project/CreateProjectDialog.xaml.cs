@@ -112,6 +112,7 @@ namespace Wazera.Project
         private void InsertNewColumn(object sender, RoutedEventArgs e)
         {
             KanbanColumnOptions column = new KanbanColumnOptions(true, "New Column", null);
+            column.Background = new SolidColorBrush(Color.FromArgb(255, 230, 255, 230));
             columnList.Children.Insert(columnList.Children.Count - 1, column);
             scrollViewer.ScrollToBottom();
         }

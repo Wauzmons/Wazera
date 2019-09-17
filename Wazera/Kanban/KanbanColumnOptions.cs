@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Wazera.Model;
 using Wazera.Project;
 
 namespace Wazera.Kanban
@@ -26,7 +27,7 @@ namespace Wazera.Kanban
             Description = description;
 
             Orientation = Orientation.Vertical;
-            Margin = new Thickness(6, editable ? 0 : 6, 6, 6);
+            Margin = new Thickness(10, 0, 10, 0);
             Background = Brushes.White;
 
             MouseEnter += (sender, e) => Background = new SolidColorBrush(Color.FromArgb(255, 190, 230, 253));
@@ -51,6 +52,7 @@ namespace Wazera.Kanban
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Width = 360,
                 MaxLength = 50,
+                Margin = new Thickness(5),
                 Padding = new Thickness(5)
             };
             grid.Children.Add(titleInput);
@@ -71,6 +73,7 @@ namespace Wazera.Kanban
             limitPanel.Children.Add(new Label
             {
                 Content = "Min",
+                Margin = new Thickness(5),
                 Padding = new Thickness(5)
             });
             minCardsInput = new TextBox
@@ -78,6 +81,7 @@ namespace Wazera.Kanban
                 Text = "0",
                 Width = 50,
                 MaxLength = 4,
+                Margin = new Thickness(5),
                 Padding = new Thickness(5)
             };
             minCardsInput.PreviewTextInput += NumberValidation;
@@ -87,6 +91,7 @@ namespace Wazera.Kanban
             limitPanel.Children.Add(new Label
             {
                 Content = "Max",
+                Margin = new Thickness(5),
                 Padding = new Thickness(5)
             });
             maxCardsInput = new TextBox
@@ -94,6 +99,7 @@ namespace Wazera.Kanban
                 Text = "0",
                 Width = 50,
                 MaxLength = 4,
+                Margin = new Thickness(5),
                 Padding = new Thickness(5)
             };
             maxCardsInput.PreviewTextInput += NumberValidation;
@@ -128,15 +134,17 @@ namespace Wazera.Kanban
                 {
                     Content = "X",
                     HorizontalAlignment = HorizontalAlignment.Left,
+                    Margin = new Thickness(5),
                     Width = 25
                 };
-                removeButton.Click += (sender, e) => (Parent as StackPanel).Children.Remove(this);
+                removeButton.Click += (sender, e) => Remove();
                 panel.Children.Add(removeButton);
             }
             panel.Children.Add(new Label
             {
                 Content = description ?? "Custom status column",
                 HorizontalAlignment = HorizontalAlignment.Left,
+                Margin = new Thickness(5),
                 Padding = new Thickness(5)
             });
             Children.Add(panel);
@@ -146,6 +154,23 @@ namespace Wazera.Kanban
                 Height = 3,
                 Fill = CreateProjectDialog.ReleaseDescription.Equals(Description) ? Brushes.LimeGreen : Brushes.Gold
             });
+        }
+
+        private void Remove()
+        {
+            if(ID > 0)
+            {
+                MessageBoxResult result = MessageBox.Show("Do you really want to delete \'" + titleInput.Text + "\' and ALL TASKS inside?", "Confirmation", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    StatusModel.DeleteById(ID);
+                    (Parent as StackPanel).Children.Remove(this);
+                }
+            }
+            else
+            {
+                (Parent as StackPanel).Children.Remove(this);
+            }
         }
 
         public string GetTitle()

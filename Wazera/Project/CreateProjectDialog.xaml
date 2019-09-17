@@ -11,9 +11,8 @@
             Fill="Black"
             Opacity="0.4"/>
         <Border
-            Width="650"
-            Height="400"
-            Margin="20"
+            Width="800"
+            Margin="32"
             Background="White"
             BorderBrush="LightSlateGray"
             BorderThickness="5"
@@ -49,7 +48,8 @@
                         Content="Delete"
                         FontSize="18"
                         IsEnabled="False"
-                        Click="DeleteButtonClick"/>
+                        Click="DeleteButtonClick"
+                        Background="White"/>
                     <Button
                         Name="closeButton"
                         HorizontalAlignment="Right"
@@ -58,7 +58,8 @@
                         Height="32"
                         Margin="0, 10, 10, 0"
                         Content="X"
-                        FontSize="18"/>
+                        FontSize="18"
+                        Background="White"/>
                     <Rectangle
                         Height="3"
                         Margin="0, 50, 0, 0"
@@ -78,8 +79,8 @@
                             Name="nameInput"
                             MaxLength="50"
                             FontSize="14"
-                            Margin="10, 0, 10, 10"
-                            Padding="3"/>
+                            Margin="10, 0, 10, 20"
+                            Padding="5"/>
                         <UniformGrid Columns="3">
                             <Label
                                 Content="Key"
@@ -96,21 +97,36 @@
                                 Name="keyInput"
                                 MaxLength="10"
                                 FontSize="14"
-                                Margin="10, 0, 10, 10"
-                                Padding="3"/>
+                                Margin="10, 0, 10, 20"
+                                Padding="5"/>
                             <ComboBox
                                 Name="userInput"
-                                Margin="10, 0, 10, 10"/>
+                                Margin="10, 0, 10, 20"/>
                             <TextBox
                                 Name="categoryInput"
                                 MaxLength="50"
                                 FontSize="14"
-                                Margin="10, 0, 10, 10"
-                                Padding="3"/>
+                                Margin="10, 0, 10, 20"
+                                Padding="5"/>
                         </UniformGrid>
                         <Label
-                            Content="Assigned Users (Coming Soon)"
+                            Content="Kanban Columns"
                             Margin="10, 0, 10, 0"/>
+                        <StackPanel
+                            Name="columnList"/>
+                        <Button
+                            Name="addColumnButton"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            Margin="10, 10, 10, 20"
+                            Padding="5"
+                            Content="Insert New Column"
+                            Click="InsertNewColumn"
+                            FontSize="14"
+                            Background="White"/>
+                        <Label
+                            Content="Assigned Users (Coming Soon)"
+                            Margin="10, 0, 10, 20"/>
                         <Label
                             Content="Logo (Coming Soon)"
                             Margin="10, 0, 10, 0"/>
@@ -120,7 +136,7 @@
                                 HorizontalAlignment="Left"
                                 Width="50"
                                 Height="50"
-                                Margin="10, 0, 10, 0"
+                                Margin="10, 0, 10, 20"
                                 Fill="LightGray"
                                 Stroke="LightSlateGray"
                                 StrokeThickness="1"/>
@@ -129,25 +145,11 @@
                                 HorizontalAlignment="Left"
                                 Width="18"
                                 Height="18"
-                                Margin="10, 0, 10, 0"
+                                Margin="10, 0, 10, 20"
                                 Fill="LightGray"
                                 Stroke="LightSlateGray"
                                 StrokeThickness="1"/>
                         </StackPanel>
-                        <Label
-                            Content="Kanban Columns"
-                            Margin="10, 0, 10, 0"/>
-                        <StackPanel
-                            Name="columnList"
-                            Margin="10, 0, 10, 0"
-                            Background="LightGray"/>
-                        <Button
-                            Name="addColumnButton"
-                            HorizontalAlignment="Stretch"
-                            Margin="10, 0, 10, 10"
-                            Padding="5"
-                            Content="Insert New Column"
-                            Click="InsertNewColumn"/>
                     </StackPanel>
                 </ScrollViewer>
             </DockPanel>
