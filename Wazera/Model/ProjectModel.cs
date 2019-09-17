@@ -65,6 +65,7 @@ namespace Wazera.Model
 
         public static void DeleteById(long id)
         {
+            StatusModel.DeleteByProjectId(id);
             Delete(new string[] { "ID = " + id });
         }
     }

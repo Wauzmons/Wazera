@@ -76,5 +76,15 @@ namespace Wazera.Model
                 statusData.Tasks.Add(taskData);
             }
         }
+
+        public static void DeleteById(long id)
+        {
+            Delete(new string[] { "ID = " + id });
+        }
+
+        public static void DeleteByStatusId(long id)
+        {
+            Delete(new string[] { "StatusID = " + id });
+        }
     }
 }

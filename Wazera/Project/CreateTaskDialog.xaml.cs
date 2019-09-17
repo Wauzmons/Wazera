@@ -21,6 +21,7 @@ namespace Wazera.Project
             if(task != null)
             {
                 headerLabel.Content = "Edit Task     " + Task.GetKey();
+                deleteButton.IsEnabled = true;
 
                 nameInput.Text = Task.Name;
                 descriptionInput.Text = Task.Description;
@@ -114,7 +115,24 @@ namespace Wazera.Project
                 Task.ID = new TaskModel(Task).Save();
             }
 
-            if (status.IsBacklog)
+            Project.CloseCreateDialog();
+            OpenProjectView();
+        }
+
+        private void DeleteButtonClick(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Do you really want to delete \'" + Task.Name + "\'?", "Confirmation", MessageBoxButton.OKCancel);
+            if (result == MessageBoxResult.OK)
+            {
+                TaskModel.DeleteById(Task.ID);
+                Project.CloseCreateDialog();
+                OpenProjectView();
+            }
+        }
+
+        private void OpenProjectView()
+        {
+            if (Task.Status.IsBacklog)
             {
                 Project.BacklogButtonClick();
             }

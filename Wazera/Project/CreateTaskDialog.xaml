@@ -34,11 +34,22 @@
                         VerticalAlignment="Top"
                         Width="64"
                         Height="32"
-                        Margin="0, 10, 52, 0"
+                        Margin="0, 10, 126, 0"
                         Content="Save"
                         FontSize="18"
                         Foreground="Black"
                         Background="LightSkyBlue"/>
+                    <Button
+                        Name="deleteButton"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Width="64"
+                        Height="32"
+                        Margin="0, 10, 52, 0"
+                        Content="Delete"
+                        FontSize="18"
+                        IsEnabled="False"
+                        Click="DeleteButtonClick"/>
                     <Button
                         Name="closeButton"
                         HorizontalAlignment="Right"

@@ -1,4 +1,5 @@
-﻿using Wazera.Data;
+﻿using System.Collections.Generic;
+using Wazera.Data;
 using WazeraSQL;
 
 namespace Wazera.Model
@@ -87,6 +88,22 @@ namespace Wazera.Model
             {
                 projectData.Statuses.Add(releaseStatus);
             }
+        }
+
+        public static void DeleteById(long id)
+        {
+            TaskModel.DeleteByStatusId(id);
+            Delete(new string[] { "ID = " + id });
+            
+        }
+
+        public static void DeleteByProjectId(long id)
+        {
+            foreach (StatusModel statusModel in Find(new string[] { "ProjectID = " + id }))
+            {
+                TaskModel.DeleteByStatusId(statusModel.ID);
+            }
+            Delete(new string[] { "ProjectID = " + id });
         }
     }
 }

@@ -158,13 +158,13 @@ namespace Wazera.Project
 
         private void DeleteButtonClick(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Do you really want to delete " + Project.Name + "?", "Confirmation", MessageBoxButton.OKCancel);
+            MessageBoxResult result = MessageBox.Show("Do you really want to delete \'" + Project.Name + "\'?", "Confirmation", MessageBoxButton.OKCancel);
             if(result == MessageBoxResult.OK)
             {
                 ProjectModel.DeleteById(Project.ID);
                 Projects.CloseCreateDialog();
+                MainWindow.Instance.OpenProjectList();
             }
-            MainWindow.Instance.OpenProjectList();
         }
 
         private void ScrollViewerOnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
