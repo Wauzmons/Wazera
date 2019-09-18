@@ -27,16 +27,28 @@ namespace Wazera.Project
         public void OpenCreateDialog(ProjectData project)
         {
             CreateProjectDialog createDialog = new CreateProjectDialog(this, project);
-            createDialog.closeButton.Click += (sender, e) => CloseCreateDialog();
-            dialogContent = createDialog.Content as UIElement;
-            createDialog.Content = null;
-            createDialog.Close();
+            createDialog.closeButton.Click += (sender, e) => CloseDialog();
+            OpenDialog(createDialog);
+        }
+
+        public void OpenCategoryDialog()
+        {
+            ManageCategoriesDialog categoryDialog = new ManageCategoriesDialog();
+            categoryDialog.closeButton.Click += (sender, e) => CloseDialog();
+            OpenDialog(categoryDialog);
+        }
+
+        public void OpenDialog(Window window)
+        {
+            dialogContent = window.Content as UIElement;
+            window.Content = null;
+            window.Close();
             MainWindow.Instance.tgrid.IsEnabled = false;
             listBorder.IsEnabled = false;
             grid.Children.Add(dialogContent);
         }
 
-        public void CloseCreateDialog()
+        public void CloseDialog()
         {
             MainWindow.Instance.tgrid.IsEnabled = true;
             listBorder.IsEnabled = true;
@@ -66,6 +78,11 @@ namespace Wazera.Project
         {
             ProjectData project = (sender as Border).DataContext as ProjectData;
             OpenCreateDialog(project);
+        }
+
+        private void CategoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenCategoryDialog();
         }
     }
 }

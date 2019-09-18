@@ -122,7 +122,7 @@
                             Padding="5"
                             Content="Insert New Column"
                             Click="InsertNewColumn"
-                            FontSize="14"
+                            FontSize="16"
                             Background="White"/>
                         <Label
                             Content="Assigned Users (Coming Soon)"

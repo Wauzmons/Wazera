@@ -26,7 +26,8 @@
                         ScrollViewer.VerticalScrollBarVisibility="Visible"
                         Margin="5"
                         Padding="5"
-                        Background="LightGray">
+                        Background="LightGray"
+                        BorderThickness="0">
                     </TreeView>
                 </DockPanel>
             </Grid>

@@ -153,7 +153,7 @@ namespace Wazera.Project
                 new StatusModel(status).Save();
             }
 
-            Projects.CloseCreateDialog();
+            Projects.CloseDialog();
             MainWindow.Instance.OpenProjectView(Project);
         }
 
@@ -163,7 +163,7 @@ namespace Wazera.Project
             if(result == MessageBoxResult.OK)
             {
                 ProjectModel.DeleteById(Project.ID);
-                Projects.CloseCreateDialog();
+                Projects.CloseDialog();
                 MainWindow.Instance.OpenProjectList();
             }
         }

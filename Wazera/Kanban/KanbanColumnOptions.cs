@@ -44,7 +44,7 @@ namespace Wazera.Kanban
             AddDescription(description);
         }
 
-        public void AddTitleInput(Grid grid, string defaultTitle)
+        private void AddTitleInput(Grid grid, string defaultTitle)
         {
             titleInput = new TextBox
             {
