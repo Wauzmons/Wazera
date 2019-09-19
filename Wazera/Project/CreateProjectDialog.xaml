@@ -102,12 +102,9 @@
                             <ComboBox
                                 Name="userInput"
                                 Margin="10, 0, 10, 20"/>
-                            <TextBox
+                            <ComboBox
                                 Name="categoryInput"
-                                MaxLength="50"
-                                FontSize="14"
-                                Margin="10, 0, 10, 20"
-                                Padding="5"/>
+                                Margin="10, 0, 10, 20"/>
                         </UniformGrid>
                         <Label
                             Content="Kanban Columns"

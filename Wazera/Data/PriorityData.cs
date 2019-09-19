@@ -57,6 +57,8 @@ namespace Wazera.Data
             };
         }
 
+        public StackPanel Panel { get { return GetPanel(); } }
+
         public StackPanel GetPanel()
         {
             StackPanel panel = new StackPanel

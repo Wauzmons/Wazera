@@ -20,7 +20,7 @@ namespace Wazera.Data
 
         public UserData Owner { get; set; }
 
-        public string Category { get; set; }
+        public CategoryData Category { get; set; }
 
         public StatusData Backlog { get; set; }
 
@@ -28,7 +28,7 @@ namespace Wazera.Data
 
         public BitmapImage Logo { get; set; }
 
-        public ProjectData(string key, string name, UserData owner, string category)
+        public ProjectData(string key, string name, UserData owner, CategoryData category)
         {
             Key = key;
             Name = name;

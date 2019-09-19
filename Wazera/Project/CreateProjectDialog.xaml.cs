@@ -84,9 +84,30 @@ namespace Wazera.Project
             logoPreview.Fill = logoBrush;
             logoPreviewSmall.Fill = logoBrush;
 
+            AddCategories();
+
             nameInput.TextChanged += (sender, e) => GenerateKey();
             keyInput.TextChanged += (sender, e) => FormatKey();
             saveButton.Click += (sender, e) => SaveButtonClick();
+        }
+
+        public void AddCategories()
+        {
+            categoryInput.SelectedIndex = 0;
+            foreach (CategoryData category in CategoryData.GetAllCategories())
+            {
+                StackPanel panel = category.GetPanel();
+                panel.Margin = new Thickness(0);
+                ComboData<CategoryData> item = new ComboData<CategoryData>(category)
+                {
+                    Content = panel
+                };
+                categoryInput.Items.Add(item);
+                if (Project != null && Project.Category.ID == category.ID)
+                {
+                    categoryInput.SelectedIndex = categoryInput.Items.Count - 1;
+                }
+            }
         }
 
         public void GenerateKey()
@@ -120,8 +141,10 @@ namespace Wazera.Project
         private void SaveButtonClick()
         {
             string name = string.IsNullOrWhiteSpace(nameInput.Text) ? "Unnamed Project" : nameInput.Text;
-            string category = string.IsNullOrWhiteSpace(categoryInput.Text) ? "Unspecified" : categoryInput.Text;
             string key = string.IsNullOrWhiteSpace(keyInput.Text) ? "PROJ" : keyInput.Text;
+
+            ComboData<CategoryData> categorySelection = categoryInput.SelectedItem as ComboData<CategoryData>;
+            CategoryData category = categorySelection.Value;
 
             UserData owner = LoggedIn.User;
 

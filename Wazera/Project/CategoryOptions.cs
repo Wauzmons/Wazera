@@ -3,8 +3,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Wazera.Data;
 using Wazera.Model;
-using Xceed.Wpf.Toolkit;
-
 namespace Wazera.Project
 {
     public class CategoryOptions : StackPanel
@@ -26,15 +24,22 @@ namespace Wazera.Project
             {
                 IsEnabled = Data.ID > 0
             };
+            Border border = new Border
+            {
+                Child = grid,
+                BorderBrush = Brushes.MediumPurple,
+                BorderThickness = new Thickness(0, 0, 0, 3)
+            };
             AddColorPicker(grid, Data.DisplayColor);
             AddTitle(grid, Data.Name + " (ID: " + Data.ID + ")");
+            AddRemoveButton(grid);
 
-            Children.Add(grid);
+            Children.Add(border);
         }
 
         private void AddColorPicker(Grid grid, Color color)
         {
-            ColorPicker colorPicker = new ColorPicker
+            Xceed.Wpf.Toolkit.ColorPicker colorPicker = new Xceed.Wpf.Toolkit.ColorPicker
             {
                 SelectedColor = color,
                 HorizontalAlignment = HorizontalAlignment.Left,
@@ -54,16 +59,41 @@ namespace Wazera.Project
                 Content = title,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(60, 5, 5, 5),
+                Margin = new Thickness(60, 10, 5, 10),
                 Padding = new Thickness(5),
                 FontSize = 16
             });
         }
 
-        private void UpdateColor(ColorPicker colorPicker)
+        private void AddRemoveButton(Grid grid)
+        {
+            Button removeButton = new Button
+            {
+                Content = "X",
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(5),
+                Width = 25,
+                Height = 25
+            };
+            removeButton.Click += (sender, e) => Remove();
+            grid.Children.Add(removeButton);
+        }
+
+        private void UpdateColor(Xceed.Wpf.Toolkit.ColorPicker colorPicker)
         {
             Data.DisplayColor = (Color) colorPicker.SelectedColor;
             new CategoryModel(Data).Save();
+        }
+
+        private void Remove()
+        {
+            MessageBoxResult result = MessageBox.Show("Do you really want to delete \'" + Data.Name + "\'?", "Confirmation", MessageBoxButton.OKCancel);
+            if (result == MessageBoxResult.OK)
+            {
+                CategoryModel.DeleteById(Data.ID);
+                (Parent as StackPanel).Children.Remove(this);
+            }
         }
     }
 }

@@ -42,12 +42,13 @@ namespace Wazera.Model
             ProjectKey = projectData.Key;
             Name = projectData.Name;
             OwnerID = projectData.Owner.ID;
-            CategoryID = 0;
+            CategoryID = projectData.Category.ID;
         }
 
         public ProjectData ToData()
         {
-            return new ProjectData(ProjectKey, Name, LoggedIn.User, CategoryID.ToString())
+            CategoryData category = CategoryModel.FindById(CategoryID);
+            return new ProjectData(ProjectKey, Name, LoggedIn.User, category ?? CategoryData.GetDefaultCategory())
             {
                 ID = ID
             };
