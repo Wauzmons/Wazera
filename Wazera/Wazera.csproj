@@ -103,6 +103,7 @@
     <Compile Include="Data\ProjectData.cs" />
     <Compile Include="Kanban\KanbanColumnOptions.cs" />
     <Compile Include="Model\StatusModel.cs" />
+    <Compile Include="Model\UserModel.cs" />
     <Compile Include="Model\TaskModel.cs" />
     <Compile Include="Project\CreateProjectDialog.xaml.cs">
       <DependentUpon>CreateProjectDialog.xaml</DependentUpon>
@@ -120,6 +121,9 @@
     <Compile Include="Project\ProjectTreeView.cs" />
     <Compile Include="System\LoggedIn.cs" />
     <Compile Include="System\WazeraUtils.cs" />
+    <Compile Include="Users\LoginScreen.xaml.cs">
+      <DependentUpon>LoginScreen.xaml</DependentUpon>
+    </Compile>
     <Page Include="Kanban\KanbanBoard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -162,6 +166,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Project\ProjectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Users\LoginScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

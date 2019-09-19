@@ -7,7 +7,9 @@
         mc:Ignorable="d"
         Title="Wazera" Height="600" MinHeight="450" Width="1200" MinWidth="900">
     <Grid Name="grid">
-        <Border Name="listBorder" BorderThickness="5" BorderBrush="LightSlateGray">
+        <Border Name="listBorder"
+                BorderBrush="LightSlateGray"
+                BorderThickness="5">
             <Grid>
                 <ListView
                     Name="listView"

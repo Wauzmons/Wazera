@@ -16,15 +16,21 @@ namespace Wazera.Data
 
         public string LastName { get; set; }
 
+        public string Password { get; set; }
+
         public BitmapImage Avatar { get; set; }
 
-        public UserData(long id, string loginName, string firstName, string lastName, BitmapImage avatar)
+        public UserData(string loginName, string firstName, string lastName, BitmapImage avatar)
         {
-            ID = id;
             LoginName = loginName;
             FirstName = firstName;
             LastName = lastName;
             Avatar = avatar;
+        }
+
+        public static UserData GetDefaultUser()
+        {
+            return new UserData("test", "Peter", "Penguin", WazeraUtils.GetResource("default_avatar.png"));
         }
 
         public string GetFullName()

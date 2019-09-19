@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Timers;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using Wazera.Data;
 using Wazera.Project;
+using Wazera.Users;
 using WazeraSQL;
 
 namespace Wazera
@@ -23,18 +23,13 @@ namespace Wazera
             InitializeComponent();
 
             plusIcon.Fill = new ImageBrush(WazeraUtils.GetResource("menu_plus.png"));
-
             projectsIcon.Fill = new ImageBrush(WazeraUtils.GetResource("menu_projects.png"));
             projectsButton.Click += (sender, e) => OpenProjectList();
-
             tasksIcon.Fill = new ImageBrush(WazeraUtils.GetResource("menu_tasks.png"));
-
             usersIcon.Fill = new ImageBrush(WazeraUtils.GetResource("menu_users.png"));
 
             DataSource.Start();
-
-            LoginUser(new UserData(0, "Test", "Peter", "Penguin", WazeraUtils.GetResource("default_avatar.png")));
-            OpenProjectList();
+            OpenLoginScreen();
         }
 
         public void LoginUser(UserData userData)
@@ -42,6 +37,17 @@ namespace Wazera
             LoggedIn.User = userData;
             userLabel.Content = LoggedIn.User.GetFullName();
             userAvatar.Fill = new ImageBrush(LoggedIn.User.Avatar);
+
+            tgrid.IsEnabled = true;
+            OpenProjectList();
+        }
+
+        public void OpenLoginScreen()
+        {
+            LoginScreen loginScreen = new LoginScreen();
+            headerLabel.Content = "Welcome to Wazera";
+            tgrid.IsEnabled = false;
+            SetCenterGridContent(loginScreen);
         }
 
         public void OpenProjectList()

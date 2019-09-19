@@ -14,6 +14,7 @@
         <DockPanel>
             <Grid
                 Name="tgrid"
+                IsEnabled="False"
                 DockPanel.Dock="Top"
                 HorizontalAlignment="Stretch"
                 Height="60">
@@ -137,7 +138,7 @@
                             HorizontalAlignment="Right">
                             <Label
                                 Name="userLabel"
-                                Content="Firstname Lastname"
+                                Content="Profile"
                                 VerticalAlignment="Center"
                                 Margin="0"
                                 FontSize="18"
