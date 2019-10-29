@@ -1,0 +1,23 @@
+<f:view xmlns="http://www.w3c.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.svg"/>
+		<title>Wazera Cloud</title>
+	</h:head>
+	<h:body>
+	
+		<ui:composition template="/templates/default.xhtml">
+			<ui:define name="center">
+				<p:outputPanel>
+					Hallo! #{dashboardController.ping()}
+				</p:outputPanel>
+			</ui:define>
+		</ui:composition>
+
+	</h:body>
+</f:view>

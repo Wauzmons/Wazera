@@ -1,0 +1,51 @@
+<f:view xmlns="http://www.w3c.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.svg"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/space.css"/>
+		<title>Wazera Cloud</title>
+	</h:head>
+	<h:body>
+		
+		<p:layout styleClass="layout-container" fullPage="true">
+			<p:layoutUnit position="north" styleClass="no-border">
+			
+				<p:menubar styleClass="no-border menubar">
+					<p:menuitem url="/dashboard.xhtml" styleClass="no-spacing">
+						<p:graphicImage value="/resources/images/favicon.svg" height="27.2"/>
+					</p:menuitem>
+					<p:menuitem icon="ui-icon-power" value="Logout" url="perform_logout"/>
+			        <f:facet name="options">
+			        	<p:button
+			        		icon="ui-icon-contact" value="Feedback"
+			        		href="mailto:dev@wauz.eu"
+			        		styleClass="no-spacing" style="height: 29.2px;"/>
+			        	<p:button
+			        		icon="ui-icon-power" value="Logout"
+			        		href="perform_logout"
+			        		styleClass="no-spacing" style="height: 29.2px; margin-left: 5px !important;"/>
+			        </f:facet>
+				</p:menubar>
+			</p:layoutUnit>
+			
+			<p:layoutUnit position="west" styleClass="no-border">
+				<p:menu styleClass="no-border menubar">
+					<p:submenu label="Areas">
+		        		<p:menuitem icon="ui-icon-bullet" value="One" url="#"/>
+		        		<p:menuitem icon="ui-icon-bullet" value="Two" url="#"/>
+	        		</p:submenu>
+	        	</p:menu>
+			</p:layoutUnit>
+			
+			<p:layoutUnit position="center" styleClass="no-border">
+				<ui:insert name="center"/>
+			</p:layoutUnit>
+		</p:layout>			
+
+	</h:body>
+</f:view>

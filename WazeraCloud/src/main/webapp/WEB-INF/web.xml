@@ -1,0 +1,34 @@
+<!DOCTYPE web-app>
+<web-app>
+	<display-name>Eternal Empire</display-name>
+	<context-param>
+		<param-name>primefaces.THEME</param-name>
+		<param-value>admin</param-value>
+	</context-param>
+	
+	<!-- Welcome page -->
+	<welcome-file-list>
+		<welcome-file>/dashboard.xhtml</welcome-file>
+	</welcome-file-list>
+	<error-page>
+        <error-code>404</error-code>
+        <location>/login</location>
+    </error-page>
+
+	<!-- JSF mapping -->
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<context-param>
+        <param-name>javax.faces.WEBAPP_RESOURCES_DIRECTORY</param-name>
+        <param-value>/resources/images</param-value>
+	</context-param>
+	
+	<!-- Map these files with JSF -->
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+</web-app>
