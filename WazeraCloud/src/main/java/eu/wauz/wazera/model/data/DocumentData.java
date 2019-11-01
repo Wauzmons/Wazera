@@ -15,19 +15,7 @@ public class DocumentData {
 
 	private List<String> tags;
 
-	private Integer versionNumber;
-
 	private Date creationDate;
-
-	private Boolean deleted;
-
-	public Integer getVersionNumber() {
-		return versionNumber;
-	}
-
-	public void setVersionNumber(Integer versionNumber) {
-		this.versionNumber = versionNumber;
-	}
 
 	public Integer getId() {
 		return id;
@@ -75,14 +63,6 @@ public class DocumentData {
 
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
-	}
-
-	public Boolean getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(Boolean deleted) {
-		this.deleted = deleted;
 	}
 
 }

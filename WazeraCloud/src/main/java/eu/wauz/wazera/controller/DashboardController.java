@@ -15,7 +15,7 @@ public class DashboardController implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		System.out.println("EEEEEEEEEEEEEEE");
+		
 	}
 	
 	public String ping() {

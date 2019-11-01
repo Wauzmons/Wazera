@@ -26,9 +26,6 @@ public class Document implements Serializable {
 	private Integer id;
 
 	@Column
-	private int type;
-
-	@Column
 	private String name;
 
 	@Column
@@ -47,19 +44,10 @@ public class Document implements Serializable {
 	private String content;
 
 	@Column
-	private String textContent;
-
-	@Column
 	private Integer sortOrder;
 
 	@Column
 	private Date creationDate;
-
-	@Column
-	private Integer versionNumber;
-
-	@Column
-	private Boolean deleted;
 
 	public String getUser() {
 		return user;
@@ -77,28 +65,12 @@ public class Document implements Serializable {
 		this.creationDate = creationDate;
 	}
 
-	public Integer getVersionNumber() {
-		return versionNumber;
-	}
-
-	public void setVersionNumber(Integer versionNumber) {
-		this.versionNumber = versionNumber;
-	}
-
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
 	}
 
 	public String getName() {
@@ -141,28 +113,12 @@ public class Document implements Serializable {
 		this.content = content;
 	}
 
-	public String getTextContent() {
-		return textContent;
-	}
-
-	public void setTextContent(String textContent) {
-		this.textContent = textContent;
-	}
-
 	public Integer getSortOrder() {
 		return sortOrder;
 	}
 
 	public void setSortOrder(Integer sortOrder) {
 		this.sortOrder = sortOrder;
-	}
-
-	public Boolean getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(Boolean deleted) {
-		this.deleted = deleted;
 	}
 
 	@Override

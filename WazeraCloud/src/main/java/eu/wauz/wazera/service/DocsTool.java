@@ -4,6 +4,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import eu.wauz.wazera.model.entity.Document;
 import eu.wauz.wazera.model.entity.Folder;
@@ -14,6 +16,11 @@ public class DocsTool {
 		if(StringUtils.containsAny(fileName, new char[] {'|', '/', '\\', ':', '*', '?', '"', '<', '>'})) {
 			throw new Exception("The input contains invalid characters!");
 		}
+	}
+	
+	public String getUsername() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return authentication != null ? authentication.getName() : null;
 	}
 
 	public List<Document> sortDocuments(List<Document> sortDocs) throws Exception {
