@@ -28,19 +28,10 @@ public class Folder implements Serializable {
 	private String name;
 
 	@Column
-	private String directory;
-
-	@Column
-	private Integer treeId;
-
-	@Column
 	private Integer folderId;
 
 	@Column
 	private Integer sortOrder;
-
-	@Column
-	private Boolean deleted;
 
 	public Integer getId() {
 		return id;
@@ -58,22 +49,6 @@ public class Folder implements Serializable {
 		this.name = name;
 	}
 
-	public String getDirectory() {
-		return directory;
-	}
-
-	public void setDirectory(String directory) {
-		this.directory = directory;
-	}
-
-	public Integer getTreeId() {
-		return treeId;
-	}
-
-	public void setTreeId(Integer treeId) {
-		this.treeId = treeId;
-	}
-
 	public Integer getFolderId() {
 		return folderId;
 	}
@@ -88,14 +63,6 @@ public class Folder implements Serializable {
 
 	public void setSortOrder(Integer sortOrder) {
 		this.sortOrder = sortOrder;
-	}
-
-	public Boolean getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(Boolean deleted) {
-		this.deleted = deleted;
 	}
 
 	@Override

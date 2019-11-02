@@ -44,11 +44,10 @@ public class FoldersDataService {
     	docsTool = new DocsTool();
     }
 
-	public FolderData saveFolder(FolderData folderData, Integer index, Boolean validate) throws Exception {
+	public FolderData saveFolder(FolderData folderData, Integer index) throws Exception {
 		docsTool.checkForValidFileName(folderData.getName());
 
         Folder folder = folderData.getId() != null ? folderRepository.findById(folderData.getId()).get() : new Folder();
-        folder.setDirectory(folderData.getDirectory());
         folder.setName(folderData.getName());
         if(folderData.getParent() != null) {
         	folder.setFolderId(folderData.getParent().getId());
@@ -113,7 +112,6 @@ public class FoldersDataService {
 		if(folder != null) {
 			folderData.setId(folder.getId());
 			folderData.setName(folder.getName());
-			folderData.setDirectory(folder.getDirectory());
 			FolderUserData folderUserData = folderUserDataJpaRepository.findByFolderAndUser(folder.getId(), docsTool.getUsername());
 			folderData.setExpanded(folderUserData != null ? folderUserData.getExpanded() : false);
 		}
@@ -124,11 +122,14 @@ public class FoldersDataService {
 		return folderRepository.findById(documentId).get().getName();
 	}
 
-	public List<FolderData> getTreeDatas() {
-        List<Folder> rootFolders = folderRepository.findRootFolders();
-        return rootFolders.stream()
-        		.map(folder -> readFolderData(folder))
-        		.collect(Collectors.toList());
+	public FolderData getRootFolder() {
+        Folder rootFolder = folderRepository.findRootFolder();
+        if(rootFolder == null) {
+        	rootFolder = new Folder();
+        	rootFolder.setName("Document Tree");
+        	rootFolder = folderRepository.save(rootFolder);
+        }
+        return readFolderData(rootFolder);
 	}
 
 	public void deleteTree(int treeId) throws Exception {

@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:s="http://java.sun.com/jsf/composite/components/shared"
+	xmlns:tw="http://java.sun.com/jsf/composite/components/tasks"
+    template="/templates/default.xhtml" >
+
+    <ui:define name="center">
+    
+		<style type="text/css">
+		
+			.top{
+				vertical-align: top;
+			}
+			.slim{
+				vertical-align: top;
+				width: 1%;
+				padding-right: 10px;
+			}
+
+		</style>
+
+		<h:outputStylesheet library="ckeditor/css" name="samples.css" />
+
+		<script type="text/javascript">
+		
+			function saveScrollPos() {
+				sessionStorage.scrollTop = $('#layoutUnitWest .ui-layout-unit-content').scrollTop();
+			}
+
+			function loadScrollPos() {
+				$('#layoutUnitWest .ui-layout-unit-content').scrollTop(sessionStorage.scrollTop);
+			}
+			
+		</script>
+
+		<p:layout>
+		
+			<p:layoutUnit id="layoutUnitWest" position="west" resizable="true" size="25%" minSize="360" style="overflow:hidden;">
+
+				<h:form id="documentMenuForm">
+
+					<p:growl id="growl" showDetail="true" sticky="true" />
+
+					<p:chips value="#{docsController.searchTags}" onkeydown="searchKeyDown(event)" style="width: 74%; color: white !important;">
+						<p:ajax event="itemUnselect" oncomplete="updateTree()"/>
+					</p:chips>
+					<p:commandButton value="Suche" onclick="updateTree()" style="width: 25%; height: 32px; top: -8px;"/>
+					<p:remoteCommand name="updateTree" update="documentTree" actionListener="#{docsController.selectTree}" />
+					<script>
+					
+						function searchKeyDown(e) {
+						    if (e.keyCode == 13) {
+						        updateTree();
+						    }
+						}
+						
+					</script>
+
+					<p:tree
+						id="documentTree"
+						styleClass="documentTree"
+						cache="false"
+						value="#{docsController.documentTree}"
+						var="node"
+						style="width:2000px;margin-top:2px;"
+						selectionMode="single"
+						selection="#{docsController.selectedNode}"
+						dynamic="true"
+						draggable="true" droppable="true" >
+
+				        <p:treeNode
+				        	id="rootNode"
+				        	type="rootNode" >
+				        	<h:panelGrid
+				        		columns="3">
+				            	<p:outputLabel styleClass="ui-icon ui-icon-home" />
+				            	<h:outputText value="#{node}" />
+
+					        	<p:commandButton
+						        	title="Refresh"
+						        	actionListener="#{docsController.selectTree}"
+						        	update=":documentMenuForm,:mainForm"
+						        	icon="ui-icon-arrowrefresh-1-e"
+						        	style="width:28px;height:28px;"/>
+
+				        	</h:panelGrid>
+				        </p:treeNode>
+
+				        <p:treeNode
+				        	id="directoryNode"
+				        	type="directoryNode" >
+				        	<h:panelGrid
+				        		columns="2">
+				            	<p:outputLabel styleClass="ui-icon ui-icon-folder-open" />
+				            	<h:outputText id="directoryNodeText" value="#{node}" />
+				            	<p:tooltip for="directoryNodeText" value="#{node}" showEffect="fade" hideEffect="fade" />
+				        	</h:panelGrid>
+				        </p:treeNode>
+
+				        <p:treeNode
+				        	id="documentNode"
+				        	type="documentNode" >
+				        	<h:panelGrid
+				        		columns="2">
+				            	<p:outputLabel styleClass="ui-icon ui-icon-document" />
+				            	<h:outputText id="documentNodeText" value="#{node}" />
+				            	<p:tooltip for="documentNodeText" value="#{node}" showEffect="fade" hideEffect="fade" />
+				        	</h:panelGrid>
+				        </p:treeNode>
+
+				        <p:ajax event="select" onstart="return confirmUnsavedEdits();" listener="#{docsController.documentHistorySelect}" update=":mainForm" />
+				        <p:ajax event="dragdrop" listener="#{docsController.onDragDrop}" update=":documentMenuForm" />
+					    <p:ajax event="expand" listener="#{docsController.onNodeExpand}" />
+						<p:ajax event="collapse" listener="#{docsController.onNodeCollapse}" />
+				    </p:tree>
+
+					<p:contextMenu for="documentTree" nodeType="rootNode">
+			            <p:menuitem value="Collapse All" actionListener="#{docsController.collapseAll()}" update="documentTree :mainForm" icon="ui-icon-folder-collapsed" />
+			            <p:menuitem value="New Directory" onclick="PF('dialogAddDirectory').show();" update=":addDirectoryDialogForm" icon="ui-icon-folder-open" />
+			            <p:menuitem value="New Folder" onclick="PF('dialogAddDocument').show();" update=":addDocumentDialogForm" icon="ui-icon-document" />
+				    </p:contextMenu>
+
+					<p:contextMenu for="documentTree" nodeType="directoryNode">
+						<p:menuitem value="Collapse All" actionListener="#{docsController.collapseRecursive(docsController.selectedNode)}" update="documentTree :mainForm" icon="ui-icon-folder-collapsed" />
+			            <p:menuitem value="New Directory" onclick="PF('dialogAddDirectory').show();" update=":addDirectoryDialogForm" icon="ui-icon-folder-open" />
+			            <p:menuitem value="New Folder" onclick="PF('dialogAddDocument').show();" update=":addDocumentDialogForm" icon="ui-icon-document" />
+	       				<p:menuitem value="Rename" onclick="PF('dialogRenameDirectory').show();" update=":renameDirectoryDialogForm" icon="ui-icon-refresh" />
+	       				<p:menuitem value="Delete" update="documentTree" actionListener="#{docsController.deleteNode}" icon="ui-icon-trash" >
+	       					<p:confirm header="Confirm" message="Delete Folder?" icon="ui-icon-alert" />
+	       				</p:menuitem>
+	       				<p:menuitem value="Merge" actionListener="#{docsController.mergeDirectory}" icon="ui-icon-script" update="documentTree" />
+				    </p:contextMenu>
+
+					<p:contextMenu for="documentTree" nodeType="documentNode" beforeShow="updateDocumentLinkFromContextMenu()">
+			            <p:menuitem value="Copy Link" onclick="copyDocumentLinkFromContextMenu()" icon="ui-icon-copy" />
+	       				<p:menuitem value="Rename" onclick="PF('dialogRenameDocument').show();" update=":renameDocumentDialogForm" icon="ui-icon-refresh"/>
+	       				<p:menuitem value="Delete" update="documentTree" actionListener="#{docsController.deleteDocument}" icon="ui-icon-trash" disabled="false" >
+	       					<p:confirm header="Confirm" message="Delete Document?" icon="ui-icon-alert" />
+	       				</p:menuitem>
+				    </p:contextMenu>
+
+				    <p:remoteCommand name="updateDocumentLinkFromContextMenu" update="@(.documentLinkFromContextMenu)" />
+				    <p:outputLabel styleClass="documentLinkFromContextMenu" style="visibility:hidden;">
+				    	<p id="documentLinkFromContextMenu">#{docsController.documentLink}</p>
+				    </p:outputLabel>
+				    <script>
+				    
+				    	function copyDocumentLinkFromContextMenu() {
+				    		  var aux = document.createElement("input");
+				    		  var val = document.getElementById('documentLinkFromContextMenu').innerHTML;
+				    		  aux.setAttribute("value", val);
+				    		  document.body.appendChild(aux);
+				    		  aux.select();
+				    		  document.execCommand("copy", false, null);
+				    		  document.body.removeChild(aux);
+				    	}
+				    	
+				    </script>
+
+				</h:form>
+
+			</p:layoutUnit>
+
+			<p:layoutUnit id="center" position="center" size="100%">
+
+				<h:form id="mainForm" >
+
+					<p:outputPanel
+						rendered="#{docsController.showEditor()}" >
+
+						<p:outputPanel
+							style="padding-bottom: 84px;"
+							id="editor" >
+
+							<h:inputHidden required="false" value="#{docsController.content}" id="editorValue" />
+
+							<div id="editor" ></div>
+
+							<p:remoteCommand name="updateEditorContent" actionListener="#{docsController.updateEditorContent}" update="@this" />
+
+							<script>
+
+								jQuery( window ).resize(function() {
+									setTimeout(function(){
+									try {
+										resizeEditor();
+										CKEDITOR.instances.editor.maximizeHeightNow();
+									}
+									catch(err) {
+									}
+									}, 250);
+								});
+
+								jQuery( document ).ajaxComplete(function( event, xhr, settings ) {
+
+									setTimeout(function(){
+									try {
+										resizeEditor();
+										CKEDITOR.instances.editor.maximizeHeightNow();
+									}
+									catch(err) {
+									}
+									}, 250);
+								});
+
+								jQuery('#mainForm\\:editor').hide();
+								CKEDITOR.replace('editor', {
+								    on: {
+								        instanceReady: function(evt) {
+								        	resizeEditor();
+								        	CKEDITOR.instances.editor.maximizeHeightNow();
+											jQuery('#mainForm\\:editor').fadeIn(250);
+											CKEDITOR.instances.editor.focus();
+								        },
+										key: function(evt) {
+											if(evt.data.keyCode == 9) {
+												CKEDITOR.instances['editor'].insertText('\t');
+												return false;
+									        }
+							            }
+								    }
+								});
+								setTimeout(function(){ updateEditorContent(); }, 150);
+
+								function resizeEditor() {
+									var toolbarHeight = jQuery('.cke_top').height();
+									toolbarHeight = 100; // dont know. it works...
+									console.log('toolbarHeight: ' + toolbarHeight);
+									var chipsInputHeight = jQuery('#mainForm\\:chipsInput').height();
+									console.log('chipsInputHeight: ' + chipsInputHeight);
+
+									var delta = toolbarHeight + chipsInputHeight;
+									console.log('delta: ' + delta);
+
+									var centerHeight = jQuery('#center').height();
+									console.log('centerHeight: ' + centerHeight);
+
+									var editorHeight = centerHeight - delta;
+									console.log('editorHeight: ' + editorHeight);
+
+									jQuery('#mainForm\\:editor').height(editorHeight);
+						        	CKEDITOR.instances.editor.maximizeHeightNow();
+								}
+
+								function doubleBackslashes() {
+									var content = CKEDITOR.instances.editor.getData();
+									CKEDITOR.instances.editor.setData(content.split('\\').join('\\\\'));
+								}
+
+							</script>
+
+							<p:remoteCommand
+								name="saveDoc"
+								onstart="doubleBackslashes(); document.getElementById('mainForm:editorValue').value = CKEDITOR.instances.editor.getData();"
+								actionListener="#{docsController.saveDocument}"
+								update="editor mainForm"/>
+							<p:remoteCommand
+								name="historyPrev"
+								actionListener="#{docsController.documentHistoryPrev()}"
+    							update=":mainForm" />
+							<p:remoteCommand
+								name="historyNext"
+								actionListener="#{docsController.documentHistoryNext()}"
+    							update=":mainForm" />
+
+						</p:outputPanel>
+						
+						<p:outputPanel style="position: fixed;bottom: 10px;padding-right: 32px;" >
+							<h:panelGrid
+								columns="4" >
+								
+								<p:chips id="chipsInput" value="#{docsController.tags}" onkeyup="resizeEditor();" />
+								
+								<p:commandButton
+									styleClass="saveButton"
+									value="Save"
+									onclick="doubleBackslashes(); document.getElementById('mainForm:editorValue').value = CKEDITOR.instances.editor.getData();"
+									icon="ui-icon-disk" actionListener="#{docsController.saveDocument}"
+									update="editor mainForm"
+									style="height: 32px; top: -2px"/>
+									
+								<p:commandButton
+									id="buttonCopyLink"
+									value="Copy Link"
+									icon="ui-icon-copy"
+									style="height: 32px; top: -2px"/>
+									
+							</h:panelGrid>
+						</p:outputPanel>
+
+			            <pe:clipboard id="clipCopy" trigger="buttonCopyLink" action="copy" text="#{docsController.getDocumentLink()}"/>
+
+					</p:outputPanel>
+
+				</h:form>
+				
+			</p:layoutUnit>
+
+		</p:layout>
+		
+		<p:dialog header="New Folder"
+			widgetVar="dialogAddDirectory"
+			resizeable="false"
+			appendToBody="true" >
+
+			<h:form id="addDirectoryDialogForm">
+				<h:panelGrid id="addDirectoryDialogGrid" columns="2"
+					style="margin-bottom:10px">
+
+					<h:outputLabel value="Name"
+						for="name" />
+					<p:inputText id="name" value="#{docsController.name}"
+						style="width:200px" />
+
+					<f:facet name="footer">
+						<p:commandButton type="push"
+							value="Save"
+							actionListener="#{docsController.addDirectoryNode}"
+							onstart="saveScrollPos()"
+							oncomplete="PF('dialogAddDirectory').hide(); loadScrollPos();"
+							update=":documentMenuForm" />
+					</f:facet>
+					
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog header="Rename Folder"
+			widgetVar="dialogRenameDirectory"
+			resizeable="false"
+			appendToBody="true" >
+
+			<h:form id="renameDirectoryDialogForm">
+				<h:panelGrid id="renameDirectoryDialogGrid" columns="2"
+					style="margin-bottom:10px">
+
+					<h:outputLabel value="Name"
+						for="name" />
+					<p:inputText id="name" value="#{docsController.name}"
+						style="width:200px" />
+
+					<f:facet name="footer">
+						<p:commandButton type="push"
+							value="Save"
+							actionListener="#{docsController.renameDirectoryNode}"
+							onstart="saveScrollPos()"
+							oncomplete="PF('dialogRenameDirectory').hide(); loadScrollPos();"
+							update=":documentMenuForm" />
+					</f:facet>
+					
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog header="New Document"
+			widgetVar="dialogAddDocument"
+			resizeable="false"
+			appendToBody="true" >
+
+			<h:form id="addDocumentDialogForm">
+				<h:panelGrid id="addDocumentDialogGrid" columns="2"
+					style="margin-bottom:10px">
+
+					<h:outputLabel value="Name"
+						for="name" />
+					<p:inputText id="name" value="#{docsController.name}"
+						style="width:200px" />
+
+					<f:facet name="footer">
+						<p:commandButton type="push"
+							value="Save"
+							actionListener="#{docsController.addDocumentNode}"
+							onstart="saveScrollPos()"
+							oncomplete="PF('dialogAddDocument').hide(); loadScrollPos();"
+							update=":documentMenuForm" />
+					</f:facet>
+					
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog header="Rename Document"
+			widgetVar="dialogRenameDocument"
+			resizeable="false"
+			appendToBody="true" >
+
+			<h:form id="renameDocumentDialogForm">
+				<h:panelGrid id="renameDocumentDialogGrid" columns="2"
+					style="margin-bottom:10px">
+
+					<h:outputLabel value="Name"
+						for="name" />
+					<p:inputText id="name" value="#{docsController.name}"
+						style="width:200px" />
+
+					<f:facet name="footer">
+						<p:commandButton type="push"
+							value="Save"
+							actionListener="#{docsController.renameDocumentNode}"
+							onstart="saveScrollPos()"
+							oncomplete="PF('dialogRenameDocument').hide(); loadScrollPos();"
+							update=":documentMenuForm"  />
+					</f:facet>
+					
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+		
+    </ui:define>
+    
+</ui:composition>

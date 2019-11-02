@@ -10,13 +10,9 @@ public class FolderData {
 
 	private String name;
 
-	private String directory;
-
 	private FolderData parent;
 
 	private Boolean expanded;
-
-	private Boolean deleted;
 
 	private List<FolderData> folders = new ArrayList<>();
 
@@ -38,14 +34,6 @@ public class FolderData {
 		this.name = name;
 	}
 
-	public String getDirectory() {
-		return directory;
-	}
-
-	public void setDirectory(String directory) {
-		this.directory = directory;
-	}
-
 	public FolderData getParent() {
 		return parent;
 	}
@@ -60,14 +48,6 @@ public class FolderData {
 
 	public void setExpanded(Boolean expanded) {
 		this.expanded = expanded;
-	}
-
-	public Boolean getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(Boolean deleted) {
-		this.deleted = deleted;
 	}
 
 	public List<FolderData> getFolders() {

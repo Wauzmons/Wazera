@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -67,7 +66,7 @@ public class DocumentsDataService {
     	docsTool = new DocsTool();
     }
 
-    public FolderData getDocuments(int treeId, Integer docId, List<String> searchTokens, UUID progressBarUUID) throws Exception {
+    public FolderData getDocuments(int treeId, Integer docId, List<String> searchTokens) throws Exception {
         FolderData rootNode = null;
         Folder rootFolder = folderRepository.findById(treeId).get();
         if(docId != null) {
@@ -129,8 +128,8 @@ public class DocumentsDataService {
 	        }
         }
         else {
-        	addFolders(rootFolder, rootNode, searchTokens, addedFiles, progressBarUUID);
-        	addDocuments(rootFolder, rootNode, searchTokens, addedFiles, progressBarUUID);
+        	addFolders(rootFolder, rootNode, searchTokens, addedFiles);
+        	addDocuments(rootFolder, rootNode, searchTokens, addedFiles);
         }
 
         return rootNode ;
@@ -184,15 +183,13 @@ public class DocumentsDataService {
 		if(folder != null) {
 			folderData.setId(folder.getId());
 			folderData.setName(folder.getName());
-			folderData.setDirectory(folder.getDirectory());
 			FolderUserData folderUserData = folderUserDataJpaRepository.findByFolderAndUser(folder.getId(), docsTool.getUsername());
 			folderData.setExpanded(folderUserData != null ? folderUserData.getExpanded() : false);
-			folderData.setDeleted(folder.getDeleted() != null ? folder.getDeleted() : false);
 		}
 		return folderData;
 	}
 
-    private void addFolders(Folder folder, FolderData node, List<String> tags, Set<String> addedFiles, UUID progressBarUUID) throws Exception {
+    private void addFolders(Folder folder, FolderData node, List<String> tags, Set<String> addedFiles) throws Exception {
     	List<Folder> childFolders = folderRepository.findByFolderIdOrderBySortOrder(folder.getId());
     	for (Folder childFolder : childFolders) {
     		FolderUserData childFolderUserData = folderUserDataJpaRepository.findByFolderAndUser(childFolder.getId(), docsTool.getUsername());
@@ -201,7 +198,6 @@ public class DocumentsDataService {
             childNode.setId(childFolder.getId());
             childNode.setName(childFolder.getName());
             childNode.setExpanded(childFolderUserData != null ? childFolderUserData.getExpanded() : false);
-            childNode.setDeleted(childFolder.getDeleted() != null ? childFolder.getDeleted() : false);
 
             node.getFolders().add(childNode);
 
@@ -211,20 +207,19 @@ public class DocumentsDataService {
             	contentAmount += documentRepository.findByFolderIdOrderBySortOrder(childFolder.getId()).size();
             	if(contentAmount > 0) {
             		FolderData loadingNode = new FolderData();
-            		loadingNode.setName("Lade Inhalt...");
-            		loadingNode.setDeleted(true);
+            		loadingNode.setName("Loading...");
             		loadingNode.setExpanded(false);
             		childNode.getFolders().add(loadingNode);
             	}
             }
             else {
-            	addFolders(childFolder, childNode, tags, addedFiles, progressBarUUID);
-            	addDocuments(childFolder, childNode, tags, addedFiles, progressBarUUID);
+            	addFolders(childFolder, childNode, tags, addedFiles);
+            	addDocuments(childFolder, childNode, tags, addedFiles);
             }
 		}
 	}
 
-	private void addDocuments(Folder folder, FolderData node, List<String> tags, Set<String> addedFiles, UUID progressBarUUID) throws Exception {
+	private void addDocuments(Folder folder, FolderData node, List<String> tags, Set<String> addedFiles) throws Exception {
 		FolderUserData folderUserData = folderUserDataJpaRepository.findByFolderAndUser(folder.getId(), docsTool.getUsername());
 		if(folderUserData == null || !folderUserData.getExpanded()) {
 			return;

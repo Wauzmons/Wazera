@@ -17,7 +17,7 @@ public interface FolderRepository extends CrudRepository<Folder, Integer> {
 	List<Folder> findByFolderIdOrderByName(Integer folderId);
 
 	@Query("select folder from Folder folder where folder.folderId is null")
-	List<Folder> findRootFolders();
+	Folder findRootFolder();
 
 	Folder findByNameAndFolderId(String documentTreeName, Integer folderId);
 
