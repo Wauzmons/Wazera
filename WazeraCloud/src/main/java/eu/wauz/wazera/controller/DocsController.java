@@ -541,7 +541,7 @@ public class DocsController {
 
 	private FolderData rootNodeData;
 
-	private Integer treeId = 0;
+	private Integer treeId;
 
 	private Integer docId;
 

@@ -1,0 +1,49 @@
+body {
+	font-family: Helvetica;
+	font-size: 14px;
+	background-color: black;
+}
+
+.no-border {
+	border: none !important;
+	border-radius: 0px;
+}
+
+.no-spacing {
+	margin: 0px !important;
+	padding: 0px !important;
+}
+
+.layout-container {
+	position: inherit !important;
+	min-width: 400px;
+	min-height: 200px;
+}
+
+.search-container > .ui-chips-container {
+	width: 100%;
+}
+
+.hide-overflow,
+.hide-overflow > .ui-layout-unit-content {
+	overflow: hidden !important;
+}
+
+.inherit-tree-overflow > .ui-tree-container {
+	overflow: inherit !important;
+}
+
+.purple-bg-light,
+.purple-bg-light > .ui-layout-unit-content {
+	background-color: #705296;
+}
+
+.purple-bg-dark,
+.purple-bg-dark > .ui-layout-unit-content {
+	background-color: #291e38;
+}
+
+.gray-bg,
+.gray-bg > .ui-layout-unit-content {
+	background-color: #0a0a0a;
+}

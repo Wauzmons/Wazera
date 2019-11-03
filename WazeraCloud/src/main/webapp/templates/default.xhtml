@@ -9,38 +9,58 @@
 	<h:head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 		<link rel="shortcut icon" type="image/x-icon" href="resources/images/favicon.svg"/>
-		<link rel="stylesheet" type="text/css" href="resources/css/space.css"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/wazera.css"/>
 		<title>Wazera Cloud</title>
 	</h:head>
 	<h:body>
 		
 		<p:layout styleClass="layout-container" fullPage="true">
-			<p:layoutUnit position="north" styleClass="no-border">
+			<p:layoutUnit position="north" gutter="0" styleClass="no-border purple-bg-dark">
 			
-				<p:menubar styleClass="no-border menubar">
-					<p:menuitem url="/dashboard.xhtml" styleClass="no-spacing">
-						<p:graphicImage value="/resources/images/favicon.svg" height="27.2"/>
+				<p:menubar styleClass="no-border no-spacing purple-bg-dark">
+				
+					<p:menuitem
+						url="/dashboard.xhtml"
+						styleClass="no-spacing"
+						style="width: 22px; height: 22px;">
+						<p:graphicImage value="/resources/images/favicon.svg" width="22" height="22"/>
 					</p:menuitem>
-					<p:menuitem icon="ui-icon-power" value="Logout" url="perform_logout"/>
+					
+					<p:menuitem
+						url="/dashboard.xhtml"
+						disabled="true"
+						styleClass="no-spacing"
+						style="font-size: 16px; height: 16px; margin-top: 4px !important;">
+						<p:outputLabel value="Wazera Cloud"/>
+					</p:menuitem>
+					
 			        <f:facet name="options">
 			        	<p:button
 			        		icon="ui-icon-contact" value="Feedback"
 			        		href="mailto:dev@wauz.eu"
-			        		styleClass="no-spacing" style="height: 29.2px;"/>
+			        		styleClass="no-spacing"
+			        		style="margin-right: 5px !important;"/>
 			        	<p:button
 			        		icon="ui-icon-power" value="Logout"
 			        		href="perform_logout"
-			        		styleClass="no-spacing" style="height: 29.2px; margin-left: 5px !important;"/>
+			        		styleClass="no-spacing"
+			        		style="margin-right: 5px !important;"/>
 			        </f:facet>
 				</p:menubar>
 			</p:layoutUnit>
 			
-			<p:layoutUnit position="west" styleClass="no-border">
-				<p:menu styleClass="no-border menubar">
-					<p:submenu label="Areas">
-		        		<p:menuitem icon="ui-icon-bullet" value="One" url="#"/>
-		        		<p:menuitem icon="ui-icon-bullet" value="Two" url="#"/>
-	        		</p:submenu>
+			<p:layoutUnit position="west" gutter="0" styleClass="no-border purple-bg-light">
+				<p:menu styleClass="menubar no-border purple-bg-light" style="width: 80px;">
+					<p:submenu label="Views">
+						<p:menuitem icon="fa fa-pie-chart" value="Board" url="/dashboard.xhtml"/>
+		        		<p:menuitem icon="fa fa-file-text" value="Docs" url="/docs.xhtml"/>
+		        		<p:menuitem icon="fa fa-columns" value="Tasks" url="#"/>
+		        		<p:menuitem icon="fa fa-comments" value="Chat" url="#"/>
+					</p:submenu>
+					<p:submenu label="Web">
+						<p:menuitem icon="fa fa-globe" value="SDS" url="https://www.seven-ducks.com/" target="_blank"/>
+						<p:menuitem icon="fa fa-github" value="GitHub" url="https://github.com/SevenDucks" target="_blank"/>
+					</p:submenu>
 	        	</p:menu>
 			</p:layoutUnit>
 			

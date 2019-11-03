@@ -7,6 +7,18 @@
                 	saveDoc();
                 }
             } );
+            editor.setKeystroke( CKEDITOR.CTRL + 74 /** J */ , 'historyPrev' );
+            editor.addCommand( 'historyPrev', {
+                exec: function( editor ) {
+                	historyPrev();
+                }
+            } );
+            editor.setKeystroke( CKEDITOR.CTRL + 75 /** K */ , 'historyNext' );
+            editor.addCommand( 'historyNext', {
+                exec: function( editor ) {
+                	historyNext();
+                }
+            } );
         }
     });
 } )();

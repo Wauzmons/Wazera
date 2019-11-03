@@ -43,16 +43,26 @@
 
 		<p:layout>
 		
-			<p:layoutUnit id="layoutUnitWest" position="west" resizable="true" size="25%" minSize="360" style="overflow:hidden;">
+			<p:layoutUnit
+				id="layoutUnitWest"
+				position="west"
+				gutter="10"
+				size="360"
+				styleClass="no-border hide-overflow gray-bg"
+				style="overflow:hidden;">
 
 				<h:form id="documentMenuForm">
 
 					<p:growl id="growl" showDetail="true" sticky="true" />
 
-					<p:chips value="#{docsController.searchTags}" onkeydown="searchKeyDown(event)" style="width: 74%; color: white !important;">
+					<p:chips
+						value="#{docsController.searchTags}"
+						onkeydown="searchKeyDown(event)"
+						styleClass="search-container"
+						style="width: 74%;">
 						<p:ajax event="itemUnselect" oncomplete="updateTree()"/>
 					</p:chips>
-					<p:commandButton value="Suche" onclick="updateTree()" style="width: 25%; height: 32px; top: -8px;"/>
+					<p:commandButton value="Search" onclick="updateTree()" style="width: 25%; top: -9px;"/>
 					<p:remoteCommand name="updateTree" update="documentTree" actionListener="#{docsController.selectTree}" />
 					<script>
 					
@@ -63,18 +73,21 @@
 						}
 						
 					</script>
+					
+					<p:scrollPanel mode="native" styleClass="gray-bg" style="width: 99%; height: 565px;">
 
 					<p:tree
 						id="documentTree"
-						styleClass="documentTree"
 						cache="false"
 						value="#{docsController.documentTree}"
 						var="node"
-						style="width:2000px;margin-top:2px;"
+						styleClass="no-border inherit-tree-overflow gray-bg"
+						style="width: 100%; height: 100%;"
 						selectionMode="single"
 						selection="#{docsController.selectedNode}"
 						dynamic="true"
-						draggable="true" droppable="true" >
+						draggable="true"
+						droppable="true">
 
 				        <p:treeNode
 				        	id="rootNode"
@@ -116,22 +129,24 @@
 				        	</h:panelGrid>
 				        </p:treeNode>
 
-				        <p:ajax event="select" onstart="return confirmUnsavedEdits();" listener="#{docsController.documentHistorySelect}" update=":mainForm" />
+				        <p:ajax event="select" update=":mainForm" />
 				        <p:ajax event="dragdrop" listener="#{docsController.onDragDrop}" update=":documentMenuForm" />
 					    <p:ajax event="expand" listener="#{docsController.onNodeExpand}" />
 						<p:ajax event="collapse" listener="#{docsController.onNodeCollapse}" />
 				    </p:tree>
+				    
+				    </p:scrollPanel>
 
 					<p:contextMenu for="documentTree" nodeType="rootNode">
 			            <p:menuitem value="Collapse All" actionListener="#{docsController.collapseAll()}" update="documentTree :mainForm" icon="ui-icon-folder-collapsed" />
-			            <p:menuitem value="New Directory" onclick="PF('dialogAddDirectory').show();" update=":addDirectoryDialogForm" icon="ui-icon-folder-open" />
-			            <p:menuitem value="New Folder" onclick="PF('dialogAddDocument').show();" update=":addDocumentDialogForm" icon="ui-icon-document" />
+			            <p:menuitem value="New Folder" onclick="PF('dialogAddDirectory').show();" update=":addDirectoryDialogForm" icon="ui-icon-folder-open" />
+			            <p:menuitem value="New Document" onclick="PF('dialogAddDocument').show();" update=":addDocumentDialogForm" icon="ui-icon-document" />
 				    </p:contextMenu>
 
 					<p:contextMenu for="documentTree" nodeType="directoryNode">
 						<p:menuitem value="Collapse All" actionListener="#{docsController.collapseRecursive(docsController.selectedNode)}" update="documentTree :mainForm" icon="ui-icon-folder-collapsed" />
-			            <p:menuitem value="New Directory" onclick="PF('dialogAddDirectory').show();" update=":addDirectoryDialogForm" icon="ui-icon-folder-open" />
-			            <p:menuitem value="New Folder" onclick="PF('dialogAddDocument').show();" update=":addDocumentDialogForm" icon="ui-icon-document" />
+			            <p:menuitem value="New Folder" onclick="PF('dialogAddDirectory').show();" update=":addDirectoryDialogForm" icon="ui-icon-folder-open" />
+			            <p:menuitem value="New Document" onclick="PF('dialogAddDocument').show();" update=":addDocumentDialogForm" icon="ui-icon-document" />
 	       				<p:menuitem value="Rename" onclick="PF('dialogRenameDirectory').show();" update=":renameDirectoryDialogForm" icon="ui-icon-refresh" />
 	       				<p:menuitem value="Delete" update="documentTree" actionListener="#{docsController.deleteNode}" icon="ui-icon-trash" >
 	       					<p:confirm header="Confirm" message="Delete Folder?" icon="ui-icon-alert" />
@@ -169,7 +184,12 @@
 
 			</p:layoutUnit>
 
-			<p:layoutUnit id="center" position="center" size="100%">
+			<p:layoutUnit
+				id="center"
+				position="center"
+				gutter="10"
+				size="100%"
+				styleClass="no-border">
 
 				<h:form id="mainForm" >
 
@@ -181,7 +201,7 @@
 							id="editor" >
 
 							<h:inputHidden required="false" value="#{docsController.content}" id="editorValue" />
-
+							
 							<div id="editor" ></div>
 
 							<p:remoteCommand name="updateEditorContent" actionListener="#{docsController.updateEditorContent}" update="@this" />
@@ -200,14 +220,14 @@
 								});
 
 								jQuery( document ).ajaxComplete(function( event, xhr, settings ) {
-
 									setTimeout(function(){
-									try {
-										resizeEditor();
-										CKEDITOR.instances.editor.maximizeHeightNow();
-									}
-									catch(err) {
-									}
+										try {
+											resizeEditor();
+											CKEDITOR.instances.editor.maximizeHeightNow();
+										}
+										catch(err) {
+											
+										}
 									}, 250);
 								});
 
@@ -262,14 +282,6 @@
 								onstart="doubleBackslashes(); document.getElementById('mainForm:editorValue').value = CKEDITOR.instances.editor.getData();"
 								actionListener="#{docsController.saveDocument}"
 								update="editor mainForm"/>
-							<p:remoteCommand
-								name="historyPrev"
-								actionListener="#{docsController.documentHistoryPrev()}"
-    							update=":mainForm" />
-							<p:remoteCommand
-								name="historyNext"
-								actionListener="#{docsController.documentHistoryNext()}"
-    							update=":mainForm" />
 
 						</p:outputPanel>
 						
@@ -285,13 +297,13 @@
 									onclick="doubleBackslashes(); document.getElementById('mainForm:editorValue').value = CKEDITOR.instances.editor.getData();"
 									icon="ui-icon-disk" actionListener="#{docsController.saveDocument}"
 									update="editor mainForm"
-									style="height: 32px; top: -2px"/>
+									style="height: 25px; top: -1px;"/>
 									
 								<p:commandButton
 									id="buttonCopyLink"
 									value="Copy Link"
 									icon="ui-icon-copy"
-									style="height: 32px; top: -2px"/>
+									style="height: 25px; top: -1px;"/>
 									
 							</h:panelGrid>
 						</p:outputPanel>

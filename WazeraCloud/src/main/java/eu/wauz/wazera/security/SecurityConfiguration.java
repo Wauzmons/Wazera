@@ -32,7 +32,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.defaultSuccessUrl("/dashboard.xhtml", true)
 			.and()
 			.logout()
-			.logoutUrl("/perform_logout");
+			.deleteCookies("JSESSIONID")
+			.logoutUrl("/perform_logout")
+	        .and()
+	        .rememberMe().key("uniqueAndSecret");
 	}
 	
 	@Bean
