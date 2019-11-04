@@ -8,16 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "Folder")
 public class Folder implements Serializable {
 
 	private static final long serialVersionUID = 4186709479708958436L;
-
-	@Transient
-	private static final org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(Folder.class);
 
 	@Id
 	@Column

@@ -9,16 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "Document")
 public class Document implements Serializable {
 
 	private static final long serialVersionUID = 5477340625500758152L;
-	
-	@Transient
-	private static final org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(Document.class);
 
 	@Id
 	@Column

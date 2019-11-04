@@ -98,7 +98,6 @@ public class DocumentsDataService {
 	        	FolderData documentFolderData = addFolderData(folderDataMap, folderMap, document.getFolderId());
 	        	if(documentFolderData != null && documentFolderData.getDocuments() != null) {
 	        		documentFolderData.getDocuments().add(readDocumentData(document));
-	        		System.out.println("added document " + document + " to folder " + documentFolderData);
 	        	}
 			}
 

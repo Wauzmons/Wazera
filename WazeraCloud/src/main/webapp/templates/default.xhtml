@@ -18,9 +18,9 @@
 		<p:growl id="growl" showDetail="true" globalOnly="true" sticky="true" />
 		
 		<p:layout styleClass="layout-container" fullPage="true">
-			<p:layoutUnit position="north" gutter="0" styleClass="no-border purple-bg-dark">
+			<p:layoutUnit position="north" gutter="0" styleClass="no-border purple-bg-light">
 			
-				<p:menubar styleClass="no-border no-spacing purple-bg-dark">
+				<p:menubar styleClass="no-border no-spacing purple-bg-light">
 				
 					<p:menuitem
 						url="/dashboard.xhtml"
@@ -31,7 +31,6 @@
 					
 					<p:menuitem
 						url="/dashboard.xhtml"
-						disabled="true"
 						styleClass="no-spacing"
 						style="font-size: 16px; height: 16px; margin-top: 4px !important;">
 						<p:outputLabel value="Wazera Cloud"/>
@@ -52,8 +51,8 @@
 				</p:menubar>
 			</p:layoutUnit>
 			
-			<p:layoutUnit position="west" gutter="0" styleClass="no-border purple-bg-light">
-				<p:menu styleClass="menubar no-border purple-bg-light" style="width: 80px;">
+			<p:layoutUnit position="west" gutter="0" styleClass="no-border purple-bg-dark">
+				<p:menu styleClass="menubar no-border purple-bg-dark" style="width: 80px;">
 					<p:submenu label="Views">
 						<p:menuitem icon="fa fa-pie-chart" value="Board" url="/dashboard.xhtml"/>
 		        		<p:menuitem icon="fa fa-file-text" value="Docs" url="/docs.xhtml"/>

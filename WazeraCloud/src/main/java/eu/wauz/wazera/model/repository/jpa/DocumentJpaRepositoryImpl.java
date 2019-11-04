@@ -24,8 +24,6 @@ public class DocumentJpaRepositoryImpl implements DocumentJpaRepository {
 			queryBuilder.addWhere("(doc.textContent like :textSearchToken" + i + " or exists (select documentTag from DocumentTag documentTag where doc.id = documentTag.documentId and documentTag.value like :searchToken" + i + "))");
 		}
 
-		System.out.println(queryBuilder);
-
 		TypedQuery<Document> query = em.createQuery(queryBuilder.buildQuery(), Document.class);
 		for (int i = 0; i < searchTokens.size(); i++) {
 			query.setParameter("textSearchToken" + i, "%" + searchTokens.get(i) + "%");

@@ -24,8 +24,6 @@ public class FolderJpaRepositoryImpl implements FolderJpaRepository {
 			queryBuilder.addWhere("(folder.name like :searchToken" + i + ")");
 		}
 
-		System.out.println(queryBuilder);
-
 		TypedQuery<Folder> query = em.createQuery(queryBuilder.buildQuery(), Folder.class);
 		for (int i = 0; i < searchTokens.size(); i++) {
 			query.setParameter("searchToken" + i, "%" + searchTokens.get(i) + "%");
