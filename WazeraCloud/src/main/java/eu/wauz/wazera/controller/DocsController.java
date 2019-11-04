@@ -1,16 +1,12 @@
 package eu.wauz.wazera.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang3.SystemUtils;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.NodeCollapseEvent;
 import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.event.TreeDragDropEvent;
@@ -41,10 +37,22 @@ public class DocsController {
 	private FoldersDataService foldersService;
 
 	private TreeNode documentTree;
+	
+	private TreeNode selectedNode;
 
-	private String documentTreeName;
+	private FolderData rootNodeData;
+	
+	private List<String> documentTags;
+	
+	private List<String> searchTags;
+	
+	private String inputName;
+	
+	private String content;
+	
+	private boolean allowEditing;
 
-	private Map<String, TreeNode> nodeMap;
+	private Integer docId;
 
 	public DocsController() {
 		Object doctIdObject = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("docId");
@@ -77,7 +85,6 @@ public class DocsController {
 			node = new PfFolderTreeNode(folderNode, treeNode);
 			node.setExpanded(folderNode.isExpanded() != null ? folderNode.isExpanded() : false);
 		}
-		nodeMap.put(node.getName(), node);
 		
 		for (FolderData childNode : folderNode.getFolders()) {
 			addFolderNodes(childNode, node, false);
@@ -96,22 +103,7 @@ public class DocsController {
 			setSelectedNode(node);
 			docId = null;
 		}
-		nodeMap.put(node.getName(), node);
 	}
-
-	public boolean isFile(String name) {
-		boolean value = false;
-		value = nodeMap.get(name) instanceof PfDocumentTreeNode;
-		return value;
-	}
-
-	public boolean isDirectory(String name) {
-		boolean value = false;
-		value = nodeMap.get(name) instanceof PfFolderTreeNode;
-		return value;
-	}
-
-	private TreeNode selectedNode;
 
 	public TreeNode getSelectedNode() {
 		return selectedNode;
@@ -125,14 +117,14 @@ public class DocsController {
 		}
 		
 		if (selectedNode instanceof PfDocumentTreeNode) {
-			name = ((PfDocumentTreeNode) selectedNode).getName();
+			inputName = ((PfDocumentTreeNode) selectedNode).getName();
 			content = ((PfDocumentTreeNode) selectedNode).getDocumentData().getContent();
-			tags = ((PfDocumentTreeNode) selectedNode).getDocumentData().getTags();
+			documentTags = ((PfDocumentTreeNode) selectedNode).getDocumentData().getTags();
 		}
 		else {
-			name = ((PfFolderTreeNode) selectedNode).getName();
+			inputName = ((PfFolderTreeNode) selectedNode).getName();
 			content = "";
-			tags = new ArrayList<>();
+			documentTags = new ArrayList<>();
 		}
 	}
 
@@ -140,7 +132,7 @@ public class DocsController {
 		PfFolderTreeNode parent = (PfFolderTreeNode) selectedNode;
 
 		FolderData folderData = new FolderData();
-		folderData.setName(name);
+		folderData.setName(inputName);
 		folderData.setParent(parent.getFolderData());
 
 		try {
@@ -152,100 +144,18 @@ public class DocsController {
 
 		TreeNode newNode = new PfFolderTreeNode(folderData, selectedNode);
 		newNode.setExpanded(true);
-		nodeMap.put(name, newNode);
 
 		documentTree = null;
-		name = "";
+		inputName = "";
 	}
-
-	public void renameDirectoryNode() {
-		PfFolderTreeNode selectedFolderData = (PfFolderTreeNode) selectedNode;
-		selectedFolderData.getFolderData().setName(name);
-
-		try {
-			foldersService.saveFolder(selectedFolderData.getFolderData(), null);
-		}
-		catch (Exception e) {
-			showErrorMessage(e.getMessage());
-		}
-
-		documentTree = null;
-		name = "";
-	}
-
-	public void mergeDirectory() {
-		PfFolderTreeNode selectedFolderData = (PfFolderTreeNode) selectedNode;
-
-		try {
-			documentsService.mergeDocuments(selectedFolderData.getFolderData(), getUsername());
-		}
-		catch (Exception e) {
-			showErrorMessage(e.getMessage());
-		}
-    	selectTree();
-	}
-
-	public boolean showEditor() {
-		return selectedNode != null && selectedNode instanceof PfDocumentTreeNode;
-	}
-
-	private String content;
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public void saveDocument() {
-		PfDocumentTreeNode selectedDocumentData = (PfDocumentTreeNode) selectedNode;
-
-		selectedDocumentData.getDocumentData().setContent(content);
-		selectedDocumentData.getDocumentData().setTags(tags);
-
-		try {
-			documentsService.saveDocument(selectedDocumentData.getDocumentData(), null, getUsername());
-		}
-		catch (Exception e) {
-			showErrorMessage(e.getMessage());
-		}
-	}
-
-	private String name;
-
-	private boolean validName;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public boolean isValidName() {
-		return validName;
-	}
-
-	public void setValidName(boolean validName) {
-		this.validName = validName;
-	}
-
-	public void showErrorMessage(String errorMessage) {
-		errorMessage = errorMessage.replace("- DocsInvalidNameException", "");
-		final FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fehler:", errorMessage);
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
-
+	
 	public void addDocumentNode() {
 		PfFolderTreeNode parent = (PfFolderTreeNode) selectedNode;
 
 		DocumentData documentData = new DocumentData();
-		documentData.setName(name);
-		documentData.setContent("");
+		documentData.setName(inputName);
 		documentData.setParent(parent.getFolderData());
+		documentData.setContent("");
 
 		try {
 			documentData = documentsService.saveDocument(documentData, null, getUsername());
@@ -256,17 +166,29 @@ public class DocsController {
 
 		TreeNode newNode = new PfDocumentTreeNode(documentData, selectedNode);
 		newNode.setExpanded(true);
-		nodeMap.put(name, newNode);
 
 		documentTree = null;
-		name = "";
+		inputName = "";
+	}
+
+	public void renameDirectoryNode() {
+		PfFolderTreeNode selectedFolderData = (PfFolderTreeNode) selectedNode;
+		selectedFolderData.getFolderData().setName(inputName);
+
+		try {
+			foldersService.saveFolder(selectedFolderData.getFolderData(), null);
+		}
+		catch (Exception e) {
+			showErrorMessage(e.getMessage());
+		}
+
+		documentTree = null;
+		inputName = "";
 	}
 
 	public void renameDocumentNode() {
-
 		PfDocumentTreeNode selectedDocumentData = (PfDocumentTreeNode) selectedNode;;
-
-		selectedDocumentData.getDocumentData().setName(name);
+		selectedDocumentData.getDocumentData().setName(inputName);
 
 		try {
 			documentsService.saveDocument(selectedDocumentData.getDocumentData(), null, getUsername());
@@ -276,102 +198,67 @@ public class DocsController {
 		}
 
 		documentTree = null;
-		name = "";
+		inputName = "";
 	}
 
-	public String getDocumentTreeName() {
-		return documentTreeName;
+	public boolean showEditor() {
+		return selectedNode != null && selectedNode instanceof PfDocumentTreeNode;
 	}
 
-	public void setDocumentTreeName(String documentTreeName) {
-		this.documentTreeName = documentTreeName;
-	}
+	public void saveDocument() {
+		PfDocumentTreeNode selectedDocumentData = (PfDocumentTreeNode) selectedNode;
 
-	public int getTreeId() {
-		return treeId;
-	}
+		selectedDocumentData.getDocumentData().setContent(content);
+		selectedDocumentData.getDocumentData().setTags(documentTags);
 
-	public void setTreeId(int treeId) {
-		this.treeId = treeId;
 		try {
-			documentTreeName = foldersService.getFolderName(treeId);
+			documentsService.saveDocument(selectedDocumentData.getDocumentData(), null, getUsername());
+			showInfoMessage("Your Document was saved!");
 		}
 		catch (Exception e) {
 			showErrorMessage(e.getMessage());
 		}
 	}
-
-	public FolderData getRootFolderData() {
-		try {
-			return foldersService.getRootFolder();
-		}
-		catch (Exception e) {
-			showErrorMessage(e.getMessage());
-			return null;
-		}
+	
+	public String getContent() {
+		return content;
+	}
+	
+	public void setContent(String content) {
+		this.content = content;
 	}
 
-	public void addTree() {
-		FolderData folderData = new FolderData();
-		folderData.setName(documentTreeName);
-		folderData.setParent(null);
+	public boolean isAllowEditing() {
+		return allowEditing;
+	}
 
-		try {
-			foldersService.saveFolder(folderData, null);
-		}
-		catch (Exception e) {
-			showErrorMessage(e.getMessage());
-		}
-
-		TreeNode newNode = new PfFolderTreeNode(folderData, null);
-		newNode.setExpanded(true);
-		nodeMap = new HashMap<>();
-		nodeMap.put(name, newNode);
-
-		documentTree = null;
+	public void setAllowEditing(boolean allowEditing) {
+		this.allowEditing = allowEditing;
 	}
 
 	public void selectTree() {
-		nodeMap = new HashMap<>();
 		documentTree = new DefaultTreeNode("documentTree", null);
 
 		if(searchTags == null) {
 			searchTags = new ArrayList<String>();
 		}
-
-		if(treeId == null) {
-			treeId = getRootFolderData().getId();
-		}
-		try {
-			documentTreeName = foldersService.getFolderName(treeId);
-		}
-		catch (Exception e) {
-			showErrorMessage(e.getMessage());
-		}
-
 		if(searchTags.size() == 0 && selectedNode instanceof PfDocumentTreeNode) {
 			docId = ((PfDocumentTreeNode) selectedNode).getDocumentData().getId();
 		}
 
-		FolderData result = null;
 		try {
-			result = documentsService.getDocuments(treeId, docId, searchTags);
+			rootNodeData = documentsService.getDocuments(foldersService.getRootFolder().getId(), docId, searchTags);
+			addFolderNodes(rootNodeData, documentTree, true);
 		}
 		catch (Exception e) {
 			showErrorMessage(e.getMessage());
 		}
-
-		rootNodeData = result;
-		addFolderNodes(rootNodeData, documentTree, true);
 	}
-
-	private boolean hasSearchTags() {
-		return searchTags != null && !searchTags.isEmpty();
-	}
-
+	
 	public void onNodeExpand(NodeExpandEvent event) {
-		if(hasSearchTags())
+		if(hasSearchTags()) {
 			return;
+		}
 
 		FolderData folderData = ((PfFolderTreeNode) event.getTreeNode()).getFolderData();
 		folderData.setExpanded(true);
@@ -425,37 +312,23 @@ public class DocsController {
 	}
 
 	public void collapse(TreeNode treeNode) {
-		if(treeNode instanceof PfFolderTreeNode) {
-			treeNode.setExpanded(false);
-
-			if(hasSearchTags())
-				return;
-
-			FolderData folderData = ((PfFolderTreeNode)treeNode).getFolderData();
-			folderData.setExpanded(false);
-			try {
-				foldersService.saveFolder(folderData, null);
-			}
-			catch (Exception e) {
-				showErrorMessage(e.getMessage());
-			}
+		if(hasSearchTags() || !(treeNode instanceof PfFolderTreeNode)) {
+			return;
 		}
-	}
-
-	public void deleteTree() {
+		
+		treeNode.setExpanded(false);
+		
+		FolderData folderData = ((PfFolderTreeNode)treeNode).getFolderData();
+		folderData.setExpanded(false);
 		try {
-			foldersService.deleteTree(treeId);
+			foldersService.saveFolder(folderData, null);
 		}
 		catch (Exception e) {
 			showErrorMessage(e.getMessage());
 		}
-		treeId = getRootFolderData().getId();
-		documentTreeName = getRootFolderData().getName();
-
-		selectTree();
 	}
 
-	public void deleteNode() {
+	public void deleteFolder() {
 		PfFolderTreeNode node = (PfFolderTreeNode) selectedNode;
 
 		try {
@@ -479,21 +352,6 @@ public class DocsController {
 		}
 		
 		selectTree();
-	}
-
-	public void renameTree() {
-		PfFolderTreeNode selectedFolderData = (PfFolderTreeNode) selectedNode;
-		selectedFolderData.getFolderData().setName(documentTreeName);
-
-		try {
-			foldersService.saveFolder(selectedFolderData.getFolderData(), null);
-		}
-		catch (Exception e) {
-			showErrorMessage(e.getMessage());
-		}
-
-		documentTree = null;
-		name = "";
 	}
 
 	public void onDragDrop(TreeDragDropEvent event) {
@@ -526,24 +384,26 @@ public class DocsController {
 		}
 		selectTree();
 	}
+	
+	public String getName() {
+		return inputName;
+	}
 
-	private List<String> tags;
+	public void setName(String name) {
+		this.inputName = name;
+	}
+
+	private boolean hasSearchTags() {
+		return searchTags != null && !searchTags.isEmpty();
+	}
 
 	public List<String> getTags() {
-		return tags;
+		return documentTags;
 	}
 
 	public void setTags(List<String> tags) {
-		this.tags = tags == null ? new ArrayList<>() : tags;
+		this.documentTags = tags == null ? new ArrayList<>() : tags;
 	}
-
-	private List<String> searchTags;
-
-	private FolderData rootNodeData;
-
-	private Integer treeId;
-
-	private Integer docId;
 
 	public List<String> getSearchTags() {
 		return searchTags;
@@ -559,6 +419,7 @@ public class DocsController {
 
     		if(selectedNode instanceof PfDocumentTreeNode) {
 				Integer docId = selectedNode != null ? ((PfDocumentTreeNode) selectedNode).getDocumentData().getId() : 0;
+				showInfoMessage("Link copied to Clipboard!");
 				return baseUrl + "WazeraCloud/docs.xhtml?docId=" + docId;
     		}
 		}
@@ -567,11 +428,15 @@ public class DocsController {
 		}
     	return "";
     }
-
-	public void updateEditorContent() {
-		RequestContext requestContext = RequestContext.getCurrentInstance();
-		String editorContent = content.replaceAll("\"", "").replaceAll("'", "").replaceAll("\n", "").replaceAll("\r", "");
-		requestContext.execute("CKEDITOR.instances.editor.setData('" + editorContent + "')");
+    
+    public void showInfoMessage(String infoMessage) {
+		final FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Info:", infoMessage);
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+    
+	public void showErrorMessage(String errorMessage) {
+		final FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fehler:", errorMessage);
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 }

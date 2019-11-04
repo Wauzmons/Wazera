@@ -24,6 +24,22 @@ body {
 	width: 100%;
 }
 
+.text-editor > .ql-snow {
+	border: 1px solid #444444;
+}
+
+.text-editor > .ql-snow .ql-stroke {
+	stroke: #ffffff;
+}
+
+.text-editor > .ql-snow .ql-fill {
+	fill: #ffffff;
+}
+
+.text-editor > .ql-snow .ql-picker-label {
+	color: #ffffff;
+}
+
 .hide-overflow,
 .hide-overflow > .ui-layout-unit-content {
 	overflow: hidden !important;
@@ -45,5 +61,5 @@ body {
 
 .gray-bg,
 .gray-bg > .ui-layout-unit-content {
-	background-color: #0a0a0a;
+	background-color: #0e0e0e;
 }

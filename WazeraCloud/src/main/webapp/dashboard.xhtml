@@ -15,9 +15,7 @@
 	
 		<ui:composition template="/templates/default.xhtml">
 			<ui:define name="center">
-				<p:outputPanel>
-					#{dashboardController.ping()}
-				</p:outputPanel>
+				<p:outputLabel value="#{dashboardController.ping()}" style="margin: 5px;"/>
 			</ui:define>
 		</ui:composition>
 

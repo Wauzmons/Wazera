@@ -339,47 +339,4 @@ public class DocumentsDataService {
 		return documentData;
 	}
 
-	public void mergeDocuments(FolderData folderData, String username) throws Exception {
-		String documentContent = getMergedDocumentContent(folderRepository.findById(folderData.getId()).get(), folderData.getId());
-
-		Document document  = documentRepository.findByNameAndFolderId(folderData.getName(), folderData.getId());
-
-		DocumentData documentData = new DocumentData();
-		if(document != null)
-			documentData = readDocumentData(document);
-		documentData.setContent(documentContent);
-		documentData.setCreationDate(new Date());
-		documentData.setName(folderData.getName());
-		documentData.setParent(folderData);
-
-		saveDocument(documentData, 0, username);
-	}
-
-	private String getMergedDocumentContent(Folder folder, Integer rootFolderId) {
-		String documentContent = "";
-
-		List<Folder> subFolders = folderRepository.findByFolderIdOrderBySortOrder(folder.getId());
-		for (Folder subFolder : subFolders) {
-			documentContent += getMergedDocumentContent(subFolder, rootFolderId);
-		}
-
-		List<Document> documents = documentRepository.findByFolderIdOrderBySortOrder(folder.getId());
-		for (Document document : documents) {
-			if(!document.getName().equals(folder.getName())) {
-				documentContent += "<h1>" + getFolderNameRecursive(folder, rootFolderId) + " - " + document.getName() + "</h1>";
-				documentContent += document.getContent();
-			}
-		}
-
-		return documentContent;
-	}
-
-	private String getFolderNameRecursive(Folder folder, Integer rootFolderId) {
-		if(folder.getFolderId() != null && !folder.getFolderId().equals(rootFolderId)) {
-			Folder parent = folderRepository.findById(folder.getFolderId()).get();
-			return getFolderNameRecursive(parent, rootFolderId) + " - " + folder.getName();
-		}
-		return folder.getName();
-	}
-
 }

@@ -27,8 +27,6 @@
 
 		</style>
 
-		<h:outputStylesheet library="ckeditor/css" name="samples.css" />
-
 		<script type="text/javascript">
 		
 			function saveScrollPos() {
@@ -37,6 +35,24 @@
 
 			function loadScrollPos() {
 				$('#layoutUnitWest .ui-layout-unit-content').scrollTop(sessionStorage.scrollTop);
+			}
+
+			function searchKeyDown(e) {
+			    if (e.keyCode == 13) {
+			        updateTree();
+			    }
+			}
+
+			$(document).ready(function () {
+				resizeTreePanel();
+			});
+
+			$(window).on('resize', function() {
+				setTimeout(resizeTreePanel, 250);
+			});
+
+			function resizeTreePanel() {
+				$("#documentMenuForm\\:treePanel").height($(document).height() - 82);
 			}
 			
 		</script>
@@ -53,8 +69,6 @@
 
 				<h:form id="documentMenuForm">
 
-					<p:growl id="growl" showDetail="true" sticky="true" />
-
 					<p:chips
 						value="#{docsController.searchTags}"
 						onkeydown="searchKeyDown(event)"
@@ -64,76 +78,67 @@
 					</p:chips>
 					<p:commandButton value="Search" onclick="updateTree()" style="width: 25%; top: -9px;"/>
 					<p:remoteCommand name="updateTree" update="documentTree" actionListener="#{docsController.selectTree}" />
-					<script>
 					
-						function searchKeyDown(e) {
-						    if (e.keyCode == 13) {
-						        updateTree();
-						    }
-						}
-						
-					</script>
-					
-					<p:scrollPanel mode="native" styleClass="gray-bg" style="width: 99%; height: 565px;">
+					<p:scrollPanel id="treePanel" mode="native" styleClass="gray-bg" style="width: 99%; height: 565px;">
 
-					<p:tree
-						id="documentTree"
-						cache="false"
-						value="#{docsController.documentTree}"
-						var="node"
-						styleClass="no-border inherit-tree-overflow gray-bg"
-						style="width: 100%; height: 100%;"
-						selectionMode="single"
-						selection="#{docsController.selectedNode}"
-						dynamic="true"
-						draggable="true"
-						droppable="true">
-
-				        <p:treeNode
-				        	id="rootNode"
-				        	type="rootNode" >
-				        	<h:panelGrid
-				        		columns="3">
-				            	<p:outputLabel styleClass="ui-icon ui-icon-home" />
-				            	<h:outputText value="#{node}" />
-
-					        	<p:commandButton
-						        	title="Refresh"
-						        	actionListener="#{docsController.selectTree}"
-						        	update=":documentMenuForm,:mainForm"
-						        	icon="ui-icon-arrowrefresh-1-e"
-						        	style="width:28px;height:28px;"/>
-
-				        	</h:panelGrid>
-				        </p:treeNode>
-
-				        <p:treeNode
-				        	id="directoryNode"
-				        	type="directoryNode" >
-				        	<h:panelGrid
-				        		columns="2">
-				            	<p:outputLabel styleClass="ui-icon ui-icon-folder-open" />
-				            	<h:outputText id="directoryNodeText" value="#{node}" />
-				            	<p:tooltip for="directoryNodeText" value="#{node}" showEffect="fade" hideEffect="fade" />
-				        	</h:panelGrid>
-				        </p:treeNode>
-
-				        <p:treeNode
-				        	id="documentNode"
-				        	type="documentNode" >
-				        	<h:panelGrid
-				        		columns="2">
-				            	<p:outputLabel styleClass="ui-icon ui-icon-document" />
-				            	<h:outputText id="documentNodeText" value="#{node}" />
-				            	<p:tooltip for="documentNodeText" value="#{node}" showEffect="fade" hideEffect="fade" />
-				        	</h:panelGrid>
-				        </p:treeNode>
-
-				        <p:ajax event="select" update=":mainForm" />
-				        <p:ajax event="dragdrop" listener="#{docsController.onDragDrop}" update=":documentMenuForm" />
-					    <p:ajax event="expand" listener="#{docsController.onNodeExpand}" />
-						<p:ajax event="collapse" listener="#{docsController.onNodeCollapse}" />
-				    </p:tree>
+						<p:tree
+							id="documentTree"
+							cache="false"
+							value="#{docsController.documentTree}"
+							var="node"
+							styleClass="no-border inherit-tree-overflow gray-bg"
+							style="width: 100%; height: 100%;"
+							selectionMode="single"
+							selection="#{docsController.selectedNode}"
+							dynamic="true"
+							draggable="true"
+							droppable="true">
+	
+					        <p:treeNode
+					        	id="rootNode"
+					        	type="rootNode" >
+					        	<h:panelGrid
+					        		columns="3">
+					            	<p:outputLabel styleClass="ui-icon ui-icon-home" />
+					            	<h:outputText value="#{node}" />
+	
+						        	<p:commandButton
+							        	title="Refresh"
+							        	actionListener="#{docsController.selectTree}"
+							        	update=":documentMenuForm,:mainForm"
+							        	icon="ui-icon-arrowrefresh-1-e"
+							        	style="width:28px;height:28px;"/>
+	
+					        	</h:panelGrid>
+					        </p:treeNode>
+	
+					        <p:treeNode
+					        	id="directoryNode"
+					        	type="directoryNode" >
+					        	<h:panelGrid
+					        		columns="2">
+					            	<p:outputLabel styleClass="ui-icon ui-icon-folder-open" />
+					            	<h:outputText id="directoryNodeText" value="#{node}" />
+					            	<p:tooltip for="directoryNodeText" value="#{node}" showEffect="fade" hideEffect="fade" />
+					        	</h:panelGrid>
+					        </p:treeNode>
+	
+					        <p:treeNode
+					        	id="documentNode"
+					        	type="documentNode" >
+					        	<h:panelGrid
+					        		columns="2">
+					            	<p:outputLabel styleClass="ui-icon ui-icon-document" />
+					            	<h:outputText id="documentNodeText" value="#{node}" />
+					            	<p:tooltip for="documentNodeText" value="#{node}" showEffect="fade" hideEffect="fade" />
+					        	</h:panelGrid>
+					        </p:treeNode>
+	
+					        <p:ajax event="select" update=":mainForm" />
+					        <p:ajax event="dragdrop" listener="#{docsController.onDragDrop}" update=":documentMenuForm" />
+						    <p:ajax event="expand" listener="#{docsController.onNodeExpand}" />
+							<p:ajax event="collapse" listener="#{docsController.onNodeCollapse}" />
+					    </p:tree>
 				    
 				    </p:scrollPanel>
 
@@ -148,10 +153,9 @@
 			            <p:menuitem value="New Folder" onclick="PF('dialogAddDirectory').show();" update=":addDirectoryDialogForm" icon="ui-icon-folder-open" />
 			            <p:menuitem value="New Document" onclick="PF('dialogAddDocument').show();" update=":addDocumentDialogForm" icon="ui-icon-document" />
 	       				<p:menuitem value="Rename" onclick="PF('dialogRenameDirectory').show();" update=":renameDirectoryDialogForm" icon="ui-icon-refresh" />
-	       				<p:menuitem value="Delete" update="documentTree" actionListener="#{docsController.deleteNode}" icon="ui-icon-trash" >
+	       				<p:menuitem value="Delete" update="documentTree" actionListener="#{docsController.deleteFolder}" icon="ui-icon-trash" >
 	       					<p:confirm header="Confirm" message="Delete Folder?" icon="ui-icon-alert" />
 	       				</p:menuitem>
-	       				<p:menuitem value="Merge" actionListener="#{docsController.mergeDirectory}" icon="ui-icon-script" update="documentTree" />
 				    </p:contextMenu>
 
 					<p:contextMenu for="documentTree" nodeType="documentNode" beforeShow="updateDocumentLinkFromContextMenu()">
@@ -166,7 +170,8 @@
 				    <p:outputLabel styleClass="documentLinkFromContextMenu" style="visibility:hidden;">
 				    	<p id="documentLinkFromContextMenu">#{docsController.documentLink}</p>
 				    </p:outputLabel>
-				    <script>
+				    
+				    <script type="text/javascript">
 				    
 				    	function copyDocumentLinkFromContextMenu() {
 				    		  var aux = document.createElement("input");
@@ -193,117 +198,63 @@
 
 				<h:form id="mainForm" >
 
-					<p:outputPanel
-						rendered="#{docsController.showEditor()}" >
+					<p:outputPanel rendered="#{docsController.showEditor()}" >
 
-						<p:outputPanel
-							style="padding-bottom: 84px;"
-							id="editor" >
-
-							<h:inputHidden required="false" value="#{docsController.content}" id="editorValue" />
+						<p:outputPanel style="padding-bottom: 82px;" id="editor" >
+							<p:textEditor
+								widgetVar="textEditorOpen"
+								value="#{docsController.content}"
+								readonly="false"
+								rendered="#{docsController.allowEditing}"
+								height="500"
+								styleClass="text-editor">
+							</p:textEditor>
 							
-							<div id="editor" ></div>
-
-							<p:remoteCommand name="updateEditorContent" actionListener="#{docsController.updateEditorContent}" update="@this" />
-
-							<script>
-
-								jQuery( window ).resize(function() {
-									setTimeout(function(){
-									try {
-										resizeEditor();
-										CKEDITOR.instances.editor.maximizeHeightNow();
-									}
-									catch(err) {
-									}
-									}, 250);
-								});
-
-								jQuery( document ).ajaxComplete(function( event, xhr, settings ) {
-									setTimeout(function(){
-										try {
-											resizeEditor();
-											CKEDITOR.instances.editor.maximizeHeightNow();
-										}
-										catch(err) {
-											
-										}
-									}, 250);
-								});
-
-								jQuery('#mainForm\\:editor').hide();
-								CKEDITOR.replace('editor', {
-								    on: {
-								        instanceReady: function(evt) {
-								        	resizeEditor();
-								        	CKEDITOR.instances.editor.maximizeHeightNow();
-											jQuery('#mainForm\\:editor').fadeIn(250);
-											CKEDITOR.instances.editor.focus();
-								        },
-										key: function(evt) {
-											if(evt.data.keyCode == 9) {
-												CKEDITOR.instances['editor'].insertText('\t');
-												return false;
-									        }
-							            }
-								    }
-								});
-								setTimeout(function(){ updateEditorContent(); }, 150);
-
-								function resizeEditor() {
-									var toolbarHeight = jQuery('.cke_top').height();
-									toolbarHeight = 100; // dont know. it works...
-									console.log('toolbarHeight: ' + toolbarHeight);
-									var chipsInputHeight = jQuery('#mainForm\\:chipsInput').height();
-									console.log('chipsInputHeight: ' + chipsInputHeight);
-
-									var delta = toolbarHeight + chipsInputHeight;
-									console.log('delta: ' + delta);
-
-									var centerHeight = jQuery('#center').height();
-									console.log('centerHeight: ' + centerHeight);
-
-									var editorHeight = centerHeight - delta;
-									console.log('editorHeight: ' + editorHeight);
-
-									jQuery('#mainForm\\:editor').height(editorHeight);
-						        	CKEDITOR.instances.editor.maximizeHeightNow();
-								}
-
-								function doubleBackslashes() {
-									var content = CKEDITOR.instances.editor.getData();
-									CKEDITOR.instances.editor.setData(content.split('\\').join('\\\\'));
-								}
-
-							</script>
-
-							<p:remoteCommand
-								name="saveDoc"
-								onstart="doubleBackslashes(); document.getElementById('mainForm:editorValue').value = CKEDITOR.instances.editor.getData();"
-								actionListener="#{docsController.saveDocument}"
-								update="editor mainForm"/>
-
+							<p:textEditor
+								widgetVar="textEditorClosed"
+								value="#{docsController.content}"
+								readonly="true"
+								rendered="#{!docsController.allowEditing}"
+								height="500"
+								styleClass="text-editor">
+								<f:facet name="toolbar">
+									<span class="ql-formats">
+										<p:outputPanel>
+											<h2 class="no-spacing">#{docsController.selectedNode}</h2>
+										</p:outputPanel>
+									</span>
+								</f:facet>
+							</p:textEditor>
 						</p:outputPanel>
 						
-						<p:outputPanel style="position: fixed;bottom: 10px;padding-right: 32px;" >
-							<h:panelGrid
-								columns="4" >
-								
+						<p:outputPanel style="position: fixed; bottom: 5px;" >
+							<h:panelGrid columns="4" >
+							
 								<p:chips id="chipsInput" value="#{docsController.tags}" onkeyup="resizeEditor();" />
 								
 								<p:commandButton
-									styleClass="saveButton"
+									id="buttonSave"
 									value="Save"
-									onclick="doubleBackslashes(); document.getElementById('mainForm:editorValue').value = CKEDITOR.instances.editor.getData();"
-									icon="ui-icon-disk" actionListener="#{docsController.saveDocument}"
-									update="editor mainForm"
-									style="height: 25px; top: -1px;"/>
+									icon="ui-icon-disk"
+									actionListener="#{docsController.saveDocument}"
+									style="height: 25px; top: -1px;"
+									update="@this"/>
 									
 								<p:commandButton
 									id="buttonCopyLink"
 									value="Copy Link"
 									icon="ui-icon-copy"
-									style="height: 25px; top: -1px;"/>
+									style="height: 25px; top: -1px;"
+									update="@this"/>
+									
+								<p:inputSwitch
+									id="buttonToggleEdit"
+									value="#{docsController.allowEditing}"
+									onLabel="Edit Mode"
+									offLabel="Read Mode"
+									style="height: 23px;">
+									<p:ajax update="editor" />
+								</p:inputSwitch>
 									
 							</h:panelGrid>
 						</p:outputPanel>

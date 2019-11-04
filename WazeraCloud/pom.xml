@@ -17,15 +17,18 @@
 	</properties>
 
 	<repositories>
+
 		<repository>
 			<id>prime-repo</id>
 			<name>PrimeFaces Maven Repository</name>
 			<url>http://repository.primefaces.org</url>
 			<layout>default</layout>
 		</repository>
+
 	</repositories>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>org.joinfaces</groupId>
 			<artifactId>jsf-spring-boot-starter</artifactId>
@@ -79,17 +82,19 @@
 			<artifactId>primefaces-extensions</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.primefaces.extensions</groupId>
-			<artifactId>resources-ckeditor</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.github.adminfaces</groupId>
 			<artifactId>admin-theme</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>javax.enterprise</groupId>
 			<artifactId>cdi-api</artifactId>
 		</dependency>
+
 	</dependencies>
 
 </project>
