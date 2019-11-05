@@ -1,5 +1,6 @@
 package eu.wauz.wazera.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,8 +15,6 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import eu.wauz.wazera.controller.tree.DocumentTreeNode;
@@ -23,12 +22,15 @@ import eu.wauz.wazera.controller.tree.FolderTreeNode;
 import eu.wauz.wazera.controller.tree.RootFolderTreeNode;
 import eu.wauz.wazera.model.data.DocumentData;
 import eu.wauz.wazera.model.data.FolderData;
+import eu.wauz.wazera.service.DocsTool;
 import eu.wauz.wazera.service.DocumentsDataService;
 import eu.wauz.wazera.service.FoldersDataService;
 
 @Controller
 @Scope("view")
-public class DocsController {
+public class DocsController implements Serializable {
+
+	private static final long serialVersionUID = -7261056043638925780L;
 
 	@Autowired
 	private DocumentsDataService documentsService;
@@ -51,10 +53,16 @@ public class DocsController {
 	private String content;
 	
 	private boolean allowEditing;
+	
+	private boolean allowSorting;
 
 	private Integer docId;
+	
+	private DocsTool docsTool;
 
 	public DocsController() {
+		docsTool = new DocsTool();
+		
 		Object doctIdObject = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("docId");
 		if(doctIdObject != null)
 		{
@@ -71,8 +79,7 @@ public class DocsController {
 	}
 
 	public String getUsername() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		return authentication.getName();
+		return docsTool.getUsername();
 	}
 
 	private void addFolderNodes(FolderData folderNode, TreeNode treeNode, boolean isRootNode) {
@@ -236,6 +243,14 @@ public class DocsController {
 		this.allowEditing = allowEditing;
 	}
 
+	public boolean isAllowSorting() {
+		return allowSorting;
+	}
+
+	public void setAllowSorting(boolean allowSorting) {
+		this.allowSorting = allowSorting;
+	}
+
 	public void selectTree() {
 		documentTree = new DefaultTreeNode("documentTree", null);
 
@@ -243,7 +258,7 @@ public class DocsController {
 			searchTags = new ArrayList<String>();
 		}
 		if(searchTags.size() == 0 && selectedNode instanceof DocumentTreeNode) {
-			docId = ((DocumentTreeNode) selectedNode).getDocumentData().getId();
+			docId = selectedNode != null ? ((DocumentTreeNode) selectedNode).getDocumentData().getId() : 0;
 		}
 
 		try {
@@ -252,6 +267,7 @@ public class DocsController {
 		}
 		catch (Exception e) {
 			showErrorMessage(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
@@ -263,7 +279,9 @@ public class DocsController {
 		FolderData folderData = ((FolderTreeNode) event.getTreeNode()).getFolderData();
 		folderData.setExpanded(true);
 		try {
-			foldersService.saveFolder(folderData, null);
+			if(folderData.getId() != null) {
+				foldersService.saveFolder(folderData, null);
+			}
 		}
 		catch (Exception e) {
 			showErrorMessage(e.getMessage());
@@ -321,7 +339,9 @@ public class DocsController {
 		FolderData folderData = ((FolderTreeNode)treeNode).getFolderData();
 		folderData.setExpanded(false);
 		try {
-			foldersService.saveFolder(folderData, null);
+			if(folderData.getId() != null) {
+				foldersService.saveFolder(folderData, null);
+			}
 		}
 		catch (Exception e) {
 			showErrorMessage(e.getMessage());
@@ -419,7 +439,6 @@ public class DocsController {
 
     		if(selectedNode instanceof DocumentTreeNode) {
 				Integer docId = selectedNode != null ? ((DocumentTreeNode) selectedNode).getDocumentData().getId() : 0;
-				showInfoMessage("Link copied to Clipboard!");
 				return baseUrl + "WazeraCloud/docs.xhtml?docId=" + docId;
     		}
 		}

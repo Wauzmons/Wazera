@@ -13,19 +13,6 @@
     template="/templates/default.xhtml" >
 
     <ui:define name="center">
-    
-		<style type="text/css">
-		
-			.top{
-				vertical-align: top;
-			}
-			.slim{
-				vertical-align: top;
-				width: 1%;
-				padding-right: 10px;
-			}
-
-		</style>
 
 		<script type="text/javascript">
 		
@@ -44,8 +31,8 @@
 			}
 
 			$(document).ready(function () {
-				resizeTreePanel();
-				resizeEditor();
+				setTimeout(resizeTreePanel, 250);
+				setTimeout(resizeEditor, 250);
 			});
 
 			$(window).on('resize', function() {
@@ -54,12 +41,12 @@
 			});
 
 			function resizeTreePanel() {
-				$("#documentMenuForm\\:treePanel").height($(document).height() - 82);
+				$("#documentMenuForm\\:treePanel").height($(document).height() - 140);
 			}
 			
 			function resizeEditor() {
 				var chipsHeight = $("#mainForm\\:chipsInput").height();
-				var newHeight = $(document).height() - chipsHeight - 62;
+				var newHeight = $(document).height() - chipsHeight - 120;
 				
 				var openToolbarHeight = $("#mainForm\\:editorOpen_toolbar").height();
 				$("#mainForm\\:editorOpen_editor").height(newHeight - openToolbarHeight);
@@ -75,7 +62,7 @@
 			<p:layoutUnit
 				id="layoutUnitWest"
 				position="west"
-				gutter="2"
+				gutter="0"
 				size="360"
 				styleClass="no-border hide-overflow gray-bg"
 				style="overflow:hidden;">
@@ -90,7 +77,7 @@
 						<p:ajax event="itemUnselect" oncomplete="updateTree()"/>
 					</p:chips>
 					<p:commandButton value="Search" onclick="updateTree()" style="width: 74px; top: -9px;"/>
-					<p:remoteCommand name="updateTree" update="documentTree" actionListener="#{docsController.selectTree}" />
+					<p:remoteCommand name="updateTree" actionListener="#{docsController.selectTree}" update="documentTree :mainForm" oncomplete="resizeEditor()"/>
 					
 					<p:scrollPanel id="treePanel" mode="native" styleClass="gray-bg" style="width: 99%; height: 565px;">
 
@@ -104,14 +91,14 @@
 							selectionMode="single"
 							selection="#{docsController.selectedNode}"
 							dynamic="true"
-							draggable="true"
-							droppable="true">
+							draggable="#{docsController.allowSorting}"
+							droppable="#{docsController.allowSorting}">
 	
 					        <p:treeNode
 					        	id="rootNode"
 					        	type="rootNode" >
 					        	<h:panelGrid
-					        		columns="3">
+					        		columns="4">
 					            	<p:outputLabel styleClass="ui-icon ui-icon-home" />
 					            	<h:outputText value="#{node}" />
 	
@@ -121,7 +108,15 @@
 							        	update=":documentMenuForm,:mainForm"
 							        	icon="ui-icon-arrowrefresh-1-e"
 							        	oncomplete="resizeTreePanel()"
-							        	style="width: 22px; height: 22px;"/>
+							        	style="width: 25px; height: 25px;"/>
+							        	
+						        	<p:inputSwitch
+										value="#{docsController.allowSorting}"
+										onLabel="Sort"
+										offLabel="Read"
+										style="height: 23px; top: 1px;">
+										<p:ajax update="documentTree" oncomplete="resizeTreePanel();" />
+									</p:inputSwitch>
 	
 					        	</h:panelGrid>
 					        </p:treeNode>
@@ -133,7 +128,6 @@
 					        		columns="2">
 					            	<p:outputLabel styleClass="ui-icon ui-icon-folder-open" />
 					            	<h:outputText id="directoryNodeText" value="#{node}" />
-					            	<p:tooltip for="directoryNodeText" value="#{node}" showEffect="fade" hideEffect="fade" />
 					        	</h:panelGrid>
 					        </p:treeNode>
 	
@@ -144,7 +138,6 @@
 					        		columns="2">
 					            	<p:outputLabel styleClass="ui-icon ui-icon-document" />
 					            	<h:outputText id="documentNodeText" value="#{node}" />
-					            	<p:tooltip for="documentNodeText" value="#{node}" showEffect="fade" hideEffect="fade" />
 					        	</h:panelGrid>
 					        </p:treeNode>
 	
@@ -157,47 +150,27 @@
 				    </p:scrollPanel>
 
 					<p:contextMenu for="documentTree" nodeType="rootNode">
-			            <p:menuitem value="Collapse All" actionListener="#{docsController.collapseAll()}" update="documentTree :mainForm" icon="ui-icon-folder-collapsed" />
-			            <p:menuitem value="New Folder" onclick="PF('dialogAddDirectory').show();" update=":addDirectoryDialogForm" icon="ui-icon-folder-open" />
-			            <p:menuitem value="New Document" onclick="PF('dialogAddDocument').show();" update=":addDocumentDialogForm" icon="ui-icon-document" />
+			            <p:menuitem value="Collapse All" actionListener="#{docsController.collapseAll()}" update="documentTree :mainForm" icon="ui-icon-folder-collapsed"/>
+			            <p:menuitem value="New Folder" onclick="PF('dialogAddDirectory').show();" update=":addDirectoryDialogForm" icon="ui-icon-folder-open"/>
+			            <p:menuitem value="New Document" onclick="PF('dialogAddDocument').show();" update=":addDocumentDialogForm" icon="ui-icon-document"/>
 				    </p:contextMenu>
 
 					<p:contextMenu for="documentTree" nodeType="directoryNode">
-						<p:menuitem value="Collapse All" actionListener="#{docsController.collapseRecursive(docsController.selectedNode)}" update="documentTree :mainForm" icon="ui-icon-folder-collapsed" />
-			            <p:menuitem value="New Folder" onclick="PF('dialogAddDirectory').show();" update=":addDirectoryDialogForm" icon="ui-icon-folder-open" />
-			            <p:menuitem value="New Document" onclick="PF('dialogAddDocument').show();" update=":addDocumentDialogForm" icon="ui-icon-document" />
-	       				<p:menuitem value="Rename" onclick="PF('dialogRenameDirectory').show();" update=":renameDirectoryDialogForm" icon="ui-icon-refresh" />
-	       				<p:menuitem value="Delete" update="documentTree" actionListener="#{docsController.deleteFolder}" icon="ui-icon-trash" >
+						<p:menuitem value="Collapse All" actionListener="#{docsController.collapseRecursive(docsController.selectedNode)}" update="documentTree :mainForm" icon="ui-icon-folder-collapsed"/>
+			            <p:menuitem value="New Folder" onclick="PF('dialogAddDirectory').show();" update=":addDirectoryDialogForm" icon="ui-icon-folder-open"/>
+			            <p:menuitem value="New Document" onclick="PF('dialogAddDocument').show();" update=":addDocumentDialogForm" icon="ui-icon-document"/>
+	       				<p:menuitem value="Rename" onclick="PF('dialogRenameDirectory').show();" update=":renameDirectoryDialogForm" icon="ui-icon-refresh"/>
+	       				<p:menuitem value="Delete" actionListener="#{docsController.deleteFolder}" update="documentTree :mainForm" icon="ui-icon-trash">
 	       					<p:confirm header="Confirm" message="Delete Folder?" icon="ui-icon-alert" />
 	       				</p:menuitem>
 				    </p:contextMenu>
 
-					<p:contextMenu for="documentTree" nodeType="documentNode" beforeShow="updateDocumentLinkFromContextMenu()">
-			            <p:menuitem value="Copy Link" onclick="copyDocumentLinkFromContextMenu()" icon="ui-icon-copy" />
+					<p:contextMenu for="documentTree" nodeType="documentNode">
 	       				<p:menuitem value="Rename" onclick="PF('dialogRenameDocument').show();" update=":renameDocumentDialogForm" icon="ui-icon-refresh"/>
-	       				<p:menuitem value="Delete" update="documentTree" actionListener="#{docsController.deleteDocument}" icon="ui-icon-trash" disabled="false" >
-	       					<p:confirm header="Confirm" message="Delete Document?" icon="ui-icon-alert" />
+	       				<p:menuitem value="Delete" actionListener="#{docsController.deleteDocument}" update="documentTree :mainForm" icon="ui-icon-trash">
+	       					<p:confirm header="Confirm" message="Delete Document?" icon="ui-icon-alert"/>
 	       				</p:menuitem>
 				    </p:contextMenu>
-
-				    <p:remoteCommand name="updateDocumentLinkFromContextMenu" update="@(.documentLinkFromContextMenu)" />
-				    <p:outputLabel styleClass="documentLinkFromContextMenu" style="visibility:hidden;">
-				    	<p id="documentLinkFromContextMenu">#{docsController.documentLink}</p>
-				    </p:outputLabel>
-				    
-				    <script type="text/javascript">
-				    
-				    	function copyDocumentLinkFromContextMenu() {
-				    		  var aux = document.createElement("input");
-				    		  var val = document.getElementById('documentLinkFromContextMenu').innerHTML;
-				    		  aux.setAttribute("value", val);
-				    		  document.body.appendChild(aux);
-				    		  aux.select();
-				    		  document.execCommand("copy", false, null);
-				    		  document.body.removeChild(aux);
-				    	}
-				    	
-				    </script>
 
 				</h:form>
 
@@ -263,14 +236,15 @@
 									id="buttonCopyLink"
 									value="Copy Link"
 									icon="ui-icon-copy"
+									oncomplete="sendCopyLinkMessage()"
 									style="height: 25px; top: -2px;"
 									update="@this"/>
 									
 								<p:inputSwitch
 									id="buttonToggleEdit"
 									value="#{docsController.allowEditing}"
-									onLabel="Edit Mode"
-									offLabel="Read Mode"
+									onLabel="Edit"
+									offLabel="Read"
 									style="height: 23px;">
 									<p:ajax update="editor" oncomplete="resizeEditor();" />
 								</p:inputSwitch>
@@ -279,6 +253,7 @@
 						</p:outputPanel>
 
 			            <pe:clipboard id="clipCopy" trigger="buttonCopyLink" action="copy" text="#{docsController.getDocumentLink()}"/>
+			            <p:remoteCommand name="sendCopyLinkMessage" actionListener="#{docsController.showInfoMessage('Link copied to Clipboard!')}"/>
 
 					</p:outputPanel>
 
@@ -288,10 +263,17 @@
 
 		</p:layout>
 		
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+        	<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+        	<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-remove" />
+    	</p:confirmDialog>
+		
 		<p:dialog header="New Folder"
 			widgetVar="dialogAddDirectory"
-			resizeable="false"
-			appendToBody="true" >
+			resizable="false"
+			draggable="false"
+			modal="true"
+			appendTo="@(body)">
 
 			<h:form id="addDirectoryDialogForm">
 				<h:panelGrid id="addDirectoryDialogGrid" columns="2"
@@ -317,8 +299,10 @@
 
 		<p:dialog header="Rename Folder"
 			widgetVar="dialogRenameDirectory"
-			resizeable="false"
-			appendToBody="true" >
+			resizable="false"
+			draggable="false"
+			modal="true"
+			appendTo="@(body)">
 
 			<h:form id="renameDirectoryDialogForm">
 				<h:panelGrid id="renameDirectoryDialogGrid" columns="2"
@@ -344,8 +328,10 @@
 
 		<p:dialog header="New Document"
 			widgetVar="dialogAddDocument"
-			resizeable="false"
-			appendToBody="true" >
+			resizable="false"
+			draggable="false"
+			modal="true"
+			appendTo="@(body)">
 
 			<h:form id="addDocumentDialogForm">
 				<h:panelGrid id="addDocumentDialogGrid" columns="2"
@@ -371,8 +357,10 @@
 
 		<p:dialog header="Rename Document"
 			widgetVar="dialogRenameDocument"
-			resizeable="false"
-			appendToBody="true" >
+			resizable="false"
+			draggable="false"
+			modal="true"
+			appendTo="@(body)">
 
 			<h:form id="renameDocumentDialogForm">
 				<h:panelGrid id="renameDocumentDialogGrid" columns="2"

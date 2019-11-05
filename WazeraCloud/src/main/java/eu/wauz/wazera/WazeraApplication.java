@@ -42,12 +42,11 @@ public class WazeraApplication extends SpringBootServletInitializer {
 	
     @Bean
     @Autowired
-	public DataSource docsDataSource() {
+	public DataSource wazeraDataSource() {
 		try {
 			BasicDataSource dataSource = new BasicDataSource();
 			dataSource.setDriverClassName("org.mariadb.jdbc.Driver");
 			dataSource.setUsername("root");
-//			dataSource.setPassword("root");
 			dataSource.setUrl("jdbc:mariadb://localhost:3306/wazera");
 			return dataSource;
 		}

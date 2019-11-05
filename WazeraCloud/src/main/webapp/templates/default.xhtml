@@ -15,25 +15,21 @@
 	
 	<h:body>
 	
-		<p:growl id="growl" showDetail="true" globalOnly="true" sticky="true" />
+		<p:growl id="growl" showDetail="true" life="2000">
+			<p:autoUpdate />
+		</p:growl>
 		
 		<p:layout styleClass="layout-container" fullPage="true">
 			<p:layoutUnit position="north" gutter="0" styleClass="no-border purple-bg-light">
 			
 				<p:menubar styleClass="no-border no-spacing purple-bg-light">
-				
-					<p:menuitem
-						url="/dashboard.xhtml"
-						styleClass="no-spacing"
-						style="width: 22px; height: 22px;">
-						<p:graphicImage value="/resources/images/favicon.svg" width="22" height="22"/>
-					</p:menuitem>
 					
 					<p:menuitem
 						url="/dashboard.xhtml"
 						styleClass="no-spacing"
-						style="font-size: 16px; height: 16px; margin-top: 4px !important;">
-						<p:outputLabel value="Wazera Cloud"/>
+						style="height: 22px; background-color: #0e0e0e">
+						<p:graphicImage value="/resources/images/favicon.svg" width="48" height="48"/>
+						<p:outputLabel value="Wazera Cloud" style="font-size: 16px; margin: 10px; top: 0px; position: fixed;"/>
 					</p:menuitem>
 					
 			        <f:facet name="options">
@@ -66,7 +62,7 @@
 	        	</p:menu>
 			</p:layoutUnit>
 			
-			<p:layoutUnit position="center" styleClass="no-border">
+			<p:layoutUnit position="center" styleClass="no-border no-spacing" style="background: #000000 url(&quot;#{resource['images:background.jpg']}&quot;) no-repeat center center fixed; padding: 30px !important;">
 				<ui:insert name="center"/>
 			</p:layoutUnit>
 		</p:layout>			

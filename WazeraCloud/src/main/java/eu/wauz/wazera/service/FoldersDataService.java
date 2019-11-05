@@ -1,6 +1,7 @@
 package eu.wauz.wazera.service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,17 +48,26 @@ public class FoldersDataService {
 	public FolderData saveFolder(FolderData folderData, Integer index) throws Exception {
 		docsTool.checkForValidFileName(folderData.getName());
 
-        Folder folder = folderData.getId() != null ? folderRepository.findById(folderData.getId()).get() : new Folder();
+        Folder folder = null;
+        if(folderData.getId() != null) {
+        	folder = folderRepository.findById(folderData.getId()).orElse(null);
+        }
+        else {
+        	folder = new Folder();
+        	index = 0;
+        }
         folder.setName(folderData.getName());
         if(folderData.getParent() != null) {
         	folder.setFolderId(folderData.getParent().getId());
         }
+        folder = folderRepository.save(folder);
+        folderData.setId(folder.getId());
+        
 		if(index != null) {
 			sortFolders(folder, index);
 		}
-		saveFolderUserData(folderData);
-		folder = folderRepository.save(folder);
-        folderData.setId(folder.getId());
+		
+        saveFolderUserData(folderData);
         return folderData;
     }
 	
@@ -74,7 +84,7 @@ public class FoldersDataService {
 		index = index > sortFolders.size() ? sortFolders.size() : index;
 		sortFolders.add(index, folder);
 
-		sortFolders = docsTool.sortFolders(sortFolders);
+		sortFolders = sortFolders(sortFolders);
 
 		Integer oldIndex = folder.getSortOrder();
 
@@ -88,7 +98,7 @@ public class FoldersDataService {
 			}
 		}
 
-		sortFolders = docsTool.sortFolders(sortFolders);
+		sortFolders = sortFolders(sortFolders);
 
 		for(Folder sortFolder : sortFolders) {
 			if(sortFolder.getId().equals(folderId)) {
@@ -97,13 +107,25 @@ public class FoldersDataService {
 		}
 		folderRepository.saveAll(sortFolders);
 	}
+	
+	private List<Folder> sortFolders(List<Folder> sortFolders) throws Exception {
+		for(Folder folder : sortFolders)
+			if(folder.getSortOrder() == null)
+				folder.setSortOrder(0);
+
+		sortFolders.sort(Comparator.comparingInt(Folder::getSortOrder));
+		for(int i = 0; i < sortFolders.size(); i++)
+			sortFolders.get(i).setSortOrder(i);
+
+		return sortFolders;
+	}
 
 	private void saveFolderUserData(FolderData folderData) {
 		FolderUserData folderUserDataFromRepo = folderUserDataJpaRepository.findByFolderAndUser(folderData.getId(), docsTool.getUsername());
 		FolderUserData folderUserData = folderUserDataFromRepo != null ? folderUserDataFromRepo : new FolderUserData();
 		folderUserData.setUserName(docsTool.getUsername());
 		folderUserData.setFolderId(folderData.getId());
-		folderUserData.setExpanded(folderData.isExpanded());
+		folderUserData.setExpanded(folderData.isExpanded() != null ? folderData.isExpanded() : false);
 		folderUserDataRepository.save(folderUserData);
 	}
 
@@ -118,8 +140,8 @@ public class FoldersDataService {
 		return folderData;
 	}
 	
-	public String getFolderName(Integer documentId) {
-		return folderRepository.findById(documentId).get().getName();
+	public String getFolderName(Integer folderId) {
+		return folderRepository.findById(folderId).get().getName();
 	}
 
 	public FolderData getRootFolder() {
@@ -145,7 +167,7 @@ public class FoldersDataService {
     	List<Folder> foldersToDelete = new ArrayList<>();
     	List<Document> documentsToDelete = new ArrayList<>();
     	
-		foldersToSearch.add(folderRepository.findById(rootNodeId).get());
+		foldersToSearch.add(folderRepository.findById(rootNodeId).orElse(null));
 		while(!foldersToSearch.isEmpty()) {
 			Folder folder = foldersToSearch.remove(foldersToSearch.size() - 1);
 			foldersToDelete.add(folder);
@@ -163,6 +185,9 @@ public class FoldersDataService {
 		
 		for (Folder folder : foldersToDelete) {
 			folderRepository.delete(folder);
+			for(FolderUserData folderUserData : folderUserDataRepository.findByFolderId(folder.getId())) {
+				folderUserDataRepository.delete(folderUserData);
+			}
 		}
 	}
 

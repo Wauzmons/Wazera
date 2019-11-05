@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity
@@ -36,6 +37,7 @@ public class Document implements Serializable {
 	@Column
 	private Integer folderId;
 
+	@Lob
 	@Column
 	private String content;
 

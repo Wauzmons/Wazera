@@ -3,6 +3,7 @@ package eu.wauz.wazera.service;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -68,7 +69,7 @@ public class DocumentsDataService {
 
     public FolderData getDocuments(int treeId, Integer docId, List<String> searchTokens) throws Exception {
         FolderData rootNode = null;
-        Folder rootFolder = folderRepository.findById(treeId).get();
+        Folder rootFolder = folderRepository.findById(treeId).orElse(null);
         if(docId != null) {
         	expandParentFolders(docId);
         }
@@ -107,7 +108,7 @@ public class DocumentsDataService {
 	        	Folder folder = queue.poll();
 	        	Folder parent = null;
 	        	if(folder.getFolderId() != null) {
-	        		parent = folderRepository.findById(folder.getFolderId()).get();
+	        		parent = folderRepository.findById(folder.getFolderId()).orElse(null);
 	        	}
 	        	if(parent == null) {
 	        		continue;
@@ -135,14 +136,14 @@ public class DocumentsDataService {
     }
 
     private void expandParentFolders(int docId) {
-    	Document document = documentRepository.findById(docId).get();
+    	Document document = documentRepository.findById(docId).orElse(null);
     	if(document == null) {
     		return;
     	}
 
     	Integer folderId = document.getFolderId();
     	while(folderId != null) {
-    		Folder parentFolder = folderRepository.findById(folderId).get();
+    		Folder parentFolder = folderRepository.findById(folderId).orElse(null);
     		if(parentFolder != null) {
     			FolderData parentFolderData = readFolderData(parentFolder);
     			parentFolderData.setExpanded(true);
@@ -160,14 +161,14 @@ public class DocumentsDataService {
 		FolderUserData folderUserData = folderUserDataFromRepo != null ? folderUserDataFromRepo : new FolderUserData();
 		folderUserData.setUserName(docsTool.getUsername());
 		folderUserData.setFolderId(folderData.getId());
-		folderUserData.setExpanded(folderData.isExpanded());
+		folderUserData.setExpanded(folderData.isExpanded() != null ? folderData.isExpanded() : false);
 		folderUserDataRepository.save(folderUserData);
 	}
 
 	private FolderData addFolderData(Map<Integer, FolderData> folderDataMap, Map<Integer, Folder> folderMap, Integer folderId) {
     	FolderData folderData = folderDataMap.get(folderId);
     	if(folderData == null) {
-    		Folder folder = folderRepository.findById(folderId).get();
+    		Folder folder = folderRepository.findById(folderId).orElse(null);
     		if(folder != null) {
     			folderMap.put(folderId, folder);
     			folderData = readFolderData(folder);
@@ -196,7 +197,7 @@ public class DocumentsDataService {
             FolderData childNode = new FolderData();
             childNode.setId(childFolder.getId());
             childNode.setName(childFolder.getName());
-            childNode.setExpanded(childFolderUserData != null ? childFolderUserData.getExpanded() : false);
+            childNode.setExpanded(childFolderUserData != null ? childFolderUserData.getExpanded() : true);
 
             node.getFolders().add(childNode);
 
@@ -236,7 +237,7 @@ public class DocumentsDataService {
 
         Document document = null;
 		if (documentData.getId() != null) {
-			document = documentRepository.findById(documentData.getId()).get();
+			document = documentRepository.findById(documentData.getId()).orElse(null);
 		}
 		else {
 			document = new Document();
@@ -261,13 +262,11 @@ public class DocumentsDataService {
         		.map(documentTag -> documentTag.getValue())
         		.collect(Collectors.toList());
 
-        /** delete obsolete tags */
         List<DocumentTag> documentTagsToDelete = documentData.getTags() == null ? Collections.emptyList() : existingTags.stream()
         		.filter(documentTag -> !documentData.getTags().contains(documentTag.getValue()))
         		.collect(Collectors.toList());
         documentTagRepository.deleteAll(documentTagsToDelete);
 
-        /** add new tags */
         List<DocumentTag> documentTagsToAdd = documentData.getTags() == null ? Collections.emptyList() : documentData.getTags().stream()
         		.filter(documentDataTag -> !existingTagValues.contains(documentDataTag))
         		.map(documentDataTag -> new DocumentTag(documentId, documentDataTag))
@@ -286,7 +285,7 @@ public class DocumentsDataService {
 		Integer documentId = document.getId();
 		Integer oldIndex = (document.getSortOrder() == null ? 0 : document.getSortOrder()) + allFoldersInFolder.size();
 
-		sortDocs = docsTool.sortDocuments(sortDocs);
+		sortDocs = sortDocuments(sortDocs);
 
 		for(Document doc : sortDocs) {
 			if(doc.getId().equals(documentId)) {
@@ -308,12 +307,24 @@ public class DocumentsDataService {
 				doc.setSortOrder(doc.getSortOrder() - 1);
 			}
 		}
-		sortDocs = docsTool.sortDocuments(sortDocs);
+		sortDocs = sortDocuments(sortDocs);
 		documentRepository.saveAll(sortDocs);
+	}
+	
+	private List<Document> sortDocuments(List<Document> sortDocs) throws Exception {
+		for(Document doc : sortDocs)
+			if(doc.getSortOrder() == null)
+				doc.setSortOrder(0);
+
+		sortDocs.sort(Comparator.comparingInt(Document::getSortOrder));
+		for(int i = 0; i < sortDocs.size(); i++)
+			sortDocs.get(i).setSortOrder(i);
+
+		return sortDocs;
 	}
 
 	public void deleteDocument(DocumentData documentData) throws Exception {
-		Document documenttoDelete = documentRepository.findById(documentData.getId()).get();
+		Document documenttoDelete = documentRepository.findById(documentData.getId()).orElse(null);
 		documentRepository.delete(documenttoDelete);
 	}
 

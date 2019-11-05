@@ -21,7 +21,7 @@ public class DocumentJpaRepositoryImpl implements DocumentJpaRepository {
 	public List<Document> findByTags(List<String> searchTokens) {
 		QueryBuilder queryBuilder = new QueryBuilder("select distinct doc from Document doc");
 		for (int i = 0; i < searchTokens.size(); i++) {
-			queryBuilder.addWhere("(doc.textContent like :textSearchToken" + i + " or exists (select documentTag from DocumentTag documentTag where doc.id = documentTag.documentId and documentTag.value like :searchToken" + i + "))");
+			queryBuilder.addWhere("(doc.content like :textSearchToken" + i + " or exists (select documentTag from DocumentTag documentTag where doc.id = documentTag.documentId and documentTag.value like :searchToken" + i + "))");
 		}
 
 		TypedQuery<Document> query = em.createQuery(queryBuilder.buildQuery(), Document.class);

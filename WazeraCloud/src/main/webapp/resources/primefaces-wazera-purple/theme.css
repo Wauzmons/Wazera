@@ -1,7 +1,7 @@
-/*! jQuery UI - v1.12.1 - 2019-11-03
+/*! jQuery UI - v1.12.1 - 2019-11-05
 * http://jqueryui.com
 * Includes: theme.css
-* To view and modify this theme, visit http://jqueryui.com/themeroller/?scope=&folderName=custom-theme&bgImgOpacityError=40&bgImgOpacityHighlight=80&bgImgOpacityActive=20&bgImgOpacityHover=33&bgImgOpacityDefault=35&bgImgOpacityContent=25&bgImgOpacityHeader=44&cornerRadiusShadow=8px&offsetLeftShadow=-7px&offsetTopShadow=-7px&thicknessShadow=7px&opacityShadow=60&bgImgOpacityShadow=30&bgTextureShadow=flat&bgColorShadow=%23cccccc&opacityOverlay=80&bgImgOpacityOverlay=50&bgTextureOverlay=flat&bgColorOverlay=%235c5c5c&iconColorError=%23a83300&fcError=%23111111&borderColorError=%23ffb73d&bgTextureError=glass&bgColorError=%23ffc73d&iconColorHighlight=%23ffc73d&fcHighlight=%23ffffff&borderColorHighlight=%23400060&bgTextureHighlight=highlight_soft&bgColorHighlight=%23a000b0&iconColorActive=%23222222&fcActive=%23ffffff&borderColorActive=%23a000b0&bgTextureActive=highlight_hard&bgColorActive=%23400060&iconColorHover=%23ffffff&fcHover=%23ffffff&borderColorHover=%23c000b0&bgTextureHover=highlight_soft&bgColorHover=%23700060&iconColorDefault=%23cccccc&fcDefault=%23eeeeee&borderColorDefault=%23444444&bgTextureDefault=highlight_hard&bgColorDefault=%23222222&iconColorContent=%23cccccc&fcContent=%23ffffff&borderColorContent=%23555555&bgTextureContent=flat&bgColorContent=%23000000&iconColorHeader=%23ffffff&fcHeader=%23ffffff&borderColorHeader=%23111111&bgTextureHeader=gloss_wave&bgColorHeader=%23252525&cornerRadius=0px&fwDefault=normal&fsDefault=0.85em&ffDefault=Helvetica
+* To view and modify this theme, visit http://jqueryui.com/themeroller/?scope=&folderName=custom-theme&bgImgOpacityHeader=44&bgImgOpacityContent=25&bgImgOpacityDefault=35&bgImgOpacityHover=33&bgImgOpacityActive=20&bgImgOpacityHighlight=80&bgImgOpacityError=40&cornerRadiusShadow=8px&offsetLeftShadow=-7px&offsetTopShadow=-7px&thicknessShadow=7px&opacityShadow=60&bgImgOpacityShadow=30&bgTextureShadow=flat&bgColorShadow=%23cccccc&opacityOverlay=80&bgImgOpacityOverlay=50&bgTextureOverlay=flat&bgColorOverlay=%235c5c5c&iconColorError=%23a83300&fcError=%23111111&borderColorError=%23ffb73d&bgTextureError=glass&bgColorError=%23ffc73d&iconColorHighlight=%23ffffff&fcHighlight=%23ffffff&borderColorHighlight=%23a000b0&bgTextureHighlight=highlight_soft&bgColorHighlight=%23400060&iconColorActive=%23ffffff&fcActive=%23ffffff&borderColorActive=%23a000b0&bgTextureActive=highlight_hard&bgColorActive=%23400060&iconColorHover=%23ffffff&fcHover=%23ffffff&borderColorHover=%23c000b0&bgTextureHover=highlight_soft&bgColorHover=%23700060&iconColorDefault=%23cccccc&fcDefault=%23eeeeee&borderColorDefault=%23444444&bgTextureDefault=highlight_hard&bgColorDefault=%23222222&iconColorContent=%23cccccc&fcContent=%23ffffff&borderColorContent=%23555555&bgTextureContent=flat&bgColorContent=%23000000&iconColorHeader=%23ffffff&fcHeader=%23ffffff&borderColorHeader=%23111111&bgTextureHeader=gloss_wave&bgColorHeader=%23252525&cornerRadius=0px&fwDefault=normal&fsDefault=0.85em&ffDefault=Helvetica
 * Copyright jQuery Foundation and other contributors; Licensed MIT */
 
 
@@ -126,13 +126,13 @@ a.ui-button:active,
 .ui-state-highlight,
 .ui-widget-content .ui-state-highlight,
 .ui-widget-header .ui-state-highlight {
-	border: 1px solid #400060;
-	background: #a000b0 url("#{resource['primefaces-wazera-purple:images/ui-bg_highlight-soft_80_a000b0_1x100.png']}") 50% top repeat-x;
+	border: 1px solid #a000b0;
+	background: #400060 url("#{resource['primefaces-wazera-purple:images/ui-bg_highlight-soft_80_400060_1x100.png']}") 50% top repeat-x;
 	color: #ffffff;
 }
 .ui-state-checked {
-	border: 1px solid #400060;
-	background: #a000b0;
+	border: 1px solid #a000b0;
+	background: #400060;
 }
 .ui-state-highlight a,
 .ui-widget-content .ui-state-highlight a,
@@ -202,11 +202,11 @@ a.ui-button:active,
 }
 .ui-state-active .ui-icon,
 .ui-button:active .ui-icon {
-	background-image: url("#{resource['primefaces-wazera-purple:images/ui-icons_222222_256x240.png']}");
+	background-image: url("#{resource['primefaces-wazera-purple:images/ui-icons_ffffff_256x240.png']}");
 }
 .ui-state-highlight .ui-icon,
 .ui-button .ui-state-highlight.ui-icon {
-	background-image: url("#{resource['primefaces-wazera-purple:images/ui-icons_ffc73d_256x240.png']}");
+	background-image: url("#{resource['primefaces-wazera-purple:images/ui-icons_ffffff_256x240.png']}");
 }
 .ui-state-error .ui-icon,
 .ui-state-error-text .ui-icon {
