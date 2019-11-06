@@ -1,0 +1,39 @@
+<!DOCTYPE web-app>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+          http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+    version="3.0">
+    
+	<display-name>Wazera Cloud</display-name>
+	
+	<context-param>
+		<param-name>primefaces.THEME</param-name>
+		<param-value>wazera-purple</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>primefaces.FONT_AWESOME</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<welcome-file-list>
+		<welcome-file>/dashboard.xhtml</welcome-file>
+	</welcome-file-list>
+	
+	<error-page>
+        <error-code>404</error-code>
+        <location>/login</location>
+    </error-page>
+
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+</web-app>

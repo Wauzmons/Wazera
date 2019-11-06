@@ -1,0 +1,156 @@
+body {
+	font-family: Helvetica;
+	font-size: 14px;
+	background-color: #000000
+}
+
+.no-border {
+	border: none !important;
+	border-radius: 0px;
+}
+
+.no-spacing {
+	margin: 0px !important;
+	padding: 0px !important;
+}
+
+.layout-container {
+	position: inherit !important;
+	min-width: 400px;
+	min-height: 200px;
+}
+
+.search-container > .ui-chips-container {
+	width: 100%;
+}
+
+.ui-chips-input-token > .ui-widget {
+	color: #ffffff;
+}
+
+.ql-editor > p > a {
+	color: #eeaaff !important;
+}
+
+.ql-formats > .ql-snow.ql-toolbar button:hover .ql-stroke {
+	stroke: #ffffff !important;
+}
+
+.text-editor > .ql-snow {
+	border: 1px solid #444444;
+}
+
+.text-editor > .ql-snow .ql-stroke {
+	stroke: #ffffff !important;
+}
+
+.text-editor > .ql-snow.ql-toolbar button:hover .ql-stroke,
+.text-editor > .ql-snow .ql-toolbar button:hover .ql-stroke,
+.text-editor > .ql-snow.ql-toolbar button:focus .ql-stroke,
+.text-editor > .ql-snow .ql-toolbar button:focus .ql-stroke,
+.text-editor > .ql-snow.ql-toolbar button.ql-active .ql-stroke,
+.text-editor > .ql-snow .ql-toolbar button.ql-active .ql-stroke,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke,
+.text-editor > .ql-snow.ql-toolbar button:hover .ql-stroke-miter,
+.text-editor > .ql-snow .ql-toolbar button:hover .ql-stroke-miter,
+.text-editor > .ql-snow.ql-toolbar button:focus .ql-stroke-miter,
+.text-editor > .ql-snow .ql-toolbar button:focus .ql-stroke-miter,
+.text-editor > .ql-snow.ql-toolbar button.ql-active .ql-stroke-miter,
+.text-editor > .ql-snow .ql-toolbar button.ql-active .ql-stroke-miter,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke-miter,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke-miter,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter {
+	stroke: #eeaaff !important;
+}
+
+.text-editor > .ql-snow .ql-fill {
+	fill: #ffffff !important;
+}
+
+.text-editor > .ql-snow.ql-toolbar button:hover .ql-fill,
+.text-editor > .ql-snow .ql-toolbar button:hover .ql-fill,
+.text-editor > .ql-snow.ql-toolbar button:focus .ql-fill,
+.text-editor > .ql-snow .ql-toolbar button:focus .ql-fill,
+.text-editor > .ql-snow.ql-toolbar button.ql-active .ql-fill,
+.text-editor > .ql-snow .ql-toolbar button.ql-active .ql-fill,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-label:hover .ql-fill,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-label:hover .ql-fill,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-fill,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-item:hover .ql-fill,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-item:hover .ql-fill,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-fill,
+.text-editor > .ql-snow.ql-toolbar button:hover .ql-stroke.ql-fill,
+.text-editor > .ql-snow .ql-toolbar button:hover .ql-stroke.ql-fill,
+.text-editor > .ql-snow.ql-toolbar button:focus .ql-stroke.ql-fill,
+.text-editor > .ql-snow .ql-toolbar button:focus .ql-stroke.ql-fill,
+.text-editor > .ql-snow.ql-toolbar button.ql-active .ql-stroke.ql-fill,
+.text-editor > .ql-snow .ql-toolbar button.ql-active .ql-stroke.ql-fill,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {
+	fill: #eeaaff !important;
+}
+
+.text-editor > .ql-snow .ql-picker-label {
+	color: #ffffff !important;
+}
+
+.text-editor > .ql-snow.ql-toolbar button:hover,
+.text-editor > .ql-snow .ql-toolbar button:hover,
+.text-editor > .ql-snow.ql-toolbar button:focus,
+.text-editor > .ql-snow .ql-toolbar button:focus,
+.text-editor > .ql-snow.ql-toolbar button.ql-active,
+.text-editor > .ql-snow .ql-toolbar button.ql-active,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-label:hover,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-label:hover,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-label.ql-active,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-label.ql-active,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-item:hover,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-item:hover,
+.text-editor > .ql-snow.ql-toolbar .ql-picker-item.ql-selected,
+.text-editor > .ql-snow .ql-toolbar .ql-picker-item.ql-selected {
+	color: #eeaaff !important;
+}
+
+.hide-overflow,
+.hide-overflow > .ui-layout-unit-content {
+	overflow: hidden !important;
+}
+
+.inherit-tree-overflow > .ui-tree-container {
+	overflow: inherit !important;
+}
+
+.purple-bg-light,
+.purple-bg-light > .ui-layout-unit-content {
+	background-color: #705296;
+}
+
+.purple-bg-dark,
+.purple-bg-dark > .ui-layout-unit-content {
+	background-color: #291e38;
+}
+
+.gray-bg,
+.gray-bg > .ui-layout-unit-content {
+	background-color: #161616;
+}
