@@ -47,11 +47,14 @@
 			function resizeEditor() {
 				var chipsHeight = $("#mainForm\\:chipsInput").height();
 				var newHeight = $(document).height() - chipsHeight - 120;
-				
-				var openToolbarHeight = $("#mainForm\\:editorOpen_toolbar").height();
+				var isChromium = window.chrome;
+
+				var openToolbar = $("#mainForm\\:editorOpen_toolbar");
+				var openToolbarHeight = isChromium ? openToolbar.outerHeight() : openToolbar.height();
 				$("#mainForm\\:editorOpen_editor").height(newHeight - openToolbarHeight);
-				
-				var closedToolbarHeight = $("#mainForm\\:editorClosed_toolbar").height();
+
+				var closedToolbar = $("#mainForm\\:editorClosed_toolbar");
+				var closedToolbarHeight = isChromium ? closedToolbar.outerHeight() : closedToolbar.height();
 				$("#mainForm\\:editorClosed_editor").height(newHeight - closedToolbarHeight);
 			}
 			
@@ -182,11 +185,11 @@
 				size="100%"
 				styleClass="no-border gray-bg">
 
-				<h:form id="mainForm" >
+				<h:form id="mainForm">
 
-					<p:outputPanel rendered="#{docsController.showEditor()}" >
+					<p:outputPanel rendered="#{docsController.showEditor()}">
 
-						<p:outputPanel id="editor" >
+						<p:outputPanel id="editor">
 							<p:textEditor
 								id="editorOpen"
 								widgetVar="textEditorOpen"
@@ -215,7 +218,7 @@
 							</p:textEditor>
 						</p:outputPanel>
 						
-						<p:outputPanel style="margin-top: 6px; margin-left: -3px;">
+						<p:outputPanel style="margin-top: 4px; margin-left: -3px;">
 							<h:panelGrid columns="4" styleClass="no-spacing">
 							
 								<p:chips
