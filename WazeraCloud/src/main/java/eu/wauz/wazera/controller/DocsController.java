@@ -379,28 +379,23 @@ public class DocsController implements Serializable {
 		TreeNode dropNode = event.getDropNode();
 		int dropIndex = event.getDropIndex();
 
-		if (dropNode instanceof FolderTreeNode) {
-			FolderTreeNode dropFolderNode = (FolderTreeNode) dropNode;
-			if (dragNode instanceof FolderTreeNode) {
-				FolderTreeNode dragFolderNode = (FolderTreeNode) dragNode;
-				dragFolderNode.getFolderData().setParent(dropFolderNode.getFolderData());
-				try {
+		try {
+			if (dropNode instanceof FolderTreeNode) {
+				FolderTreeNode dropFolderNode = (FolderTreeNode) dropNode;
+				if (dragNode instanceof FolderTreeNode) {
+					FolderTreeNode dragFolderNode = (FolderTreeNode) dragNode;
+					dragFolderNode.getFolderData().setParent(dropFolderNode.getFolderData());
 					foldersService.saveFolder(dragFolderNode.getFolderData(), dropIndex);
 				}
-				catch (Exception e) {
-					showErrorMessage(e.getMessage());
-				}
-			}
-			else if (dragNode instanceof DocumentTreeNode) {
-				DocumentTreeNode dragDocumentNode = (DocumentTreeNode) dragNode;
-				dragDocumentNode.getDocumentData().setParent(dropFolderNode.getFolderData());
-				try {
+				else if (dragNode instanceof DocumentTreeNode) {
+					DocumentTreeNode dragDocumentNode = (DocumentTreeNode) dragNode;
+					dragDocumentNode.getDocumentData().setParent(dropFolderNode.getFolderData());
 					documentsService.saveDocument(dragDocumentNode.getDocumentData(), dropIndex, getUsername());
 				}
-				catch (Exception e) {
-					showErrorMessage(e.getMessage());
-				}
 			}
+		}
+		catch (Exception e) {
+			showErrorMessage(e.getMessage());
 		}
 		selectTree();
 	}

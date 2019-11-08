@@ -22,6 +22,7 @@ body {
 
 .search-container > .ui-chips-container {
 	width: 100%;
+	height: 100%;
 }
 
 .ui-chips-input-token > .ui-widget {

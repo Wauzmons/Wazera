@@ -8,6 +8,8 @@ public class DocumentData {
 	private Integer id;
 
 	private String name;
+	
+	private String user;
 
 	private String content;
 
@@ -31,6 +33,14 @@ public class DocumentData {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 	public String getContent() {

@@ -241,11 +241,12 @@ public class DocumentsDataService {
 		}
 		else {
 			document = new Document();
-			document.setCreationDate(new Date());
 			index = 0;
 		}
 		document.setName(documentData.getName());
+		document.setUser(username);
 		document.setContent(documentData.getContent());
+		document.setCreationDate(new Date());
 		if(documentData.getParent() != null) {
 			document.setFolderId(documentData.getParent().getId());
 		}
@@ -331,9 +332,11 @@ public class DocumentsDataService {
 	private DocumentData readDocumentData(Document document) throws Exception {
 		DocumentData documentData = new DocumentData();
 
-		documentData.setContent(document.getContent());
 		documentData.setId(document.getId());
 		documentData.setName(document.getName());
+		documentData.setUser(document.getUser());
+		documentData.setContent(document.getContent());
+		documentData.setCreationDate(document.getCreationDate());
 
 		List<DocumentTag> documentTags = documentTagRepository.findByDocumentId(document.getId());
 		if(documentTags != null) {

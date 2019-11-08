@@ -68,7 +68,7 @@
 				gutter="0"
 				size="360"
 				styleClass="no-border hide-overflow gray-bg"
-				style="overflow:hidden;">
+				style="overflow: hidden;">
 
 				<h:form id="documentMenuForm">
 
@@ -76,10 +76,10 @@
 						value="#{docsController.searchTags}"
 						onkeydown="searchKeyDown(event)"
 						styleClass="search-container"
-						style="width: 280px; color: #ffffff;">
+						style="width: 280px; height: 23px; color: #ffffff;">
 						<p:ajax event="itemUnselect" oncomplete="updateTree()"/>
 					</p:chips>
-					<p:commandButton value="Search" onclick="updateTree()" style="width: 74px; top: -9px;"/>
+					<p:commandButton value="Search" onclick="updateTree()" style="width: 74px; height: 25px; top: -9px;"/>
 					<p:remoteCommand name="updateTree" actionListener="#{docsController.selectTree}" update="documentTree :mainForm" oncomplete="resizeEditor()"/>
 					
 					<p:scrollPanel id="treePanel" mode="native" styleClass="gray-bg" style="width: 99%; height: 565px;">
@@ -117,7 +117,7 @@
 										value="#{docsController.allowSorting}"
 										onLabel="Sort"
 										offLabel="Read"
-										style="height: 23px; top: 1px;">
+										style="height: 23px; top: #{sessionController.isChrome() ? '1px;' : '2px;'}">
 										<p:ajax update="documentTree" oncomplete="resizeTreePanel();" />
 									</p:inputSwitch>
 	
@@ -212,6 +212,10 @@
 									<span class="ql-formats">
 										<p:outputPanel>
 											<h2 class="no-spacing">#{docsController.selectedNode}</h2>
+											<p class="no-spacing" style="color: #888888;">
+												Last saved by <b style="font-weight: 800;">#{docsController.selectedNode.user}</b>
+												at <b style="font-weight: 800;">#{docsController.selectedNode.date}</b>
+											</p>
 										</p:outputPanel>
 									</span>
 								</f:facet>
@@ -225,14 +229,15 @@
 									id="chipsInput"
 									value="#{docsController.tags}"
 									onkeyup="resizeEditor();"
-									style="color: #ffffff;"/>
+									style="margin-right: 5px; width: 360px; height: 23px; top: #{sessionController.isChrome() ? '-1px;' : '0px;'} color: #ffffff;"
+									styleClass="search-container"/>
 								
 								<p:commandButton
 									id="buttonSave"
 									value="Save"
 									icon="ui-icon-disk"
 									actionListener="#{docsController.saveDocument}"
-									style="height: 25px; top: -2px;"
+									style="margin-right: 3px; height: 25px; top: -2px;"
 									update="@this"/>
 									
 								<p:commandButton
@@ -240,7 +245,7 @@
 									value="Copy Link"
 									icon="ui-icon-copy"
 									oncomplete="sendCopyLinkMessage()"
-									style="height: 25px; top: -2px;"
+									style="margin-right: 3px; height: 25px; top: -2px;"
 									update="@this"/>
 									
 								<p:inputSwitch
@@ -248,7 +253,7 @@
 									value="#{docsController.allowEditing}"
 									onLabel="Edit"
 									offLabel="Read"
-									style="height: 23px;">
+									style="margin-right: 3px; height: 23px; top: #{sessionController.isChrome() ? '-1px;' : '0px;'}">
 									<p:ajax update="editor" oncomplete="resizeEditor();" />
 								</p:inputSwitch>
 									

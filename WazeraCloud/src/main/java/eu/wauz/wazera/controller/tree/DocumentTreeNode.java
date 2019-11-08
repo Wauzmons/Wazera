@@ -1,5 +1,8 @@
 package eu.wauz.wazera.controller.tree;
 
+import java.text.SimpleDateFormat;
+
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -18,6 +21,14 @@ public class DocumentTreeNode extends DefaultTreeNode {
 
     public String getName() {
     	return String.valueOf(getData());
+    }
+    
+    public String getUser() {
+    	return StringUtils.isBlank(documentData.getUser()) ? "unknown" : documentData.getUser();
+    }
+    
+    public String getDate() {
+    	return new SimpleDateFormat("yyyy-MM-dd hh:mm").format(documentData.getCreationDate());
     }
 
 	public DocumentData getDocumentData() {
