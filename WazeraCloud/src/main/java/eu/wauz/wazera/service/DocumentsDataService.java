@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +33,6 @@ import eu.wauz.wazera.model.repository.jpa.DocumentJpaRepository;
 import eu.wauz.wazera.model.repository.jpa.FolderJpaRepository;
 import eu.wauz.wazera.model.repository.jpa.FolderUserDataJpaRepository;
 
-@Primary
 @Service
 @Scope("singleton")
 public class DocumentsDataService {

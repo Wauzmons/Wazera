@@ -153,24 +153,61 @@
 				    </p:scrollPanel>
 
 					<p:contextMenu for="documentTree" nodeType="rootNode">
-			            <p:menuitem value="Collapse All" actionListener="#{docsController.collapseAll()}" update="documentTree :mainForm" icon="ui-icon-folder-collapsed"/>
-			            <p:menuitem value="New Folder" onclick="PF('dialogAddDirectory').show();" update=":addDirectoryDialogForm" icon="ui-icon-folder-open"/>
-			            <p:menuitem value="New Document" onclick="PF('dialogAddDocument').show();" update=":addDocumentDialogForm" icon="ui-icon-document"/>
+			            <p:menuitem
+			            	value="Collapse All"
+			            	actionListener="#{docsController.collapseAll()}"
+			            	update="documentTree :mainForm"
+			            	icon="ui-icon-folder-collapsed"/>
+			            <p:menuitem
+			            	value="New Space Folder"
+			            	actionListener="#{docsController.setName('New Space Folder')}"
+			            	onclick="PF('dialogAddDirectory').show();"
+			            	update=":addDirectoryDialogForm"
+			            	icon="ui-icon-folder-open"/>
 				    </p:contextMenu>
 
 					<p:contextMenu for="documentTree" nodeType="directoryNode">
-						<p:menuitem value="Collapse All" actionListener="#{docsController.collapseRecursive(docsController.selectedNode)}" update="documentTree :mainForm" icon="ui-icon-folder-collapsed"/>
-			            <p:menuitem value="New Folder" onclick="PF('dialogAddDirectory').show();" update=":addDirectoryDialogForm" icon="ui-icon-folder-open"/>
-			            <p:menuitem value="New Document" onclick="PF('dialogAddDocument').show();" update=":addDocumentDialogForm" icon="ui-icon-document"/>
-	       				<p:menuitem value="Rename" onclick="PF('dialogRenameDirectory').show();" update=":renameDirectoryDialogForm" icon="ui-icon-refresh"/>
-	       				<p:menuitem value="Delete" actionListener="#{docsController.deleteFolder}" update="documentTree :mainForm" icon="ui-icon-trash">
+						<p:menuitem
+							value="Collapse All"
+							actionListener="#{docsController.collapseRecursive(docsController.selectedNode)}"
+							update="documentTree :mainForm"
+							icon="ui-icon-folder-collapsed"/>
+			            <p:menuitem
+			            	value="New Folder"
+			            	actionListener="#{docsController.setName('New Folder')}"
+			            	onclick="PF('dialogAddDirectory').show();"
+			            	update=":addDirectoryDialogForm"
+			            	icon="ui-icon-folder-open"/>
+			            <p:menuitem
+			            	value="New Document"
+			            	actionListener="#{docsController.setName('New Document')}"
+			            	onclick="PF('dialogAddDocument').show();"
+			            	update=":addDocumentDialogForm"
+			            	icon="ui-icon-document"/>
+	       				<p:menuitem
+	       					value="Rename"
+	       					onclick="PF('dialogRenameDirectory').show();"
+	       					update=":renameDirectoryDialogForm"
+	       					icon="ui-icon-refresh"/>
+	       				<p:menuitem
+	       					value="Delete"
+	       					actionListener="#{docsController.deleteFolder}"
+	       					update="documentTree :mainForm"
+	       					icon="ui-icon-trash">
 	       					<p:confirm header="Confirm" message="Delete Folder?" icon="ui-icon-alert" />
 	       				</p:menuitem>
 				    </p:contextMenu>
 
 					<p:contextMenu for="documentTree" nodeType="documentNode">
-	       				<p:menuitem value="Rename" onclick="PF('dialogRenameDocument').show();" update=":renameDocumentDialogForm" icon="ui-icon-refresh"/>
-	       				<p:menuitem value="Delete" actionListener="#{docsController.deleteDocument}" update="documentTree :mainForm" icon="ui-icon-trash">
+	       				<p:menuitem
+	       					value="Rename"
+	       					onclick="PF('dialogRenameDocument').show();"
+	       					update=":renameDocumentDialogForm" icon="ui-icon-refresh"/>
+	       				<p:menuitem
+	       					value="Delete"
+	       					actionListener="#{docsController.deleteDocument}"
+	       					update="documentTree :mainForm"
+	       					icon="ui-icon-trash">
 	       					<p:confirm header="Confirm" message="Delete Document?" icon="ui-icon-alert"/>
 	       				</p:menuitem>
 				    </p:contextMenu>
@@ -278,6 +315,7 @@
 		
 		<p:dialog header="New Folder"
 			widgetVar="dialogAddDirectory"
+			showEffect="fade" hideEffect="fade"
 			resizable="false"
 			draggable="false"
 			modal="true"
@@ -307,6 +345,7 @@
 
 		<p:dialog header="Rename Folder"
 			widgetVar="dialogRenameDirectory"
+			showEffect="fade" hideEffect="fade"
 			resizable="false"
 			draggable="false"
 			modal="true"
@@ -336,6 +375,7 @@
 
 		<p:dialog header="New Document"
 			widgetVar="dialogAddDocument"
+			showEffect="fade" hideEffect="fade"
 			resizable="false"
 			draggable="false"
 			modal="true"
@@ -365,6 +405,7 @@
 
 		<p:dialog header="Rename Document"
 			widgetVar="dialogRenameDocument"
+			showEffect="fade" hideEffect="fade"
 			resizable="false"
 			draggable="false"
 			modal="true"

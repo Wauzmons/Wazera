@@ -28,7 +28,7 @@ public class DocumentTreeNode extends DefaultTreeNode {
     }
     
     public String getDate() {
-    	return new SimpleDateFormat("yyyy-MM-dd hh:mm").format(documentData.getCreationDate());
+    	return new SimpleDateFormat("yyyy-MM-dd HH:mm").format(documentData.getCreationDate());
     }
 
 	public DocumentData getDocumentData() {

@@ -14,7 +14,133 @@
 
     <ui:define name="center">
     	
-		<p:outputLabel value="#{dashboardController.ping()}" style="margin: 5px;"/>
+		<p:layout>
+			
+			<p:layoutUnit
+				id="center"
+				position="center"
+				size="100%"
+				styleClass="no-border gray-bg">
+				
+				<p:outputLabel value="#{dashboardController.ping()}" style="margin: 5px;"/>
+				
+			</p:layoutUnit>
+		
+			<p:layoutUnit
+				id="layoutUnitBottom"
+				position="south"
+				gutter="30"
+				size="250"
+				styleClass="no-border gray-bg">
+				
+				<p:timeline
+					id="timeline"
+					value="#{dashboardController.timeline}"
+					start="#{dashboardController.timelineStart}"
+					end="#{dashboardController.timelineEnd}"
+					height="200px"
+					style="margin: auto; width: 99%;"
+					styleClass="gray-bg"
+					selectable="true"
+					zoomable="true"
+					moveable="true"
+					eventMargin="5"
+					eventMarginAxis="5"
+					axisOnTop="true">
+					<p:ajax
+						event="select"
+						listener="#{dashboardController.onTimelineEventSelect}"
+						onstart="PF('dialogViewTimelineEvent').show();"
+						update="timeline :viewTimelineEventDialogForm"/>
+				</p:timeline>
+	            	
+            	<p:outputPanel style="margin-top: 4px; margin-left: 5px;">
+					<h:panelGrid columns="1" styleClass="no-spacing">
+					
+						<p:commandButton
+							id="buttonAdd"
+							value="Add Timeline Event"
+							icon="fa fa-clock-o"
+							onclick="PF('dialogAddTimelineEvent').show();"
+							style="height: 25px;"
+			            	update=":addTimelineEventDialogForm"/>
+							
+					</h:panelGrid>
+				</p:outputPanel>
+					
+			</p:layoutUnit>
+		
+		</p:layout>
+		
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+        	<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+        	<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-remove" />
+    	</p:confirmDialog>
+		
+		<p:dialog header="Add Timeline Event"
+			widgetVar="dialogAddTimelineEvent"
+			showEffect="fade" hideEffect="fade"
+			resizable="false"
+			draggable="false"
+			modal="true"
+			appendTo="@(body)">
+
+			<h:form id="addTimelineEventDialogForm">
+				<h:panelGrid id="addTimelineEventDialogGrid" columns="2"
+					style="margin-bottom:10px">
+
+					<h:outputLabel value="Name" for="name"/>
+					<p:inputText id="name" value="#{dashboardController.timelineEventName}" style="width:200px"/>
+						
+					<h:outputLabel value="Date" for="date"/>
+       				<p:calendar id="date" value="#{dashboardController.timelineEventDate}" pattern="yyyy-MM-dd HH:mm"/>
+       					
+   					<h:outputLabel value="Weekly" for="weekly"/>
+   					<p:selectBooleanCheckbox id="weekly" value="#{dashboardController.timelineEventWeekly}"/>
+
+					<f:facet name="footer">
+						<p:commandButton type="push"
+							value="Save"
+							actionListener="#{dashboardController.saveTimelineEvent()}"
+							oncomplete="PF('dialogAddTimelineEvent').hide();"
+							update="timeline"/>
+					</f:facet>
+					
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog header="View Timeline Event"
+			widgetVar="dialogViewTimelineEvent"
+			showEffect="fade" hideEffect="fade"
+			resizable="false"
+			draggable="false"
+			modal="true"
+			appendTo="@(body)">
+
+			<h:form id="viewTimelineEventDialogForm">
+				<h:panelGrid id="addTimelineEventDialogGrid" columns="2"
+					style="margin-bottom:10px">
+
+					<h:outputLabel value="Name"/>
+					<h:outputLabel value="#{dashboardController.selectedTimelineEvent.data}"/>
+						
+					<h:outputLabel value="Date"/>
+       				<h:outputLabel value="#{dashboardController.selectedTimelineEvent.date}"/>
+
+					<f:facet name="footer">
+						<p:commandButton type="push"
+							value="Delete"
+							actionListener="#{dashboardController.deleteTimelineEvent()}"
+							oncomplete="PF('dialogViewTimelineEvent').hide();"
+							update="timeline">
+							<p:confirm header="Confirm" message="Delete Timeline Event?" icon="ui-icon-alert" />
+						</p:commandButton>
+					</f:facet>
+					
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
 
     </ui:define>
     
