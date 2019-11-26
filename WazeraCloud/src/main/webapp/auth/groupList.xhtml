@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:s="http://java.sun.com/jsf/composite/components/shared"
+	xmlns:tw="http://java.sun.com/jsf/composite/components/tasks">
+
+	<p:outputLabel value="Gruppenliste" style="font-size: 32px; font-weight: bold;"/>
+
+	<h:form>
+
+		<p:panelGrid columns="1" styleClass="noBorder" style="margin-top: 16px;">
+
+			<p:dataTable
+				styleClass="groupTable"
+				value="#{groupController.groups}"
+				var="group"
+	            paginator="true"
+	            paginatorTemplate="{CurrentPageReport} {PageLinks} {RowsPerPageDropdown}"
+	            paginatorPosition="top"
+				rows="10"
+				rowsPerPageTemplate="10,20,50"
+				tableStyle="width: auto;">
+
+				<p:column
+					headerText="ID"
+					sortBy="#{group.id}"
+					filterBy="#{group.id}">
+					<p:outputLabel value="#{group.id}"/>
+				</p:column>
+
+				<p:column
+					headerText="Group"
+					sortBy="#{group.name}"
+					filterBy="#{group.name}">
+					<p:outputLabel value="#{group.name}"/>
+				</p:column>
+
+				<p:column
+					headerText="Optionen"
+					style="text-align: center;">
+					<p:commandButton
+	        			icon="ui-icon-pencil"
+	        			title="Editieren"
+	        			actionListener="#{groupController.setGroup(group)}"
+	        			update="@(.editGroupDialog)"
+	        			oncomplete="PF('editGroupDialog').show();"/>
+					<p:commandButton
+						icon="ui-icon-trash"
+						title="Löschen"
+						actionListener="#{groupController.setGroup(group)}"
+	        			update="@(.deleteGroupDialog)"
+	        			oncomplete="PF('deleteGroupDialog').show();"/>
+				</p:column>
+
+				<f:facet name="footer">
+	        		<p:commandButton
+	        			icon="ui-icon-plus"
+	        			value="Neue Gruppe anlegen"
+	        			actionListener="#{groupController.setNewGroup()}"
+	        			update="@(.newGroupDialog)"
+	        			oncomplete="PF('newGroupDialog').show();"/>
+	    		</f:facet>
+			</p:dataTable>
+
+		</p:panelGrid>
+
+	</h:form>
+
+</ui:composition>

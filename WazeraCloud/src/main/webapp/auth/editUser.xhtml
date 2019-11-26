@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<p:outputLabel value="#{authUserController.getEditUserHeader()}" style="font-size: 32px; font-weight: bold;"/>
+
+	<p:tabView>
+
+		<p:tab title="Passwort ändern" disabled="#{!authUserController.mayChangePassword()}">
+			<h:form>
+				<p:panelGrid columns="2" styleClass="noBorder">
+					<p:outputLabel value="Neues Passwort: "/>
+					<p:password value="#{authUserController.passwordInput1}"/>
+					<p:outputLabel value="Passwort wiederhohlen: "/>
+					<p:password value="#{authUserController.passwordInput2}"/>
+				</p:panelGrid>
+				<p:commandButton
+					icon="ui-icon-disk"
+					value="Speichern"
+					actionListener="#{authUserController.changePassword()}"
+					disabled="#{!authUserController.mayChangePassword()}"/>
+			</h:form>
+		</p:tab>
+
+<ui:remove>
+		<p:tab title="Theme ändern">
+			<h:form>
+				<p:panelGrid columns="1" styleClass="noBorder">
+				<p:themeSwitcher value="#{themeSwitcher.theme}" style="width:165px">
+		            <f:selectItem itemLabel="Glass-X (Default)" itemValue="glass-x" />
+		            <f:selectItem itemLabel="Dark Theme" itemValue="tw-black" />
+		        </p:themeSwitcher>
+		        <p:commandButton
+					icon="ui-icon-disk"
+					value="Speichern"
+					actionListener="#{themeSwitcher.saveTheme()}"/>
+				</p:panelGrid>
+	        </h:form>
+		</p:tab>
+</ui:remove>
+
+		<p:tab title="Rollen verwalten" disabled="#{!authUserController.isAuthAdmin()}">
+			<h:form>
+				<p:panelGrid columns="1" styleClass="noBorder">
+					<p:dataTable
+						styleClass="roleTable"
+						value="#{authUserController.userRoleHandles}"
+						var="userRoleHandle"
+			            paginator="true"
+			            paginatorTemplate="{CurrentPageReport} {PageLinks} {RowsPerPageDropdown}"
+			            paginatorPosition="top"
+						rows="10"
+						rowsPerPageTemplate="10,20,50"
+						tableStyle="width: auto;">
+
+						<p:column headerText="Rolle">
+							<p:outputLabel value="#{userRoleHandle.role.getName()}"/>
+						</p:column>
+
+						<p:column headerText="Global" style="text-align: center;">
+							<p:selectBooleanCheckbox value="#{userRoleHandle.hasRoleGlobally}"/>
+						</p:column>
+
+						<c:forEach items="#{groupController.groups}" var="group">
+							<p:column headerText="#{group.getName()}" style="text-align: center;">
+								<p:selectBooleanCheckbox
+									rendered="#{!userRoleHandle.isRoleGlobal()}"
+									value="#{userRoleHandle.getHasRoleInGroupMap()[group.id]}"/>
+							</p:column>
+						</c:forEach>
+					</p:dataTable>
+					<p:commandButton
+						icon="ui-icon-disk"
+						value="Speichern"
+						actionListener="#{authUserController.updateRoles()}"
+						disabled="#{!authUserController.isAuthAdmin()}"/>
+				</p:panelGrid>
+			</h:form>
+		</p:tab>
+
+	</p:tabView>
+
+</ui:composition>

@@ -19,19 +19,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import eu.wauz.wazera.model.data.DocumentData;
-import eu.wauz.wazera.model.data.FolderData;
-import eu.wauz.wazera.model.entity.Document;
-import eu.wauz.wazera.model.entity.DocumentTag;
-import eu.wauz.wazera.model.entity.Folder;
-import eu.wauz.wazera.model.entity.FolderUserData;
-import eu.wauz.wazera.model.repository.DocumentRepository;
-import eu.wauz.wazera.model.repository.DocumentTagRepository;
-import eu.wauz.wazera.model.repository.FolderRepository;
-import eu.wauz.wazera.model.repository.FolderUserDataRepository;
-import eu.wauz.wazera.model.repository.jpa.DocumentJpaRepository;
-import eu.wauz.wazera.model.repository.jpa.FolderJpaRepository;
-import eu.wauz.wazera.model.repository.jpa.FolderUserDataJpaRepository;
+import eu.wauz.wazera.model.data.docs.DocumentData;
+import eu.wauz.wazera.model.data.docs.FolderData;
+import eu.wauz.wazera.model.entity.docs.Document;
+import eu.wauz.wazera.model.entity.docs.DocumentTag;
+import eu.wauz.wazera.model.entity.docs.Folder;
+import eu.wauz.wazera.model.entity.docs.FolderUserData;
+import eu.wauz.wazera.model.repository.docs.DocumentRepository;
+import eu.wauz.wazera.model.repository.docs.DocumentTagRepository;
+import eu.wauz.wazera.model.repository.docs.FolderRepository;
+import eu.wauz.wazera.model.repository.docs.FolderUserDataRepository;
+import eu.wauz.wazera.model.repository.docs.jpa.DocumentJpaRepository;
+import eu.wauz.wazera.model.repository.docs.jpa.FolderJpaRepository;
+import eu.wauz.wazera.model.repository.docs.jpa.FolderUserDataJpaRepository;
 
 @Service
 @Scope("singleton")
