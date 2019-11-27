@@ -2,26 +2,23 @@ package eu.wauz.wazera.model.data.auth;
 
 public enum PermissionScope {
 
-	GLOBAL(1, "GLOBAL"),
+	GLOBAL(1),
 
-	GROUP(2, "GROUP");
+	GROUP(2);
 
-	private int id;
+	private final int id;
 
-	private String scopeString;
-
-	PermissionScope(int id, String scopeString) {
+	PermissionScope(int id) {
 		this.id = id;
-		this.scopeString = scopeString;
 	}
 
 	public int getId() {
 		return id;
 	}
-
+	
 	@Override
 	public String toString() {
-		return scopeString;
+		return this.name();
 	}
 
 }

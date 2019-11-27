@@ -9,63 +9,68 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:s="http://java.sun.com/jsf/composite/components/shared"
-	xmlns:tw="http://java.sun.com/jsf/composite/components/tasks">
-
-	<h:form styleClass="editRoleForm">
+	xmlns:tw="http://java.sun.com/jsf/composite/components/tasks"
+    template="/templates/default.xhtml" >
+    
+    <ui:define name="center">
 
 		<p:outputLabel value="#{roleController.getEditRoleHeader()}" style="font-size: 32px; font-weight: bold;"/>
-
-		<p:panelGrid columns="2" styleClass="noBorder" style="margin-top: 16px;">
-
-			<p:outputLabel value="Rollenname: "/>
-			<p:inputText value="#{roleController.role.name}"/>
-
-			<p:outputLabel value="Scope: "/>
-			<p:selectOneMenu value="#{roleController.role.scope}">
-				<f:selectItems value="#{roleController.getPermissionScopes()}"/>
-				<p:ajax event="itemSelect" update="@(.permissionTable)"/>
-			</p:selectOneMenu>
-
-			<p:outputLabel value="Berechtigungen: "/>
-			<p:dataTable
-			styleClass="permissionTable"
-			value="#{roleController.rolePermissionHandles}"
-			var="rolePermissionHandle"
-            paginator="true"
-            paginatorTemplate="{CurrentPageReport} {PageLinks} {RowsPerPageDropdown}"
-            paginatorPosition="top"
-			rows="10"
-			rowsPerPageTemplate="10,20,50"
-			tableStyle="width: auto;">
-
-			<p:column headerText="Name">
-				<p:outputLabel value="#{rolePermissionHandle.permission.getName()}"/>
-			</p:column>
-
-			<p:column headerText="Scope">
-				<p:outputLabel value="#{rolePermissionHandle.permission.getScope()}"/>
-			</p:column>
-
-			<p:column headerText="Beschreibung">
-				<p:outputLabel value="#{rolePermissionHandle.permission.getDescription()}"/>
-			</p:column>
-
-			<p:column headerText="Aktiv" style="text-align: center;">
-				<p:selectBooleanCheckbox
-					rendered="#{roleController.isRolePermissionHandleVisible(rolePermissionHandle)}"
-					value="#{rolePermissionHandle.hasPermission}"/>
-			</p:column>
-
-			</p:dataTable>
-
-		</p:panelGrid>
-
-		<p:commandButton
-			icon="ui-icon-disk"
-			value="Speichern"
-			actionListener="#{roleController.updateRole()}"
-			update="@(.editRoleForm)"/>
-
-	</h:form>
+		
+		<h:form styleClass="editRoleForm">
+	
+			<p:panelGrid columns="2" styleClass="no-border" style="margin-top: 16px;">
+	
+				<p:outputLabel value="Rollenname: "/>
+				<p:inputText value="#{roleController.role.name}"/>
+	
+				<p:outputLabel value="Scope: "/>
+				<p:selectOneMenu value="#{roleController.role.scope}">
+					<f:selectItems
+						value="#{roleController.getPermissionScopes()}"
+						var="permissionScope"
+						itemLabel="#{permissionScope.name()}"
+						itemValue="#{permissionScope.id}"/>
+					<p:ajax event="itemSelect" update="@(.permissionTable)"/>
+				</p:selectOneMenu>
+	
+				<p:outputLabel value="Berechtigungen: "/>
+				<p:dataTable
+				styleClass="permissionTable"
+				value="#{roleController.rolePermissionHandles}"
+				var="rolePermissionHandle"
+	            paginator="true"
+	            paginatorTemplate="{CurrentPageReport} {PageLinks} {RowsPerPageDropdown}"
+	            paginatorPosition="top"
+				rows="10"
+				rowsPerPageTemplate="10,20,50"
+				tableStyle="width: auto;">
+	
+				<p:column headerText="Name">
+					<p:outputLabel value="#{rolePermissionHandle.permission.name()}"/>
+				</p:column>
+	
+				<p:column headerText="Scope">
+					<p:outputLabel value="#{rolePermissionHandle.permission.getScope().name()}"/>
+				</p:column>
+	
+				<p:column headerText="Aktiv" style="text-align: center;">
+					<p:selectBooleanCheckbox
+						rendered="#{roleController.isRolePermissionHandleVisible(rolePermissionHandle)}"
+						value="#{rolePermissionHandle.hasPermission}"/>
+				</p:column>
+	
+				</p:dataTable>
+	
+			</p:panelGrid>
+	
+			<p:commandButton
+				icon="ui-icon-disk"
+				value="Speichern"
+				actionListener="#{roleController.updateRole()}"
+				update="@(.editRoleForm)"/>
+	
+		</h:form>
+	
+	</ui:define>
 
 </ui:composition>

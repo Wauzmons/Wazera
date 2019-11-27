@@ -15,10 +15,10 @@
 
 	<h:form>
 
-		<p:panelGrid columns="1" styleClass="noBorder" style="margin-top: 16px;">
+		<p:panelGrid columns="1" styleClass="no-border" style="margin-top: 16px;">
 
 			<p:dataTable
-				styleClass="roleTable"
+				styleClass="no-border"
 				value="#{roleController.roles}"
 				var="role"
 	            paginator="true"
@@ -45,8 +45,8 @@
 				<p:column
 					headerText="Scope"
 					sortBy="#{role.scope}"
-					filterBy="#{role.scope}">
-					<p:outputLabel value="#{role.scope}"/>
+					filterBy="#{role.scopeName}">
+					<p:outputLabel value="#{role.scopeName}"/>
 				</p:column>
 
 				<p:column
@@ -56,7 +56,7 @@
 						icon="ui-icon-pencil"
 						title="Editieren"
 						ajax="false"
-						action="/authEditRole.xhtml">
+						action="editRole.xhtml">
 						<f:param name="roleId" value="#{role.id}" />
 					</p:commandButton>
 					<p:commandButton

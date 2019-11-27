@@ -1,5 +1,6 @@
 package eu.wauz.wazera.service;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
@@ -23,6 +24,16 @@ public class DocsTool {
 	public String getBrowser() {
 		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		return externalContext.getRequestHeaderMap().get("User-Agent");
+	}
+	
+    public void showInfoMessage(String infoMessage) {
+		final FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Info:", infoMessage);
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+    
+	public void showErrorMessage(String errorMessage) {
+		final FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fehler:", errorMessage);
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 }

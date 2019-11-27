@@ -50,11 +50,13 @@
 				var isChromium = window.chrome;
 
 				var openToolbar = $("#mainForm\\:editorOpen_toolbar");
-				var openToolbarHeight = isChromium ? openToolbar.outerHeight() : openToolbar.height();
+				//var openToolbarHeight = isChromium ? openToolbar.outerHeight() : openToolbar.height();
+				var openToolbarHeight = openToolbar.outerHeight();
 				$("#mainForm\\:editorOpen_editor").height(newHeight - openToolbarHeight);
 
 				var closedToolbar = $("#mainForm\\:editorClosed_toolbar");
-				var closedToolbarHeight = isChromium ? closedToolbar.outerHeight() : closedToolbar.height();
+				//var closedToolbarHeight = isChromium ? closedToolbar.outerHeight() : closedToolbar.height();
+				var closedToolbarHeight = closedToolbar.outerHeight();
 				$("#mainForm\\:editorClosed_editor").height(newHeight - closedToolbarHeight);
 			}
 			

@@ -4,7 +4,13 @@ body {
 	background-color: #000000
 }
 
-.no-border {
+.no-border,
+.ui-widget-content.no-border tr,
+.ui-widget-content.no-border td,
+.ui-datatable.no-border th,
+.ui-datatable.no-border tbody,
+.ui-datatable.no-border tbody tr,
+.ui-datatable.no-border tbody td {
 	border: none !important;
 	border-radius: 0px;
 }
@@ -141,17 +147,18 @@ body {
 	overflow: inherit !important;
 }
 
+th,
 .purple-bg-light,
 .purple-bg-light > .ui-layout-unit-content {
-	background-color: #705296;
+	background: #705296 !important;
 }
 
 .purple-bg-dark,
 .purple-bg-dark > .ui-layout-unit-content {
-	background-color: #291e38;
+	background: #291e38 !important;
 }
 
 .gray-bg,
 .gray-bg > .ui-layout-unit-content {
-	background-color: #16161f;
+	background: #16161f !important;
 }

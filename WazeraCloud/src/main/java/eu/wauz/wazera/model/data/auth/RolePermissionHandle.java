@@ -2,15 +2,15 @@ package eu.wauz.wazera.model.data.auth;
 
 public class RolePermissionHandle {
 
-	private PermissionData permission;
+	private Permission permission;
 
 	private Boolean hasPermission;
 
-	public PermissionData getPermission() {
+	public Permission getPermission() {
 		return permission;
 	}
 
-	public void setPermission(PermissionData permission) {
+	public void setPermission(Permission permission) {
 		this.permission = permission;
 	}
 

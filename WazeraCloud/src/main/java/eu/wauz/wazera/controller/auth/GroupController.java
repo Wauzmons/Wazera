@@ -73,8 +73,6 @@ public class GroupController {
 		groups = null;
 	}
 
-
-
 	public List<GroupData> getGroups() {
 		if(groups == null)
 			groups = authService.findAllGroups();

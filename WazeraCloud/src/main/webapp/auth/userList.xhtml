@@ -13,11 +13,11 @@
 
 	<h:form>
 
-		<p:panelGrid columns="1" styleClass="noBorder" style="margin-top: 16px;">
+		<p:panelGrid columns="1" styleClass="no-border" style="margin-top: 16px;">
 
 			<p:dataTable
-				styleClass="userTable"
-				value="#{authUserController.users}"
+				styleClass="no-border"
+				value="#{userController.users}"
 				var="user"
 	            paginator="true"
 	            paginatorTemplate="{CurrentPageReport} {PageLinks} {RowsPerPageDropdown}"
@@ -42,7 +42,7 @@
 
 				<p:column
 					headerText="Rollen">
-					<p:outputLabel value=""/>
+					<p:outputLabel value="N/A"/>
 				</p:column>
 
 				<p:column
@@ -52,13 +52,13 @@
 						icon="ui-icon-pencil"
 						title="Editieren"
 						ajax="false"
-						action="/userForm.xhtml" >
+						action="editUser.xhtml">
 						<f:param name="username" value="#{user.username}" />
 					</p:commandButton>
 					<p:commandButton
 						icon="ui-icon-trash"
 						title="Löschen"
-						actionListener="#{authUserController.setUser(user)}"
+						actionListener="#{userController.setUser(user)}"
 	        			update="@(.deleteUserDialog)"
 	        			oncomplete="PF('deleteUserDialog').show();"/>
 				</p:column>
@@ -67,7 +67,7 @@
 	        		<p:commandButton
 	        			icon="ui-icon-plus"
 	        			value="Neuen Benutzer anlegen"
-	        			actionListener="#{authUserController.setNewUser()}"
+	        			actionListener="#{userController.setNewUser()}"
 	        			update="@(.newUserDialog)"
 	        			oncomplete="PF('newUserDialog').show();"/>
 	    		</f:facet>

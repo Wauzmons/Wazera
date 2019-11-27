@@ -11,42 +11,42 @@
     xmlns:s="http://java.sun.com/jsf/composite/components/shared"
 	xmlns:tw="http://java.sun.com/jsf/composite/components/tasks">
 
-	<h:form>
-
-		<p:dialog
-			widgetVar="newUserDialog"
-			styleClass="newUserDialog"
-			header="Neuen Benutzer anlegen">
-			<p:panelGrid columns="2" styleClass="noBorder">
+	<p:dialog
+		widgetVar="newUserDialog"
+		styleClass="newUserDialog"
+		header="Neuen Benutzer anlegen">
+		<h:form>
+			<p:panelGrid columns="2" styleClass="no-border">
 				<p:outputLabel value="Username: "/>
-				<p:inputText value="#{authUserController.user.username}" />
+				<p:inputText value="#{userController.user.username}" />
 				<p:outputLabel value="Passwort: "/>
-				<p:password value="#{authUserController.user.password}"/>
+				<p:password value="#{userController.user.password}"/>
 			</p:panelGrid>
 			<p:commandButton
 				icon="ui-icon-disk"
 				value="Speichern"
-				actionListener="#{authUserController.createNewUser()}"
+				actionListener="#{userController.createNewUser()}"
 				update="@(.userTable)"
 				oncomplete="PF('newUserDialog').hide();"/>
-		</p:dialog>
+		</h:form>
+	</p:dialog>
 
-		<p:dialog
-			widgetVar="deleteUserDialog"
-			styleClass="deleteUserDialog"
-			header="#{authUserController.getDeleteUserHeader()}">
+	<p:dialog
+		widgetVar="deleteUserDialog"
+		styleClass="deleteUserDialog"
+		header="#{userController.getDeleteUserHeader()}">
+		<h:form>
 			<p:commandButton
 				icon="ui-icon-trash"
 				value="Bestätigen"
-				actionListener="#{authUserController.deleteUser()}"
+				actionListener="#{userController.deleteUser()}"
 				update="@(.userTable)"
 				oncomplete="PF('deleteUserDialog').hide();"/>
 			<p:commandButton
 				icon="ui-icon-close"
 				value="Abbrechen"
 				oncomplete="PF('deleteUserDialog').hide();"/>
-		</p:dialog>
-
-	</h:form>
+		</h:form>
+	</p:dialog>
 
 </ui:composition>

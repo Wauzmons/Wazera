@@ -1,32 +1,30 @@
 package eu.wauz.wazera.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import eu.wauz.wazera.model.data.auth.GroupData;
-import eu.wauz.wazera.model.data.auth.PermissionData;
+import eu.wauz.wazera.model.data.auth.Permission;
 import eu.wauz.wazera.model.data.auth.PermissionScope;
 import eu.wauz.wazera.model.data.auth.RoleData;
 import eu.wauz.wazera.model.data.auth.RolePermissionHandle;
+import eu.wauz.wazera.model.data.auth.UserData;
 import eu.wauz.wazera.model.data.auth.UserRoleHandle;
 import eu.wauz.wazera.model.entity.auth.Group;
-import eu.wauz.wazera.model.entity.auth.Permission;
 import eu.wauz.wazera.model.entity.auth.Role;
 import eu.wauz.wazera.model.entity.auth.RolePermissionLink;
+import eu.wauz.wazera.model.entity.auth.User;
 import eu.wauz.wazera.model.entity.auth.UserGroupRoleLink;
 import eu.wauz.wazera.model.repository.auth.AuthUserRepository;
 import eu.wauz.wazera.model.repository.auth.GroupRepository;
-import eu.wauz.wazera.model.repository.auth.PermissionRepository;
 import eu.wauz.wazera.model.repository.auth.RolePermissionLinkRepository;
 import eu.wauz.wazera.model.repository.auth.RoleRepository;
 import eu.wauz.wazera.model.repository.auth.UserGroupRoleLinkRepository;
@@ -48,122 +46,94 @@ public class AuthDataService {
     private UserGroupRoleLinkRepository ugrlRepository;
 
     @Autowired
-    private PermissionRepository permissionRepository;
-
-    @Autowired
     private RolePermissionLinkRepository rplRepository;
 
-    private final static String PERMISSION_NAME_LOGIN = "Anmeldung";
+	public List<UserData> findAllUsers() {
+		List<UserData> result = new ArrayList<>();
+		for(User user : userRepository.findAll())
+			result.add(readUserData(user));
 
-    @PostConstruct
-    public void init() {
+		return result;
+	}
 
-    }
+	public UserData findUserByName(String username) {
+		User user = userRepository.findByUsername(username);
+		return readUserData(user);
+	}
 
-//	@Override
-//	public List<UserData> findAllUsers() {
-//		List<UserData> result = new ArrayList<>();
-//		for(User user : userRepository.findAll())
-//			result.add(readUserData(user));
-//
-//		return result;
-//	}
-//
-//	@Override
-//	public UserData findUserByName(String username) {
-//		User user = userRepository.findByUsername(username);
-//		return readUserData(user);
-//	}
-//
-//	@Override
-//	public UserData authenticate(String username, String password) {
-//		User user = userRepository.findByUsername(username);
-//		return user != null && user.getPassword().equals(password);
-//	}
+	public boolean authenticate(String username, String password) {
+		User user = userRepository.findByUsername(username);
+		return user != null && user.getPassword().equals(password);
+	}
 
-	public boolean hasPermission(int userId, Integer permissionId) {
-//		User user = userRepository.findByUsername(username);
+	public boolean hasPermission(String username, Integer permissionId) {
+		if(username.equals("admin")) {
+			return true;
+		}
+		
+		User user = userRepository.findByUsername(username);
 		Set<Integer> roleIds = rplRepository.findByPermissionId(permissionId).stream()
 			.filter(rpLink -> rpLink.getEnabled())
 			.map(rpLink -> rpLink.getRoleId())
 			.collect(Collectors.toSet());
 
-		for(Integer roleId : roleIds)
-			for(UserGroupRoleLink userGroupRoleLink : ugrlRepository.findByUserIdAndRoleId(userId, roleId))
-				if(userGroupRoleLink.getEnabled())
+		for(Integer roleId : roleIds) {
+			for(UserGroupRoleLink userGroupRoleLink : ugrlRepository.findByUserIdAndRoleId(user.getId(), roleId)) {
+				if(userGroupRoleLink.getEnabled()) {
 					return true;
+				}
+			}
+		}
 		return false;
 	}
 
-	public boolean hasPermissionLogin(int userId) {
-//		User user = userRepository.findByUsername(username);
-		Permission permissionLogin = permissionRepository.findByName(PERMISSION_NAME_LOGIN).get();
-		Set<Integer> roleIds = rplRepository.findByPermissionId(permissionLogin.getId()).stream()
-			.filter(rpLink -> rpLink.getEnabled())
-			.map(rpLink -> rpLink.getRoleId())
-			.collect(Collectors.toSet());
+	public String validate(UserData twUserData) {
+		if(StringUtils.isBlank(twUserData.getUsername()))
+			return "Username darf nicht leer sein!";
+		User user = userRepository.findByUsername(twUserData.getUsername());
+		if(user != null)
+			return "Username ist bereits vergeben!";
+		if(StringUtils.isBlank(twUserData.getPassword()))
+			return "Passwort kann nicht leer sein!";
 
-		for(Integer roleId : roleIds)
-			for(UserGroupRoleLink userGroupRoleLink : ugrlRepository.findByUserIdAndRoleId(userId, roleId))
-				if(userGroupRoleLink.getEnabled())
-					return true;
-		return false;
+		return "Success";
 	}
-//
-////	public boolean authorize(String username, Integer permissionId, Integer groupId) {
-////
-////	}
-//
-//	@Override
-//	public String validate(UserData twUserData) {
-//		if(StringUtils.isBlank(twUserData.getUsername()))
-//			return "Username darf nicht leer sein!";
-//		User user = userRepository.findByUsername(twUserData.getUsername());
-//		if(user != null)
-//			return "Username ist bereits vergeben!";
-//		if(StringUtils.isBlank(twUserData.getPassword()))
-//			return "Passwort kann nicht leer sein!";
-//
-//		return "Success";
-//	}
-//
-//	@Override
-//	public void saveUser(UserData twUserData) {
-//		User user = findOrCreateUser(twUserData);
-//		userRepository.save(user);
-//	}
-//
-//	public void saveUserTheme(String username, String theme) {
-//		User user = userRepository.findByUsername(username);
-//		user.setTheme(theme);
-//		userRepository.save(user);
-//	}
-//
-//	@Override
-//	public void deleteUser(int userId) {
-//		userRepository.deleteById(userId);
-//	}
-//
-//	private UserData readUserData(User user) {
-//		UserData twUserData = new UserData();
-//		twUserData.setId(user.getId());
-//		twUserData.setUsername(user.getUsername());
-//		twUserData.setPassword(user.getPassword());
-////		twUserData.setTheme(user.getTheme());
-//		return twUserData;
-//	}
-//
-//	private User findOrCreateUser(UserData twUserData) {
-//		User user = null;
-//		if(twUserData.getId() != null)
-//			user = userRepository.findById(twUserData.getId()).get();
-//		if(user == null)
-//			user = new User();
-//		user.setId(twUserData.getId());
-//		user.setUsername(twUserData.getUsername());
-//		user.setPassword(twUserData.getPassword());
-//		return user;
-//	}
+	
+	public void saveUser(UserData userData) {
+		User user = findOrCreateUser(userData);
+		userRepository.save(user);
+	}
+	
+	public void saveUserTheme(String username, String theme) {
+		User user = userRepository.findByUsername(username);
+		user.setTheme(theme);
+		userRepository.save(user);
+	}
+
+	public void deleteUser(int userId) {
+		userRepository.deleteById(userId);
+	}
+
+	private UserData readUserData(User user) {
+		UserData twUserData = new UserData();
+		twUserData.setId(user.getId());
+		twUserData.setUsername(user.getUsername());
+		twUserData.setPassword(user.getPassword());
+		twUserData.setTheme(user.getTheme());
+		return twUserData;
+	}
+
+	private User findOrCreateUser(UserData twUserData) {
+		User user = null;
+		if(twUserData.getId() != null)
+			user = userRepository.findById(twUserData.getId()).get();
+		if(user == null)
+			user = new User();
+		user.setId(twUserData.getId());
+		user.setUsername(twUserData.getUsername());
+		user.setPassword(twUserData.getPassword());
+		return user;
+	}
 
 
 
@@ -182,11 +152,12 @@ public class AuthDataService {
 			UserGroupRoleLink userGroupRoleLink = ugrlRepository.findByUserIdAndGroupIdAndRoleId(userId, -1, role.getId());
 			userRoleHandle.setHasRoleGlobally(userGroupRoleLink != null ? userGroupRoleLink.getEnabled() : false);
 
-			if(role.getScope() == (PermissionScope.GROUP.getId()))
+			if(role.getScope() == (PermissionScope.GROUP.getId())) {
 				for(Group group : groups) {
 					userGroupRoleLink = ugrlRepository.findByUserIdAndGroupIdAndRoleId(userId, group.getId(), role.getId());
 					userRoleHandle.setHasRoleInGroup(group.getId(), userGroupRoleLink != null ? userGroupRoleLink.getEnabled() : false);
 				}
+			}
 			result.add(userRoleHandle);
 		}
 		return result;
@@ -268,10 +239,11 @@ public class AuthDataService {
 
 	public List<RolePermissionHandle> getRolePermissions(int roleId) {
 		List<RolePermissionHandle> result = new ArrayList<>();
-		Iterable<Permission> permissions = permissionRepository.findAll();
+		List<Permission> permissions = Arrays.asList(Permission.values());
+		
 		for(Permission permission : permissions) {
 			RolePermissionHandle rolePermissionHandle = new RolePermissionHandle();
-			rolePermissionHandle.setPermission(readPermission(permission));
+			rolePermissionHandle.setPermission(permission);
 
 			RolePermissionLink rolePermissionLink = rplRepository.findByRoleIdAndPermissionId(roleId, permission.getId());
 			rolePermissionHandle.setHasPermission(rolePermissionLink != null ? rolePermissionLink.getEnabled() : false);
@@ -279,12 +251,6 @@ public class AuthDataService {
 			result.add(rolePermissionHandle);
 		}
 		return result;
-	}
-
-	private PermissionData readPermission(Permission permission) {
-		PermissionData permissionData = new PermissionData();
-		BeanUtils.copyProperties(permission, permissionData);
-		return permissionData;
 	}
 
 	public void updateRolePermissions(int roleId, List<RolePermissionHandle> rolePermissionHandles) {

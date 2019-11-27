@@ -31,6 +31,10 @@ public class RoleData {
 	public void setScope(int scope) {
 		this.scope = scope;
 	}
+	
+	public String getScopeName() {
+		return PermissionScope.values()[scope - 1].name();
+	}
 
 	@Override
 	public String toString() {

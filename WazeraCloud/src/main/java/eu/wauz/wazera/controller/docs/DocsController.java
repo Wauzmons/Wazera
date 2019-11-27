@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.NodeCollapseEvent;
@@ -143,7 +142,7 @@ public class DocsController implements Serializable {
 			foldersService.saveFolder(folderData, null);
 		}
 		catch (Exception e) {
-			showErrorMessage(e.getMessage());
+			docsTool.showErrorMessage(e.getMessage());
 		}
 
 		TreeNode newNode = new FolderTreeNode(folderData, selectedNode);
@@ -165,7 +164,7 @@ public class DocsController implements Serializable {
 			documentData = documentsService.saveDocument(documentData, null, getUsername());
 		}
 		catch (Exception e) {
-			showErrorMessage(e.getMessage());
+			docsTool.showErrorMessage(e.getMessage());
 		}
 
 		TreeNode newNode = new DocumentTreeNode(documentData, selectedNode);
@@ -183,7 +182,7 @@ public class DocsController implements Serializable {
 			foldersService.saveFolder(selectedFolderData.getFolderData(), null);
 		}
 		catch (Exception e) {
-			showErrorMessage(e.getMessage());
+			docsTool.showErrorMessage(e.getMessage());
 		}
 
 		documentTree = null;
@@ -198,7 +197,7 @@ public class DocsController implements Serializable {
 			documentsService.saveDocument(selectedDocumentData.getDocumentData(), null, getUsername());
 		}
 		catch (Exception e) {
-			showErrorMessage(e.getMessage());
+			docsTool.showErrorMessage(e.getMessage());
 		}
 
 		documentTree = null;
@@ -217,10 +216,10 @@ public class DocsController implements Serializable {
 
 		try {
 			documentsService.saveDocument(selectedDocumentData.getDocumentData(), null, getUsername());
-			showInfoMessage("Your Document was saved!");
+			docsTool.showInfoMessage("Your Document was saved!");
 		}
 		catch (Exception e) {
-			showErrorMessage(e.getMessage());
+			docsTool.showErrorMessage(e.getMessage());
 		}
 	}
 	
@@ -263,7 +262,7 @@ public class DocsController implements Serializable {
 			addFolderNodes(rootNodeData, documentTree, true);
 		}
 		catch (Exception e) {
-			showErrorMessage(e.getMessage());
+			docsTool.showErrorMessage(e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -281,7 +280,7 @@ public class DocsController implements Serializable {
 			}
 		}
 		catch (Exception e) {
-			showErrorMessage(e.getMessage());
+			docsTool.showErrorMessage(e.getMessage());
 		}
 
 		if(searchTags == null) {
@@ -293,7 +292,7 @@ public class DocsController implements Serializable {
 			result = documentsService.getDocuments(folderData.getId(), null, searchTags);
 		}
 		catch (Exception e) {
-			showErrorMessage(e.getMessage());
+			docsTool.showErrorMessage(e.getMessage());
 		}
 
 		FolderData expandedFolderData = result;
@@ -341,7 +340,7 @@ public class DocsController implements Serializable {
 			}
 		}
 		catch (Exception e) {
-			showErrorMessage(e.getMessage());
+			docsTool.showErrorMessage(e.getMessage());
 		}
 	}
 
@@ -352,7 +351,7 @@ public class DocsController implements Serializable {
 			foldersService.deleteFolder(node.getFolderData());
 		}
 		catch (Exception e) {
-			showErrorMessage(e.getMessage());
+			docsTool.showErrorMessage(e.getMessage());
 		}
 
 		selectTree();
@@ -365,7 +364,7 @@ public class DocsController implements Serializable {
 			documentsService.deleteDocument(node.getDocumentData());
 		}
 		catch (Exception e) {
-			showErrorMessage(e.getMessage());
+			docsTool.showErrorMessage(e.getMessage());
 		}
 		
 		selectTree();
@@ -392,7 +391,7 @@ public class DocsController implements Serializable {
 			}
 		}
 		catch (Exception e) {
-			showErrorMessage(e.getMessage());
+			docsTool.showErrorMessage(e.getMessage());
 		}
 		selectTree();
 	}
@@ -435,19 +434,9 @@ public class DocsController implements Serializable {
     		}
 		}
 		catch (Exception e) {
-			showErrorMessage(e.getMessage());
+			docsTool.showErrorMessage(e.getMessage());
 		}
     	return "";
     }
-    
-    public void showInfoMessage(String infoMessage) {
-		final FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Info:", infoMessage);
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
-    
-	public void showErrorMessage(String errorMessage) {
-		final FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Fehler:", errorMessage);
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
 
 }

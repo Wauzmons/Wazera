@@ -33,10 +33,12 @@ public class RoleController {
 	@PostConstruct
 	private void init() {
 		String roleIdString = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("roleId");
-		if(StringUtils.isNotBlank(roleIdString))
+		if(StringUtils.isNotBlank(roleIdString)) {
 			role = authService.findRoleById(Integer.parseInt(roleIdString));
-		else
+		}
+		else {
 			role = new RoleData();
+		}
 	}
 
 	public String getEditRoleHeader() {
@@ -84,8 +86,6 @@ public class RoleController {
 		roles = null;
 	}
 
-
-
 	public List<RoleData> getRoles() {
 		if(roles == null)
 			roles = authService.findAllRoles();
@@ -109,8 +109,9 @@ public class RoleController {
 	}
 
 	public List<RolePermissionHandle> getRolePermissionHandles() {
-		if(rolePermissionHandles == null)
+		if(rolePermissionHandles == null) {
 			rolePermissionHandles = authService.getRolePermissions(role.getId());
+		}
 		return rolePermissionHandles;
 	}
 

@@ -11,18 +11,21 @@
     xmlns:s="http://java.sun.com/jsf/composite/components/shared"
 	xmlns:tw="http://java.sun.com/jsf/composite/components/tasks">
 
-	<h:form>
-
-		<p:dialog
-			widgetVar="newRoleDialog"
-			styleClass="newRoleDialog"
-			header="Neue Rolle anlegen">
-			<p:panelGrid columns="2" styleClass="noBorder">
+	<p:dialog
+		widgetVar="newRoleDialog"
+		styleClass="newRoleDialog"
+		header="Neue Rolle anlegen">
+		<h:form>
+			<p:panelGrid columns="2" styleClass="no-border">
 				<p:outputLabel value="Name: "/>
 				<p:inputText value="#{roleController.role.name}" />
 				<p:outputLabel value="Scope: "/>
 				<p:selectOneMenu value="#{roleController.role.scope}">
-					<f:selectItems value="#{roleController.getPermissionScopes()}"/>
+					<f:selectItems
+						value="#{roleController.getPermissionScopes()}"
+						var="permissionScope"
+						itemLabel="#{permissionScope.name()}"
+						itemValue="#{permissionScope.id}"/>
 				</p:selectOneMenu>
 			</p:panelGrid>
 			<p:commandButton
@@ -31,12 +34,14 @@
 				actionListener="#{roleController.createNewRole()}"
 				update="@(.roleTable)"
 				oncomplete="PF('newRoleDialog').hide();"/>
-		</p:dialog>
+		</h:form>
+	</p:dialog>
 
-		<p:dialog
-			widgetVar="deleteRoleDialog"
-			styleClass="deleteRoleDialog"
-			header="#{roleController.getDeleteRoleHeader()}">
+	<p:dialog
+		widgetVar="deleteRoleDialog"
+		styleClass="deleteRoleDialog"
+		header="#{roleController.getDeleteRoleHeader()}">
+		<h:form>
 			<p:commandButton
 				icon="ui-icon-trash"
 				value="Bestätigen"
@@ -47,8 +52,7 @@
 				icon="ui-icon-close"
 				value="Abbrechen"
 				oncomplete="PF('deleteRoleDialog').hide();"/>
-		</p:dialog>
-
-	</h:form>
+		</h:form>
+	</p:dialog>
 
 </ui:composition>

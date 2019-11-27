@@ -11,13 +11,12 @@
     xmlns:s="http://java.sun.com/jsf/composite/components/shared"
 	xmlns:tw="http://java.sun.com/jsf/composite/components/tasks">
 
-	<h:form>
-
-		<p:dialog
-			widgetVar="newGroupDialog"
-			styleClass="newGroupDialog"
-			header="Neue Gruppe anlegen">
-			<p:panelGrid columns="2" styleClass="noBorder">
+	<p:dialog
+		widgetVar="newGroupDialog"
+		styleClass="newGroupDialog"
+		header="Neue Gruppe anlegen">
+		<h:form>
+			<p:panelGrid columns="2" styleClass="no-border">
 				<p:outputLabel value="Name: "/>
 				<p:inputText value="#{groupController.group.name}" />
 			</p:panelGrid>
@@ -27,13 +26,15 @@
 				actionListener="#{groupController.createNewGroup()}"
 				update="@(.groupTable)"
 				oncomplete="PF('newGroupDialog').hide();"/>
-		</p:dialog>
+		</h:form>
+	</p:dialog>
 
-		<p:dialog
-			widgetVar="editGroupDialog"
-			styleClass="editGroupDialog"
-			header="#{groupController.getEditGroupHeader()}">
-			<p:panelGrid columns="2" styleClass="noBorder">
+	<p:dialog
+		widgetVar="editGroupDialog"
+		styleClass="editGroupDialog"
+		header="#{groupController.getEditGroupHeader()}">
+		<h:form>
+			<p:panelGrid columns="2" styleClass="no-border">
 				<p:outputLabel value="Name: "/>
 				<p:inputText value="#{groupController.group.name}" />
 			</p:panelGrid>
@@ -43,12 +44,14 @@
 				actionListener="#{groupController.updateGroup()}"
 				update="@(.groupTable)"
 				oncomplete="PF('editGroupDialog').hide();"/>
-		</p:dialog>
+		</h:form>
+	</p:dialog>
 
-		<p:dialog
-			widgetVar="deleteGroupDialog"
-			styleClass="deleteGroupDialog"
-			header="#{groupController.getDeleteGroupHeader()}">
+	<p:dialog
+		widgetVar="deleteGroupDialog"
+		styleClass="deleteGroupDialog"
+		header="#{groupController.getDeleteGroupHeader()}">
+		<h:form>
 			<p:commandButton
 				icon="ui-icon-trash"
 				value="Bestätigen"
@@ -59,8 +62,7 @@
 				icon="ui-icon-close"
 				value="Abbrechen"
 				oncomplete="PF('deleteGroupDialog').hide();"/>
-		</p:dialog>
-
-	</h:form>
+		</h:form>
+	</p:dialog>
 
 </ui:composition>
