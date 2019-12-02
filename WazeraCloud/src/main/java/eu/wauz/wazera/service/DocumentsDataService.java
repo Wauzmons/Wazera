@@ -195,7 +195,7 @@ public class DocumentsDataService {
             FolderData childNode = new FolderData();
             childNode.setId(childFolder.getId());
             childNode.setName(childFolder.getName());
-            childNode.setExpanded(childFolderUserData != null ? childFolderUserData.getExpanded() : true);
+            childNode.setExpanded(childFolderUserData != null ? childFolderUserData.getExpanded() : false);
 
             node.getFolders().add(childNode);
 

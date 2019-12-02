@@ -49,7 +49,7 @@ public class UserController implements Serializable {
 		else {
 			this.user = new UserData();
 			user.setId(0);
-			user.setUsername("admin");
+			user.setUsername("???");
 		}
 	}
 
