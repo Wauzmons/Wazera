@@ -11,7 +11,7 @@
     xmlns:s="http://java.sun.com/jsf/composite/components/shared"
 	xmlns:tw="http://java.sun.com/jsf/composite/components/tasks">
 
-	<p:outputLabel value="Rollenliste" style="font-size: 32px; font-weight: bold;"/>
+	<p:outputLabel value="Role List" style="font-size: 32px; font-weight: bold;"/>
 
 	<h:form>
 
@@ -50,18 +50,18 @@
 				</p:column>
 
 				<p:column
-					headerText="Optionen"
+					headerText="Options"
 					style="text-align: center;">
 					<p:commandButton
 						icon="ui-icon-pencil"
-						title="Editieren"
+						title="Edit"
 						ajax="false"
 						action="editRole.xhtml">
 						<f:param name="roleId" value="#{role.id}" />
 					</p:commandButton>
 					<p:commandButton
 						icon="ui-icon-trash"
-						title="Löschen"
+						title="Delete"
 						actionListener="#{roleController.setRole(role)}"
 	        			update="@(.deleteRoleDialog)"
 	        			oncomplete="PF('deleteRoleDialog').show();"/>
@@ -70,7 +70,7 @@
 				<f:facet name="footer">
 	        		<p:commandButton
 	        			icon="ui-icon-plus"
-	        			value="Neue Rolle anlegen"
+	        			value="New Role"
 	        			actionListener="#{roleController.setNewRole()}"
 	        			update="@(.newRoleDialog)"
 	        			oncomplete="PF('newRoleDialog').show();"/>

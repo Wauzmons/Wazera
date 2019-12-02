@@ -1,10 +1,10 @@
 package eu.wauz.wazera.controller.auth;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,22 +16,29 @@ import eu.wauz.wazera.model.data.auth.PermissionScope;
 import eu.wauz.wazera.model.data.auth.RoleData;
 import eu.wauz.wazera.model.data.auth.RolePermissionHandle;
 import eu.wauz.wazera.service.AuthDataService;
+import eu.wauz.wazera.service.DocsTool;
 
 @Controller
 @Scope("view")
-public class RoleController {
+public class RoleController implements Serializable {
+
+	private static final long serialVersionUID = 3277213100357879191L;
+	
+	@Autowired
+	private AuthDataService authService;
 
 	private List<RoleData> roles;
 
 	private RoleData role;
 
 	private List<RolePermissionHandle> rolePermissionHandles;
-
-	@Autowired
-	private AuthDataService authService;
+	
+	private DocsTool docsTool;
 
 	@PostConstruct
 	private void init() {
+		docsTool = new DocsTool();
+		
 		String roleIdString = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("roleId");
 		if(StringUtils.isNotBlank(roleIdString)) {
 			role = authService.findRoleById(Integer.parseInt(roleIdString));
@@ -42,53 +49,50 @@ public class RoleController {
 	}
 
 	public String getEditRoleHeader() {
-		return "Rolleneinstellungen <" + role.getName() + ">";
+		return "Role Properties <" + role.getName() + ">";
 	}
 
 	public String getDeleteRoleHeader() {
-		return "Rolle <" + role.getName() + "> wirklich löschen?";
+		return "Delete <" + role.getName() + "> permamently?";
 	}
 
 	public List<PermissionScope> getPermissionScopes() {
 		return Arrays.asList(PermissionScope.values());
 	}
 
-	public void showGrowlMessage(String title, String message) {
-		FacesContext context = FacesContext.getCurrentInstance();
-        context.getExternalContext().getFlash().setKeepMessages(true);
-        context.addMessage(null, new FacesMessage(title, message));
-	}
-
 	public void createNewRole() {
 		if(StringUtils.isNotBlank(role.getName())) {
 			authService.saveRole(role);
-			showGrowlMessage("Gespeichert", "Rolle <" + role.getName() + "> wurde erfolgreich angelegt!");
+			docsTool.showInfoMessage("Role <" + role.getName() + "> was successfully created!");
 			roles = null;
 		}
 		else {
-			showGrowlMessage("Nicht gespeichert", "Rollenname darf nicht leer sein!");
+			docsTool.showInfoMessage("Role Name cannot be empty!");
 		}
 	}
 
 	public void updateRole() {
-		for(RolePermissionHandle rolePermissionHandle : rolePermissionHandles)
-			if(!isRolePermissionHandleVisible(rolePermissionHandle))
+		for(RolePermissionHandle rolePermissionHandle : rolePermissionHandles) {
+			if(!isRolePermissionHandleVisible(rolePermissionHandle)) {
 				rolePermissionHandle.setHasPermission(false);
+			}
+		}
 		authService.saveRole(role);
 		authService.updateRolePermissions(role.getId(), rolePermissionHandles);
-		showGrowlMessage("Gespeichert", "Rolle <" + role.getName() + "> wurde erfolgreich gespeichert!");
+		docsTool.showInfoMessage("Role <" + role.getName() + "> was successfully updated!");
 	}
 
 	public void deleteRole() {
 		authService.deleteRole(role.getId());
-		showGrowlMessage("Gelöscht", "Rolle <" + role.getName() + "> wurde erfolgreich gelöscht!");
+		docsTool.showInfoMessage("Role <" + role.getName() + "> was successfully deleted!");
 		setNewRole();
 		roles = null;
 	}
 
 	public List<RoleData> getRoles() {
-		if(roles == null)
+		if(roles == null) {
 			roles = authService.findAllRoles();
+		}
 		return roles;
 	}
 

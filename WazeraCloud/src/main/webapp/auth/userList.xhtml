@@ -9,7 +9,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-	<p:outputLabel value="Benutzerliste" style="font-size: 32px; font-weight: bold;"/>
+	<p:outputLabel value="User List" style="font-size: 32px; font-weight: bold;"/>
 
 	<h:form>
 
@@ -41,23 +41,23 @@
 				</p:column>
 
 				<p:column
-					headerText="Rollen">
+					headerText="Roles">
 					<p:outputLabel value="N/A"/>
 				</p:column>
 
 				<p:column
-					headerText="Optionen"
+					headerText="Options"
 					style="text-align:center;">
 					<p:commandButton
 						icon="ui-icon-pencil"
-						title="Editieren"
+						title="Edit"
 						ajax="false"
 						action="editUser.xhtml">
 						<f:param name="username" value="#{user.username}" />
 					</p:commandButton>
 					<p:commandButton
 						icon="ui-icon-trash"
-						title="Löschen"
+						title="Delete"
 						actionListener="#{userController.setUser(user)}"
 	        			update="@(.deleteUserDialog)"
 	        			oncomplete="PF('deleteUserDialog').show();"/>
@@ -66,7 +66,7 @@
 				<f:facet name="footer">
 	        		<p:commandButton
 	        			icon="ui-icon-plus"
-	        			value="Neuen Benutzer anlegen"
+	        			value="New User"
 	        			actionListener="#{userController.setNewUser()}"
 	        			update="@(.newUserDialog)"
 	        			oncomplete="PF('newUserDialog').show();"/>

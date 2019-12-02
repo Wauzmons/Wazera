@@ -41,6 +41,7 @@ public class ChatController implements Serializable {
 			message.setText(inputMessage);
 			message.setTime(new Date());
 			messagesService.saveMessage(message);
+			inputMessage = "";
 		}
 	}
 

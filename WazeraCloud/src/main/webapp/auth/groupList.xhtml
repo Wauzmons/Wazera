@@ -11,7 +11,7 @@
     xmlns:s="http://java.sun.com/jsf/composite/components/shared"
 	xmlns:tw="http://java.sun.com/jsf/composite/components/tasks">
 
-	<p:outputLabel value="Gruppenliste" style="font-size: 32px; font-weight: bold;"/>
+	<p:outputLabel value="Group List" style="font-size: 32px; font-weight: bold;"/>
 
 	<h:form>
 
@@ -43,17 +43,17 @@
 				</p:column>
 
 				<p:column
-					headerText="Optionen"
+					headerText="Options"
 					style="text-align: center;">
 					<p:commandButton
 	        			icon="ui-icon-pencil"
-	        			title="Editieren"
+	        			title="Edit"
 	        			actionListener="#{groupController.setGroup(group)}"
 	        			update="@(.editGroupDialog)"
 	        			oncomplete="PF('editGroupDialog').show();"/>
 					<p:commandButton
 						icon="ui-icon-trash"
-						title="Löschen"
+						title="Delete"
 						actionListener="#{groupController.setGroup(group)}"
 	        			update="@(.deleteGroupDialog)"
 	        			oncomplete="PF('deleteGroupDialog').show();"/>
@@ -62,7 +62,7 @@
 				<f:facet name="footer">
 	        		<p:commandButton
 	        			icon="ui-icon-plus"
-	        			value="Neue Gruppe anlegen"
+	        			value="New Group"
 	        			actionListener="#{groupController.setNewGroup()}"
 	        			update="@(.newGroupDialog)"
 	        			oncomplete="PF('newGroupDialog').show();"/>

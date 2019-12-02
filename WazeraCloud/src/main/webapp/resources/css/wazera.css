@@ -12,12 +12,12 @@ body {
 .ui-datatable.no-border tbody tr,
 .ui-datatable.no-border tbody td {
 	border: none !important;
-	border-radius: 0px;
+	border-radius: 0;
 }
 
 .no-spacing {
-	margin: 0px !important;
-	padding: 0px !important;
+	margin: 0 !important;
+	padding: 0 !important;
 }
 
 .layout-container {

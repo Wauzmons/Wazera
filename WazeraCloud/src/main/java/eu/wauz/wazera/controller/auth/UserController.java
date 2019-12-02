@@ -1,5 +1,6 @@
 package eu.wauz.wazera.controller.auth;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -18,7 +19,9 @@ import eu.wauz.wazera.service.DocsTool;
 
 @Controller
 @Scope("view")
-public class UserController {
+public class UserController implements Serializable {
+
+	private static final long serialVersionUID = 1721467034890035898L;
 
 	@Autowired
 	private AuthDataService authService;
@@ -37,7 +40,7 @@ public class UserController {
 
 	@PostConstruct
 	private void init() {
-		this.docsTool = new DocsTool();
+		docsTool = new DocsTool();
 
 		String username = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("username");
 		if(StringUtils.isNotBlank(username)) {
@@ -51,32 +54,32 @@ public class UserController {
 	}
 
 	public String getEditUserHeader() {
-		return "Benutzereinstellungen <" + user.getUsername() + ">";
+		return "User Properties <" + user.getUsername() + ">";
 	}
 
 	public String getDeleteUserHeader() {
-		return "Benutzer <" + user.getUsername() + "> wirklich löschen?";
+		return "Delete <" + user.getUsername() + "> permanently?";
 	}
 
 	public void changePassword() {
 		if(StringUtils.isBlank(passwordInput1)) {
-			docsTool.showInfoMessage("Passwort kann nicht leer sein!");
+			docsTool.showInfoMessage("Password cannot be empty!");
 			return;
 		}
 		if(!StringUtils.equals(passwordInput1, passwordInput2)) {
-			docsTool.showInfoMessage("Passwörter stimmen nicht überein!");
+			docsTool.showInfoMessage("Passwords do not match!");
 			return;
 		}
 		user.setPassword(passwordInput1);
 		authService.saveUser(user);
-		docsTool.showInfoMessage("Das Passwort wurde erfolgreich gändert!");
+		docsTool.showInfoMessage("Password was successfully changed!");
 	}
 
 	public void createNewUser() {
 		String validationMessage = authService.validate(user);
 		if(validationMessage.equals("Success")) {
 			authService.saveUser(user);
-			docsTool.showInfoMessage("User <" + user.getUsername() + "> wurde erfolgreich angelegt!");
+			docsTool.showInfoMessage("User <" + user.getUsername() + "> was successfully created!");
 			users = null;
 		}
 		else {
@@ -86,14 +89,15 @@ public class UserController {
 
 	public void deleteUser() {
 		authService.deleteUser(user.getId());
-		docsTool.showInfoMessage("User <" + user.getUsername() + "> wurde erfolgreich gelöscht!");
+		docsTool.showInfoMessage("User <" + user.getUsername() + "> was successfully deleted!");
 		setNewUser();
 		users = null;
 	}
 
 	public List<UserData> getUsers() {
-		if(users == null)
+		if(users == null) {
 			users = authService.findAllUsers();
+		}
 		return users;
 	}
 
@@ -142,7 +146,7 @@ public class UserController {
 	
 	public void updateRoles() {
 		authService.updateUserRoles(user.getId(), userRoleHandles);
-		docsTool.showInfoMessage("Die Rollen von '" + user.getUsername() + "' wurden gespeichert.");
+		docsTool.showInfoMessage("The Roles of '" + user.getUsername() + "' were successfully updated!");
 	}
 
 	public boolean isAuthAdmin() {

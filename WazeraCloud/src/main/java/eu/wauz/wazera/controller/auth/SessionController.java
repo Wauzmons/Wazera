@@ -18,8 +18,6 @@ public class SessionController implements Serializable {
 	
 	public SessionController() {
 		docsTool = new DocsTool();
-		
-		System.out.println(docsTool.getBrowser());
 	}
 	
 	public boolean isChrome() {

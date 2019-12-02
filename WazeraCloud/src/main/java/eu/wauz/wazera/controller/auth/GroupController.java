@@ -1,10 +1,9 @@
 package eu.wauz.wazera.controller.auth;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,69 +12,70 @@ import org.springframework.stereotype.Controller;
 
 import eu.wauz.wazera.model.data.auth.GroupData;
 import eu.wauz.wazera.service.AuthDataService;
+import eu.wauz.wazera.service.DocsTool;
 
 @Controller
 @Scope("view")
-public class GroupController {
+public class GroupController implements Serializable {
+
+	private static final long serialVersionUID = 4720610118791412634L;
+	
+	@Autowired
+	private AuthDataService authService;
 
 	private List<GroupData> groups;
 
 	private GroupData group;
-
-	@Autowired
-	private AuthDataService authService;
+	
+	private DocsTool docsTool;
 
 	@PostConstruct
 	private void init() {
+		docsTool = new DocsTool();
 		group = new GroupData();
 	}
 
 	public String getEditGroupHeader() {
-		return "Gruppeneinstellungen <" + group.getName() + ">";
+		return "Group Properties <" + group.getName() + ">";
 	}
 
 	public String getDeleteGroupHeader() {
-		return "Gruppe <" + group.getName() + "> wirklich löschen?";
-	}
-
-	public void showGrowlMessage(String title, String message) {
-		FacesContext context = FacesContext.getCurrentInstance();
-        context.getExternalContext().getFlash().setKeepMessages(true);
-        context.addMessage(null, new FacesMessage(title, message));
+		return "Delete <" + group.getName() + "> permanently?";
 	}
 
 	public void createNewGroup() {
 		if(StringUtils.isNotBlank(group.getName())) {
 			authService.saveGroup(group);
-			showGrowlMessage("Gespeichert", "Gruppe <" + group.getName() + "> wurde erfolgreich angelegt!");
+			docsTool.showInfoMessage("Group <" + group.getName() + "> was successfully created!");
 			groups = null;
 		}
 		else {
-			showGrowlMessage("Nicht gespeichert", "Gruppenname darf nicht leer sein!");
+			docsTool.showInfoMessage("Group Name cannot be empty!");
 		}
 	}
 
 	public void updateGroup() {
 		if(StringUtils.isNotBlank(group.getName())) {
 			authService.saveGroup(group);
-			showGrowlMessage("Gespeichert", "Gruppe <" + group.getName() + "> wurde erfolgreich gespeichert!");
+			docsTool.showInfoMessage("Group <" + group.getName() + "> was successfully updated!");
 			groups = null;
 		}
 		else {
-			showGrowlMessage("Nicht gespeichert", "Gruppenname darf nicht leer sein!");
+			docsTool.showInfoMessage("Group Name cannot be empty!");
 		}
 	}
 
 	public void deleteGroup() {
 		authService.deleteGroup(group.getId());
-		showGrowlMessage("Gelöscht", "Gruppe <" + group.getName() + "> wurde erfolgreich gelöscht!");
+		docsTool.showInfoMessage("Gruppe <" + group.getName() + "> was successfully deleted!");
 		setNewGroup();
 		groups = null;
 	}
 
 	public List<GroupData> getGroups() {
-		if(groups == null)
+		if(groups == null) {
 			groups = authService.findAllGroups();
+		}
 		return groups;
 	}
 

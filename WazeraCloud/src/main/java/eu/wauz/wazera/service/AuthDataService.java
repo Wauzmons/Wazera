@@ -50,9 +50,9 @@ public class AuthDataService {
 
 	public List<UserData> findAllUsers() {
 		List<UserData> result = new ArrayList<>();
-		for(User user : userRepository.findAll())
+		for(User user : userRepository.findAll()) {
 			result.add(readUserData(user));
-
+		}
 		return result;
 	}
 
@@ -88,25 +88,21 @@ public class AuthDataService {
 	}
 
 	public String validate(UserData twUserData) {
-		if(StringUtils.isBlank(twUserData.getUsername()))
-			return "Username darf nicht leer sein!";
+		if(StringUtils.isBlank(twUserData.getUsername())) {
+			return "Username cannot be empty!";
+		}
 		User user = userRepository.findByUsername(twUserData.getUsername());
-		if(user != null)
-			return "Username ist bereits vergeben!";
-		if(StringUtils.isBlank(twUserData.getPassword()))
-			return "Passwort kann nicht leer sein!";
-
+		if(user != null) {
+			return "Username already exists!";
+		}
+		if(StringUtils.isBlank(twUserData.getPassword())) {
+			return "Password cannot be empty!";
+		}
 		return "Success";
 	}
 	
 	public void saveUser(UserData userData) {
 		User user = findOrCreateUser(userData);
-		userRepository.save(user);
-	}
-	
-	public void saveUserTheme(String username, String theme) {
-		User user = userRepository.findByUsername(username);
-		user.setTheme(theme);
 		userRepository.save(user);
 	}
 
@@ -119,25 +115,22 @@ public class AuthDataService {
 		twUserData.setId(user.getId());
 		twUserData.setUsername(user.getUsername());
 		twUserData.setPassword(user.getPassword());
-		twUserData.setTheme(user.getTheme());
 		return twUserData;
 	}
 
 	private User findOrCreateUser(UserData twUserData) {
 		User user = null;
-		if(twUserData.getId() != null)
+		if(twUserData.getId() != null) {
 			user = userRepository.findById(twUserData.getId()).get();
-		if(user == null)
+		}
+		if(user == null) {
 			user = new User();
+		}
 		user.setId(twUserData.getId());
 		user.setUsername(twUserData.getUsername());
 		user.setPassword(twUserData.getPassword());
 		return user;
 	}
-
-
-
-
 
 	public List<UserRoleHandle> getUserRoles(Integer userId) {
 		List<UserRoleHandle> result = new ArrayList<>();
@@ -152,7 +145,7 @@ public class AuthDataService {
 			UserGroupRoleLink userGroupRoleLink = ugrlRepository.findByUserIdAndGroupIdAndRoleId(userId, -1, role.getId());
 			userRoleHandle.setHasRoleGlobally(userGroupRoleLink != null ? userGroupRoleLink.getEnabled() : false);
 
-			if(role.getScope() == (PermissionScope.GROUP.getId())) {
+			if(role.getScope() == PermissionScope.GROUP.getId()) {
 				for(Group group : groups) {
 					userGroupRoleLink = ugrlRepository.findByUserIdAndGroupIdAndRoleId(userId, group.getId(), role.getId());
 					userRoleHandle.setHasRoleInGroup(group.getId(), userGroupRoleLink != null ? userGroupRoleLink.getEnabled() : false);
@@ -169,9 +162,11 @@ public class AuthDataService {
 			Integer roleId = userRoleHandle.getRole().getId();
 			saveUserGroupRoleLink(userId, -1, roleId, userRoleHandle.getHasRoleGlobally());
 
-			if(!userRoleHandle.isRoleGlobal())
-				for(Group group : groups)
+			if(!userRoleHandle.isRoleGlobal()) {
+				for(Group group : groups) {
 					saveUserGroupRoleLink(userId, group.getId(), roleId, userRoleHandle.getHasRoleInGroup(group.getId()));
+				}
+			}
 		}
 	}
 
@@ -187,15 +182,11 @@ public class AuthDataService {
 		ugrlRepository.save(userGroupRoleLink);
 	}
 
-
-
-
-
 	public List<RoleData> findAllRoles() {
 		List<RoleData> result = new ArrayList<>();
-		for(Role role : roleRepository.findAll())
+		for(Role role : roleRepository.findAll()) {
 			result.add(readRoleData(role));
-
+		}
 		return result;
 	}
 
@@ -223,19 +214,17 @@ public class AuthDataService {
 
 	private Role findOrCreateRole(RoleData twRoleData) {
 		Role role = null;
-		if(twRoleData.getId() != null)
+		if(twRoleData.getId() != null) {
 			role = roleRepository.findById(twRoleData.getId()).get();
-		if(role == null)
+		}
+		if(role == null) {
 			role = new Role();
+		}
 		role.setId(twRoleData.getId());
 		role.setName(twRoleData.getName());
 		role.setScope(twRoleData.getScope());
 		return role;
 	}
-
-
-
-
 
 	public List<RolePermissionHandle> getRolePermissions(int roleId) {
 		List<RolePermissionHandle> result = new ArrayList<>();
@@ -266,15 +255,11 @@ public class AuthDataService {
 		}
 	}
 
-
-
-
-
 	public List<GroupData> findAllGroups() {
 		List<GroupData> result = new ArrayList<>();
-		for(Group group : groupRepository.findAll())
+		for(Group group : groupRepository.findAll()) {
 			result.add(readGroupData(group));
-
+		}
 		return result;
 	}
 
@@ -301,10 +286,12 @@ public class AuthDataService {
 
 	private Group findOrCreateGroup(GroupData twGroupData) {
 		Group group = null;
-		if(twGroupData.getId() != null)
+		if(twGroupData.getId() != null) {
 			group = groupRepository.findById(twGroupData.getId()).get();
-		if(group == null)
+		}
+		if(group == null) {
 			group = new Group();
+		}
 		group.setId(twGroupData.getId());
 		group.setName(twGroupData.getName());
 		return group;

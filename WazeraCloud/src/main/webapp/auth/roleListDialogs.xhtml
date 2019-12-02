@@ -14,7 +14,7 @@
 	<p:dialog
 		widgetVar="newRoleDialog"
 		styleClass="newRoleDialog"
-		header="Neue Rolle anlegen">
+		header="Neue Role">
 		<h:form>
 			<p:panelGrid columns="2" styleClass="no-border">
 				<p:outputLabel value="Name: "/>
@@ -30,7 +30,7 @@
 			</p:panelGrid>
 			<p:commandButton
 				icon="ui-icon-disk"
-				value="Speichern"
+				value="Save"
 				actionListener="#{roleController.createNewRole()}"
 				update="@(.roleTable)"
 				oncomplete="PF('newRoleDialog').hide();"/>
@@ -44,13 +44,13 @@
 		<h:form>
 			<p:commandButton
 				icon="ui-icon-trash"
-				value="Bestätigen"
+				value="Delete Role"
 				actionListener="#{roleController.deleteRole()}"
 				update="@(.roleTable)"
 				oncomplete="PF('deleteRoleDialog').hide();"/>
 			<p:commandButton
 				icon="ui-icon-close"
-				value="Abbrechen"
+				value="Cancel"
 				oncomplete="PF('deleteRoleDialog').hide();"/>
 		</h:form>
 	</p:dialog>

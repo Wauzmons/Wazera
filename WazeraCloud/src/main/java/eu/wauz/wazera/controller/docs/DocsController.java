@@ -190,7 +190,7 @@ public class DocsController implements Serializable {
 	}
 
 	public void renameDocumentNode() {
-		DocumentTreeNode selectedDocumentData = (DocumentTreeNode) selectedNode;;
+		DocumentTreeNode selectedDocumentData = (DocumentTreeNode) selectedNode;
 		selectedDocumentData.getDocumentData().setName(inputName);
 
 		try {

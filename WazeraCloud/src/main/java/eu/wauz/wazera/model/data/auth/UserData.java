@@ -12,8 +12,6 @@ public class UserData implements Serializable {
 
 	private String password;
 
-	private String theme;
-
 	public Integer getId() {
 		return id;
 	}
@@ -36,14 +34,6 @@ public class UserData implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getTheme() {
-		return theme;
-	}
-
-	public void setTheme(String theme) {
-		this.theme = theme;
 	}
 
 	public String toString() {

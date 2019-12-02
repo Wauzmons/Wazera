@@ -14,7 +14,7 @@
 	<p:dialog
 		widgetVar="newGroupDialog"
 		styleClass="newGroupDialog"
-		header="Neue Gruppe anlegen">
+		header="New Group">
 		<h:form>
 			<p:panelGrid columns="2" styleClass="no-border">
 				<p:outputLabel value="Name: "/>
@@ -22,7 +22,7 @@
 			</p:panelGrid>
 			<p:commandButton
 				icon="ui-icon-disk"
-				value="Speichern"
+				value="Save"
 				actionListener="#{groupController.createNewGroup()}"
 				update="@(.groupTable)"
 				oncomplete="PF('newGroupDialog').hide();"/>
@@ -40,7 +40,7 @@
 			</p:panelGrid>
 			<p:commandButton
 				icon="ui-icon-disk"
-				value="Speichern"
+				value="Save"
 				actionListener="#{groupController.updateGroup()}"
 				update="@(.groupTable)"
 				oncomplete="PF('editGroupDialog').hide();"/>
@@ -54,13 +54,13 @@
 		<h:form>
 			<p:commandButton
 				icon="ui-icon-trash"
-				value="Bestätigen"
+				value="Delete Group"
 				actionListener="#{groupController.deleteGroup()}"
 				update="@(.groupTable)"
 				oncomplete="PF('deleteGroupDialog').hide();"/>
 			<p:commandButton
 				icon="ui-icon-close"
-				value="Abbrechen"
+				value="Cancel"
 				oncomplete="PF('deleteGroupDialog').hide();"/>
 		</h:form>
 	</p:dialog>

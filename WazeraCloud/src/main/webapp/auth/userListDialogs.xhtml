@@ -14,17 +14,17 @@
 	<p:dialog
 		widgetVar="newUserDialog"
 		styleClass="newUserDialog"
-		header="Neuen Benutzer anlegen">
+		header="New User">
 		<h:form>
 			<p:panelGrid columns="2" styleClass="no-border">
 				<p:outputLabel value="Username: "/>
 				<p:inputText value="#{userController.user.username}" />
-				<p:outputLabel value="Passwort: "/>
+				<p:outputLabel value="Password: "/>
 				<p:password value="#{userController.user.password}"/>
 			</p:panelGrid>
 			<p:commandButton
 				icon="ui-icon-disk"
-				value="Speichern"
+				value="Save"
 				actionListener="#{userController.createNewUser()}"
 				update="@(.userTable)"
 				oncomplete="PF('newUserDialog').hide();"/>
@@ -38,13 +38,13 @@
 		<h:form>
 			<p:commandButton
 				icon="ui-icon-trash"
-				value="Bestätigen"
+				value="Delete User"
 				actionListener="#{userController.deleteUser()}"
 				update="@(.userTable)"
 				oncomplete="PF('deleteUserDialog').hide();"/>
 			<p:commandButton
 				icon="ui-icon-close"
-				value="Abbrechen"
+				value="Cancel"
 				oncomplete="PF('deleteUserDialog').hide();"/>
 		</h:form>
 	</p:dialog>

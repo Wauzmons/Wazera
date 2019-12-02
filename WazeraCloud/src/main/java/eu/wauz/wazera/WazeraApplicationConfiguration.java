@@ -1,4 +1,4 @@
-package eu.wauz.wazera.security;
+package eu.wauz.wazera;
 
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebApplicationConfig implements WebMvcConfigurer {
+public class WazeraApplicationConfiguration implements WebMvcConfigurer {
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {

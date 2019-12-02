@@ -26,9 +26,6 @@ public class User implements Serializable {
 	@Column
 	private String password;
 
-	@Column
-	private String theme;
-
 	public Integer getId() {
 		return id;
 	}
@@ -51,14 +48,6 @@ public class User implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getTheme() {
-		return theme;
-	}
-
-	public void setTheme(String theme) {
-		this.theme = theme;
 	}
 
 	@Override

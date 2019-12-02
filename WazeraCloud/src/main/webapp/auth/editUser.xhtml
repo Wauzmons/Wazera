@@ -14,27 +14,27 @@
     
     <ui:define name="center">
 
-		<p:outputLabel value="#{userController.getEditUserHeader()}" style="font-size: 32px; font-weight: bold;"/>
+		<p:outputLabel value="#{userController.getEditUserHeader()}" style="margin: 10px; font-size: 32px; font-weight: bold;"/>
 	
 		<p:tabView styleClass="gray-bg">
 	
-			<p:tab title="Passwort ändern" disabled="#{!userController.mayChangePassword()}">
+			<p:tab title="Change Password" disabled="#{!userController.mayChangePassword()}">
 				<h:form>
 					<p:panelGrid columns="2" styleClass="no-border">
-						<p:outputLabel value="Neues Passwort: "/>
+						<p:outputLabel value="New Password: "/>
 						<p:password value="#{userController.passwordInput1}"/>
-						<p:outputLabel value="Passwort wiederhohlen: "/>
+						<p:outputLabel value="Repeat Password: "/>
 						<p:password value="#{userController.passwordInput2}"/>
 						<p:commandButton
 							icon="ui-icon-disk"
-							value="Speichern"
+							value="Save"
 							actionListener="#{userController.changePassword()}"
 							disabled="#{!userController.mayChangePassword()}"/>
 					</p:panelGrid>
 				</h:form>
 			</p:tab>
 	
-			<p:tab title="Rollen verwalten" disabled="#{!userController.isAuthAdmin()}">
+			<p:tab title="Assign Roles" disabled="#{!userController.isAuthAdmin()}">
 				<h:form>
 					<p:panelGrid columns="1" styleClass="no-border">
 						<p:dataTable
@@ -48,7 +48,7 @@
 							rowsPerPageTemplate="10,20,50"
 							tableStyle="width: auto;">
 	
-							<p:column headerText="Rolle">
+							<p:column headerText="Role">
 								<p:outputLabel value="#{userRoleHandle.role.getName()}"/>
 							</p:column>
 	
@@ -64,9 +64,10 @@
 								</p:column>
 							</c:forEach>
 						</p:dataTable>
+						
 						<p:commandButton
 							icon="ui-icon-disk"
-							value="Speichern"
+							value="Save"
 							actionListener="#{userController.updateRoles()}"
 							disabled="#{!userController.isAuthAdmin()}"/>
 					</p:panelGrid>
