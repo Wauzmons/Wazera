@@ -39,7 +39,7 @@ namespace Wazera.Model
 
         public TaskModel()
         {
-
+            // Automated Initialization by WazeraSQL
         }
 
         public TaskModel(TaskData taskData)

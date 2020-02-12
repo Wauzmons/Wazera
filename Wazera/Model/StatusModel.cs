@@ -38,7 +38,7 @@ namespace Wazera.Model
 
         public StatusModel()
         {
-
+            // Automated Initialization by WazeraSQL
         }
 
         public StatusModel(StatusData statusData)
@@ -94,7 +94,6 @@ namespace Wazera.Model
         {
             TaskModel.DeleteByStatusId(id);
             Delete(new string[] { "ID = " + id });
-            
         }
 
         public static void DeleteByProjectId(long id)

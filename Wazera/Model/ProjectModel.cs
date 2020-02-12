@@ -33,7 +33,7 @@ namespace Wazera.Model
 
         public ProjectModel()
         {
-
+            // Automated Initialization by WazeraSQL
         }
 
         public ProjectModel(ProjectData projectData)

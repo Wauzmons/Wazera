@@ -160,7 +160,7 @@ namespace Wazera.Kanban
         {
             public Int32 X;
             public Int32 Y;
-        };
+        }
 
         public void SetDefaultBrush(Brush defaultBrush)
         {

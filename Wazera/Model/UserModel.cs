@@ -37,7 +37,7 @@ namespace Wazera.Model
 
         public UserModel()
         {
-
+            // Automated Initialization by WazeraSQL
         }
 
         public UserModel(UserData userData)

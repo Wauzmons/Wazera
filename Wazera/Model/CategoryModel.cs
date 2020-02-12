@@ -26,7 +26,7 @@ namespace Wazera.Model
 
         public CategoryModel()
         {
-
+            // Automated Initialization by WazeraSQL
         }
 
         public CategoryModel(CategoryData categoryData)
